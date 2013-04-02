@@ -1,10 +1,10 @@
-Litecoin - a lite version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme.
- - 2.5 minute block targets
+Mincoin - a lite version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme.
+ - 1 minute block targets
  - subsidy halves in 840k blocks (~4 years)
- - ~84 million total coins
-
+ - 18 million total coins
+ - 5 coins per minute
+ 
 The rest is the same as bitcoin.
- - 50 coins per block
  - 2016 blocks to retarget difficulty
 
 Development process
