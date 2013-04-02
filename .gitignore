@@ -3,6 +3,8 @@ src/mincoin
 src/mincoind
 src/test_mincoin
 src/build.h
+msvc10/*
+msvc10
 .*.swp
 *.*~*
 *.bak

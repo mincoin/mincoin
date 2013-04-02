@@ -552,7 +552,7 @@ public:
 // Note: It turns out we might have been able to use boost::thread
 // by using TerminateThread(boost::thread.native_handle(), 0);
 #ifdef WIN32
-typedef HANDLE pthread_t;
+//typedef HANDLE pthread_t;
 
 inline pthread_t CreateThread(void(*pfn)(void*), void* parg, bool fWantHandle=false)
 {
