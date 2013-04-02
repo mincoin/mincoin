@@ -1,7 +1,7 @@
 src/*.exe
-src/litecoin
-src/litecoind
-src/test_litecoin
+src/mincoin
+src/mincoind
+src/test_mincoin
 src/build.h
 .*.swp
 *.*~*
@@ -14,7 +14,7 @@ src/build.h
 #compilation and Qt preprocessor part
 *.qm
 Makefile
-litecoin-qt
+mincoin-qt
 #resources cpp
 qrc_*.cpp
 #qt creator
