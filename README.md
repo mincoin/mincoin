@@ -1,8 +1,9 @@
 MinCoin - a lite version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme.
- - 1 minute block targets
+ - 1 minute block targets for ultra fast transactions
  - 18 million total coins
  - 5 coins per minute normal block value
- - 50 coins per minute block value for first 2 days to encourage early adoption
+ - To encourage early adoption block values for first 3 days are :- 50, 25, 10, then 5 per block
+ 
  
 The rest is the same as bitcoin.
  - 2016 blocks to retarget difficulty
