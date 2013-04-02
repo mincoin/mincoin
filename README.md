@@ -1,4 +1,4 @@
-MinCoin - a lite version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme.
+MinCoin - a lite version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme. MinCoin is bronze to Bitcoin gold
  - 1 minute block targets for ultra fast transactions
  - 18 million total coins
  - 5 coins per minute normal block value
