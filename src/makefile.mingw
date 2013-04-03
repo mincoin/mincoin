@@ -2,28 +2,26 @@
 # Distributed under the MIT/X11 software license, see the accompanying
 # file license.txt or http://www.opensource.org/licenses/mit-license.php.
 
-USE_UPNP:=0
-
 INCLUDEPATHS= \
- -I"C:\boost-1.49.0-mgw" \
- -I"C:\db-4.8.30.NC-mgw\build_unix" \
- -I"C:\openssl-1.0.1b-mgw\include"
+ -I"../../boost" \
+ -I"../../db-4.7.25.NC/build_unix" \
+ -I"../../openssl-1.0.1e/include"
 
 LIBPATHS= \
- -L"C:\boost-1.49.0-mgw\stage\lib" \
- -L"C:\db-4.8.30.NC-mgw\build_unix" \
- -L"C:\openssl-1.0.1b-mgw"
+ -L"../../boost/stage/lib" \
+ -L"../../db-4.7.25.NC/build_unix" \
+ -L"../../openssl-1.0.1e"
 
 LIBS= \
- -l boost_system-mgw45-mt-s-1_49 \
- -l boost_filesystem-mgw45-mt-s-1_49 \
- -l boost_program_options-mgw45-mt-s-1_49 \
- -l boost_thread-mgw45-mt-s-1_49 \
+ -l boost_system-mgw44-mt-1_48 \
+ -l boost_filesystem-mgw44-mt-1_48 \
+ -l boost_program_options-mgw44-mt-1_48 \
+ -l boost_thread-mgw44-mt-1_48 \
  -l db_cxx \
  -l ssl \
  -l crypto
 
-DEFS=-DWIN32 -D_WINDOWS -DBOOST_THREAD_USE_LIB -DBOOST_SPIRIT_THREADSAFE -DUSE_IPV6
+DEFS=-DWIN32 -D_WINDOWS -DBOOST_THREAD_USE_LIB -DBOOST_SPIRIT_THREADSAFE
 DEBUGFLAGS=-g
 CFLAGS=-mthreads -O2 -w -Wall -Wextra -Wformat -Wformat-security -Wno-unused-parameter $(DEBUGFLAGS) $(DEFS) $(INCLUDEPATHS)
 
@@ -68,7 +66,7 @@ OBJS= \
     obj/noui.o
 
 
-all: litecoind.exe
+all: mincoin.exe
 
 obj/scrypt.o: scrypt.c
 	gcc -c $(CFLAGS) -o $@ $^
@@ -76,7 +74,7 @@ obj/scrypt.o: scrypt.c
 obj/%.o: %.cpp $(HEADERS)
 	g++ -c $(CFLAGS) -o $@ $<
 
-litecoind.exe: $(OBJS:obj/%=obj/%)
+mincoin.exe: $(OBJS:obj/%=obj/%)
 	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ $(LIBS)
 
 TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
@@ -84,11 +82,11 @@ TESTOBJS := $(patsubst test/%.cpp,obj-test/%.o,$(wildcard test/*.cpp))
 obj-test/%.o: test/%.cpp $(HEADERS)
 	g++ -c $(TESTDEFS) $(CFLAGS) -o $@ $<
 
-test_litecoin.exe: $(TESTOBJS) $(filter-out obj/init.o,$(OBJS:obj/%=obj/%))
+test_mincoin.exe: $(TESTOBJS) $(filter-out obj/init.o,$(OBJS:obj/%=obj/%))
 	g++ $(CFLAGS) -o $@ $(LIBPATHS) $^ -lboost_unit_test_framework $(LIBS)
 
 clean:
-	-del /Q litecoind test_litecoin
+	-del /Q mincoin test_mincoin
 	-del /Q obj\*
 	-del /Q obj-test\*
 	-del /Q build.h

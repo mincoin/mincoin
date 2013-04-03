@@ -22,7 +22,8 @@ namespace Checkpoints
     //    timestamp before)
     // + Contains no strange transactions
     //
-    static MapCheckpoints mapCheckpoints =
+    static MapCheckpoints mapCheckpoints;
+	/*=
         boost::assign::map_list_of
         (     1, uint256("0x80ca095ed10b02e53d769eb6eaf92cd04e9e0759e5be4a8477b42911ba49c78f"))
         (     2, uint256("0x13957807cdd1d02f993909fa59510e318763f99a506c4c426e3b254af09f40d7"))
@@ -37,6 +38,7 @@ namespace Checkpoints
         (161500, uint256("0xdbe89880474f4bb4f75c227c77ba1cdc024991123b28b8418dbbf7798471ff43"))
         (179620, uint256("0x2ad9c65c990ac00426d18e446e0fd7be2ffa69e9a7dcb28358a50b2b78b9f709"))
         ;
+		*/
 
     bool CheckBlock(int nHeight, const uint256& hash)
     {
@@ -50,6 +52,7 @@ namespace Checkpoints
     int GetTotalBlocksEstimate()
     {
         if (fTestNet) return 0;
+		return 0;
 
         return mapCheckpoints.rbegin()->first;
     }

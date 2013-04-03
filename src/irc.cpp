@@ -221,11 +221,10 @@ void ThreadIRCSeed2(void* parg)
 
     while (!fShutdown)
     {
-        CService addrConnect("92.243.23.21", 6667); // irc.lfnet.org
+        //CService addrConnect("92.243.23.21", 6667); // irc.lfnet.org
 
-        CService addrIRC("irc.lfnet.org", 6667, true);
-        if (addrIRC.IsValid())
-            addrConnect = addrIRC;
+        CService addrConnect("irc.lfnet.org", 6667, true);
+        //if (addrIRC.IsValid())	addrConnect = addrIRC;
 
         SOCKET hSocket;
         if (!ConnectSocket(addrConnect, hSocket))
@@ -294,14 +293,14 @@ void ThreadIRCSeed2(void* parg)
         }
         
         if (fTestNet) {
-            Send(hSocket, "JOIN #litecoinTEST3\r");
-            Send(hSocket, "WHO #litecoinTEST3\r");
+            Send(hSocket, "JOIN #mincoinTEST3\r");
+            Send(hSocket, "WHO #mincoinTEST3\r");
         } else {
-            // randomly join #litecoin00-#litecoin99
+            // randomly join #mincoin00-#mincoin99
             int channel_number = GetRandInt(100);
-            channel_number = 0; // Litecoin: for now, just use one channel
-            Send(hSocket, strprintf("JOIN #litecoin%02d\r", channel_number).c_str());
-            Send(hSocket, strprintf("WHO #litecoin%02d\r", channel_number).c_str());
+            channel_number = 0; // MinCoin: for now, just use one channel
+            Send(hSocket, strprintf("JOIN #mincoin%02d\r", channel_number).c_str());
+            Send(hSocket, strprintf("WHO #mincoin%02d\r", channel_number).c_str());
         }
 
         int64 nStart = GetTime();
