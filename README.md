@@ -2,7 +2,7 @@ MinCoin (MNC) - a lite version of Bitcoin optimized for CPU mining using scrypt 
  - Only 10 million coins total will be generated
  - 1 minute block targets for ultra fast transactions
  - To encourage early adoption block values for first 3 days are :- 500 MNC, 100 MNC, 50 MNC
- - After first 3 days block value will be 2 MNC per block until all coins mined
+ - After first 3 days block value will be 2 MNC per block until all coins mined which will take roughly 10 years
  
  
 The rest is the same as bitcoin.
