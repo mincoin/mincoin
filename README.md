@@ -1,4 +1,4 @@
-MinCoin (MNC) - a lite version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme. MinCoin is bronze to Bitcoin gold
+MinCoin (MNC) - a minimalist version of Bitcoin optimized for CPU mining using scrypt as a proof of work scheme. MinCoin is bronze to Bitcoin gold
  - Only 10 million coins total will be generated
  - 1 minute block targets for ultra fast transactions
  - To encourage early adoption block values for first 3 days are :- 500 MNC, 100 MNC, 50 MNC
