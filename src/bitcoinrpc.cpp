@@ -181,8 +181,8 @@ void WalletTxToJSON(const CWalletTx& wtx, Object& entry)
     entry.push_back(Pair("confirmations", confirms));
     if (confirms)
     {
-        entry.push_back(Pair("blockhash", wtx.hashBlock.GetHex()));
-        entry.push_back(Pair("blockindex", wtx.nIndex));
+        //entry.push_back(Pair("blockhash", wtx.hashBlock.GetHex()));
+        entry.push_back(Pair("blocknum", nBestHeight-confirms ));
     }
     entry.push_back(Pair("txid", wtx.GetHash().GetHex()));
     entry.push_back(Pair("time", (boost::int64_t)wtx.GetTxTime()));
@@ -1569,7 +1569,7 @@ Value listtxfromblock(const Array& params, bool fHelp)
     {
         CWalletTx tx = (*it).second;
 		int nDepth=tx.GetDepthInMainChain();
-		int nBlockHeight = (nDepth+1+pindexBest->nHeight);
+		int nBlockHeight = pindexBest->nHeight-(nDepth+1);
         if (nBlockHeight >= blockstart && nBlockHeight < blockend)
             ListTransactions(tx, "*", 0, true, transactions);
     }
@@ -2414,6 +2414,7 @@ static const CRPCCommand vRPCCommands[] =
     { "setmininput",            &setmininput,            false },
     { "getblocktemplate",       &getblocktemplate,       true },
     { "listsinceblock",         &listsinceblock,         false },
+	{ "listtxfromblock",         &listtxfromblock,         false },	
     { "dumpprivkey",            &dumpprivkey,            false },
     { "importprivkey",          &importprivkey,          false },
     { "listunspent",            &listunspent,            false },
@@ -3302,6 +3303,8 @@ Array RPCConvertValues(const std::string &strMethod, const std::vector<std::stri
     if (strMethod == "walletpassphrase"       && n > 1) ConvertTo<boost::int64_t>(params[1]);
     if (strMethod == "getblocktemplate"       && n > 0) ConvertTo<Object>(params[0]);
     if (strMethod == "listsinceblock"         && n > 1) ConvertTo<boost::int64_t>(params[1]);
+	if (strMethod == "listtxfromblock"        && n > 0) ConvertTo<boost::int64_t>(params[0]);
+	if (strMethod == "listtxfromblock"        && n > 1) ConvertTo<boost::int64_t>(params[1]);
     if (strMethod == "sendmany"               && n > 1) ConvertTo<Object>(params[1]);
     if (strMethod == "sendmany"               && n > 2) ConvertTo<boost::int64_t>(params[2]);
     if (strMethod == "addmultisigaddress"     && n > 0) ConvertTo<boost::int64_t>(params[0]);
