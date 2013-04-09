@@ -1531,12 +1531,8 @@ Value listsinceblock(const Array& params, bool fHelp)
     else
     {
         int target_height = pindexBest->nHeight + 1 - target_confirms;
-
         CBlockIndex *block;
-        for (block = pindexBest;
-             block && block->nHeight > target_height;
-             block = block->pprev)  { }
-
+        for (block = pindexBest;block && block->nHeight > target_height;block = block->pprev)  { }
         lastblock = block ? block->GetBlockHash() : 0;
     }
 
@@ -1547,6 +1543,58 @@ Value listsinceblock(const Array& params, bool fHelp)
     return ret;
 }
 
+/*
+Value listtxfromblock(const Array& params, bool fHelp)
+{
+    if (fHelp)
+        throw runtime_error(
+		"listtxfromblock <blocknum> <num>\n"
+			"Lists tx from <blocknum> to <blocknum>+<num>");
+
+	if (params.size() ! 2)	throw JSONRPCError(-8, "Invalid parameter");
+
+    CBlockIndex *pindex = NULL;
+    int target_confirms = 1;
+
+	int blockstart = params[0].get_int();
+	int blockend = blockstart + params[1].get_int();
+
+	CBlock block;
+    CBlockIndex* pblockindex = mapBlockIndex[hashBestChain];
+    while (pblockindex->nHeight > blockstart)	pblockindex = pblockindex->pprev;
+	if(pblockindex==0) throw JSONRPCError(-8, "Block doesnt exist parameter");
+
+    Array transactions;
+    for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); it++)
+    {
+        CWalletTx tx = (*it).second;
+
+		tx.GetDepthInMainChain
+        if (depth == -1 || tx.GetDepthInMainChain() < depth)
+            ListTransactions(tx, "*", 0, true, transactions);
+    }
+
+    uint256 lastblock;
+
+    if (target_confirms == 1)
+    {
+        lastblock = hashBestChain;
+    }
+    else
+    {
+        int target_height = pindexBest->nHeight + 1 - target_confirms;
+        CBlockIndex *block;
+        for (block = pindexBest;block && block->nHeight > target_height;block = block->pprev)  { }
+        lastblock = block ? block->GetBlockHash() : 0;
+    }
+
+    Object ret;
+    ret.push_back(Pair("transactions", transactions));
+    ret.push_back(Pair("lastblock", lastblock.GetHex()));
+
+    return ret;
+}
+*/
 Value gettransaction(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)

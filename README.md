@@ -8,6 +8,10 @@ MinCoin (MNC) - a minimalist version of Bitcoin optimized for CPU mining using s
 The rest is the same as bitcoin.
  - 720 blocks to retarget difficulty (half a day)
 
+Pools
+===================
+http://www.vircurpool.com
+
 Development process
 ===================
 
