@@ -1543,7 +1543,7 @@ Value listsinceblock(const Array& params, bool fHelp)
     return ret;
 }
 
-/*
+
 Value listtxfromblock(const Array& params, bool fHelp)
 {
     if (fHelp)
@@ -1551,7 +1551,7 @@ Value listtxfromblock(const Array& params, bool fHelp)
 		"listtxfromblock <blocknum> <num>\n"
 			"Lists tx from <blocknum> to <blocknum>+<num>");
 
-	if (params.size() ! 2)	throw JSONRPCError(-8, "Invalid parameter");
+	if (params.size() != 2)	throw JSONRPCError(-8, "Invalid parameter");
 
     CBlockIndex *pindex = NULL;
     int target_confirms = 1;
@@ -1568,12 +1568,13 @@ Value listtxfromblock(const Array& params, bool fHelp)
     for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); it++)
     {
         CWalletTx tx = (*it).second;
-
-		tx.GetDepthInMainChain
-        if (depth == -1 || tx.GetDepthInMainChain() < depth)
+		int nDepth=tx.GetDepthInMainChain();
+		int nBlockHeight = (nDepth+1+pindexBest->nHeight);
+        if (nBlockHeight >= blockstart && nBlockHeight < blockend)
             ListTransactions(tx, "*", 0, true, transactions);
     }
 
+	/*
     uint256 lastblock;
 
     if (target_confirms == 1)
@@ -1587,14 +1588,15 @@ Value listtxfromblock(const Array& params, bool fHelp)
         for (block = pindexBest;block && block->nHeight > target_height;block = block->pprev)  { }
         lastblock = block ? block->GetBlockHash() : 0;
     }
+	*/
 
     Object ret;
     ret.push_back(Pair("transactions", transactions));
-    ret.push_back(Pair("lastblock", lastblock.GetHex()));
+    //ret.push_back(Pair("lastblock", lastblock.GetHex()));
 
     return ret;
 }
-*/
+
 Value gettransaction(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
