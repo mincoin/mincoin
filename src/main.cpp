@@ -1454,6 +1454,13 @@ bool static Reorganize(CTxDB& txdb, CBlockIndex* pindexNew)
     for (CBlockIndex* pindex = pindexBest; pindex != pfork; pindex = pindex->pprev)
         vDisconnect.push_back(pindex);
 
+	int nREORGLimit=(int)GetArg("-reorglimit", 0);	
+	if(nREORGLimit && vDisconnect.size() >= nREORGLimit)
+	{
+		error("REORGANIZE: A reorg of %d exceeded limit: %d",vDisconnect.size(),nREORGLimit);
+		exit(0);
+	}
+
     // List of what to connect
     vector<CBlockIndex*> vConnect;
     for (CBlockIndex* pindex = pindexNew; pindex != pfork; pindex = pindex->pprev)

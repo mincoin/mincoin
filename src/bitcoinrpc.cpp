@@ -181,8 +181,8 @@ void WalletTxToJSON(const CWalletTx& wtx, Object& entry)
     entry.push_back(Pair("confirmations", confirms));
     if (confirms)
     {
-        //entry.push_back(Pair("blockhash", wtx.hashBlock.GetHex()));
-        entry.push_back(Pair("blocknum", nBestHeight-confirms ));
+        entry.push_back(Pair("blockhash", wtx.hashBlock.GetHex()));
+        entry.push_back(Pair("blockindex", wtx.nIndex));
     }
     entry.push_back(Pair("txid", wtx.GetHash().GetHex()));
     entry.push_back(Pair("time", (boost::int64_t)wtx.GetTxTime()));
@@ -1569,29 +1569,32 @@ Value listtxfromblock(const Array& params, bool fHelp)
     {
         CWalletTx tx = (*it).second;
 		int nDepth=tx.GetDepthInMainChain();
-		int nBlockHeight = pindexBest->nHeight-(nDepth+1);
-        if (nBlockHeight >= blockstart && nBlockHeight < blockend)
-            ListTransactions(tx, "*", 0, true, transactions);
-    }
+		int nBlockHeight = nBestHeight-(nDepth-1);
+        if (nBlockHeight < blockstart || nBlockHeight >= blockend) continue;
 
-	/*
-    uint256 lastblock;
-
-    if (target_confirms == 1)
-    {
-        lastblock = hashBestChain;
+		int64 nGeneratedImmature, nGeneratedMature, nFee;
+		string strSentAccount;
+		list<pair<CTxDestination, int64> > listReceived;
+		list<pair<CTxDestination, int64> > listSent;
+		tx.GetAmounts(nGeneratedImmature, nGeneratedMature, listReceived, listSent, nFee, strSentAccount);
+	
+		if (listReceived.size() > 0)
+		{
+			BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& r, listReceived)
+			{
+				Object entry;
+				entry.push_back(Pair("txid", tx.GetHash().GetHex()));
+				entry.push_back(Pair("address", CBitcoinAddress(r.first).ToString()));
+				entry.push_back(Pair("amount", (int64)r.second));
+				entry.push_back(Pair("block", nBlockHeight));
+				transactions.push_back(entry);            
+			}
+		}
     }
-    else
-    {
-        int target_height = pindexBest->nHeight + 1 - target_confirms;
-        CBlockIndex *block;
-        for (block = pindexBest;block && block->nHeight > target_height;block = block->pprev)  { }
-        lastblock = block ? block->GetBlockHash() : 0;
-    }
-	*/
 
     Object ret;
     ret.push_back(Pair("transactions", transactions));
+	ret.push_back(Pair("blocks",nBestHeight));
     //ret.push_back(Pair("lastblock", lastblock.GetHex()));
 
     return ret;
