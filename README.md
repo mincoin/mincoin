@@ -12,6 +12,11 @@ Pools
 ===================
 http://www.vircurpool.com
 
+
+Block Explorers
+===================
+http://blockexplorer.vircurpool.com/
+
 Development process
 ===================
 
