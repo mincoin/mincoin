@@ -2361,7 +2361,6 @@ static const CRPCCommand vRPCCommands[] =
     { "setmininput",            &setmininput,            false },
     { "getblocktemplate",       &getblocktemplate,       true },
     { "listsinceblock",         &listsinceblock,         false },
-	{ "listtxfromblock",         &listtxfromblock,         false },	
     { "dumpprivkey",            &dumpprivkey,            false },
     { "importprivkey",          &importprivkey,          false },
     { "listunspent",            &listunspent,            false },
