@@ -1544,62 +1544,6 @@ Value listsinceblock(const Array& params, bool fHelp)
 }
 
 
-Value listtxfromblock(const Array& params, bool fHelp)
-{
-    if (fHelp)
-        throw runtime_error(
-		"listtxfromblock <blocknum> <num>\n"
-			"Lists tx from <blocknum> to <blocknum>+<num>");
-
-	if (params.size() != 2)	throw JSONRPCError(-8, "Invalid parameter");
-
-    CBlockIndex *pindex = NULL;
-    int target_confirms = 1;
-
-	int blockstart = params[0].get_int();
-	int blockend = blockstart + params[1].get_int();
-
-	CBlock block;
-    CBlockIndex* pblockindex = mapBlockIndex[hashBestChain];
-    while (pblockindex->nHeight > blockstart)	pblockindex = pblockindex->pprev;
-	if(pblockindex==0) throw JSONRPCError(-8, "Block doesnt exist parameter");
-
-    Array transactions;
-    for (map<uint256, CWalletTx>::iterator it = pwalletMain->mapWallet.begin(); it != pwalletMain->mapWallet.end(); it++)
-    {
-        CWalletTx tx = (*it).second;
-		int nDepth=tx.GetDepthInMainChain();
-		int nBlockHeight = nBestHeight-(nDepth-1);
-        if (nBlockHeight < blockstart || nBlockHeight >= blockend) continue;
-
-		int64 nGeneratedImmature, nGeneratedMature, nFee;
-		string strSentAccount;
-		list<pair<CTxDestination, int64> > listReceived;
-		list<pair<CTxDestination, int64> > listSent;
-		tx.GetAmounts(nGeneratedImmature, nGeneratedMature, listReceived, listSent, nFee, strSentAccount);
-	
-		if (listReceived.size() > 0)
-		{
-			BOOST_FOREACH(const PAIRTYPE(CTxDestination, int64)& r, listReceived)
-			{
-				Object entry;
-				entry.push_back(Pair("txid", tx.GetHash().GetHex()));
-				entry.push_back(Pair("address", CBitcoinAddress(r.first).ToString()));
-				entry.push_back(Pair("amount", (int64)r.second));
-				entry.push_back(Pair("block", nBlockHeight));
-				transactions.push_back(entry);            
-			}
-		}
-    }
-
-    Object ret;
-    ret.push_back(Pair("transactions", transactions));
-	ret.push_back(Pair("blocks",nBestHeight));
-    //ret.push_back(Pair("lastblock", lastblock.GetHex()));
-
-    return ret;
-}
-
 Value gettransaction(const Array& params, bool fHelp)
 {
     if (fHelp || params.size() != 1)
