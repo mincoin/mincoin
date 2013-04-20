@@ -11,7 +11,7 @@ The rest is the same as bitcoin.
 Pools
 ===================
 http://www.vircurpool.com
-
+http://mncpool.binarycoins.eu
 
 Block Explorers
 ===================
