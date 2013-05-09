@@ -53,7 +53,8 @@ extern Value createrawtransaction(const Array& params, bool fHelp);
 extern Value decoderawtransaction(const Array& params, bool fHelp);
 extern Value signrawtransaction(const Array& params, bool fHelp);
 extern Value sendrawtransaction(const Array& params, bool fHelp);
-
+bool OpenNetworkConnection(const CAddress& addrConnect, CSemaphoreGrant *grantOutbound = NULL, const char *strDest = NULL, bool fOneShot = false);
+static CSemaphore *semOutbound = NULL;
 const Object emptyobj;
 
 void ThreadRPCServer3(void* parg);
@@ -289,6 +290,25 @@ Value stop(const Array& params, bool fHelp)
     return "MinCoin server has now stopped running!";
 }
 
+Value addnode(const Array& params, bool fHelp)
+{
+    if (fHelp || params.size() != 1)
+        throw runtime_error(
+            "addnode <ip_addr> || addnode <hostname>\n"
+            "add a node to connect to in case of network issues");
+    // Shutdown will take long enough that the response should get back
+    // TODO: addnode code
+    CAddress addr;
+    string strAddNode = params[0].get_str();
+    if(semOutbound == NULL)
+		semOutbound = new CSemaphore(125);
+    CSemaphoreGrant grant(*semOutbound);
+	bool l = OpenNetworkConnection(addr, &grant, strAddNode.c_str());
+	if(l)
+		return "Node has been added";
+	else
+		return "Adding this node failed!";
+}
 
 Value getblockcount(const Array& params, bool fHelp)
 {
@@ -2315,6 +2335,7 @@ static const CRPCCommand vRPCCommands[] =
     { "help",                   &help,                   true },
     { "stop",                   &stop,                   true },
     { "getblockcount",          &getblockcount,          true },
+    { "addnode",				&addnode,				 true },
     { "getconnectioncount",     &getconnectioncount,     true },
     { "getpeerinfo",            &getpeerinfo,            true },
     { "getdifficulty",          &getdifficulty,          true },
