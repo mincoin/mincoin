@@ -842,9 +842,9 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 12 * 60 * 60; // mincoin: 0.5 days
-static const int64 nTargetSpacing = 60; // mincoin: 1 minutes
-static const int64 nInterval = nTargetTimespan / nTargetSpacing;
+static int64 nTargetTimespan = 12 * 60 * 60; // mincoin: 0.5 days
+static int64 nTargetSpacing = 60; // mincoin: 1 minutes
+static int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -878,6 +878,13 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
+
+	if(pindexLast->nHeight>=74999)
+	{
+		nTargetTimespan = 60 * 60; // mincoin: 1 hour
+		nTargetSpacing = 60; // mincoin: 1 minutes
+		nInterval = nTargetTimespan / nTargetSpacing;
+	}
 
     // Only change once per interval
     if ((pindexLast->nHeight+1) % nInterval != 0)
@@ -913,14 +920,21 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     for (int i = 0; pindexFirst && i < blockstogoback; i++)
         pindexFirst = pindexFirst->pprev;
     assert(pindexFirst);
-
+	
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
-    printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-    if (nActualTimespan < nTargetTimespan/4)
-        nActualTimespan = nTargetTimespan/4;
-    if (nActualTimespan > nTargetTimespan*4)
-        nActualTimespan = nTargetTimespan*4;
+
+	if(pindexLast->nHeight<74999)
+	{
+		printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
+		if (nActualTimespan < nTargetTimespan/4)	nActualTimespan = nTargetTimespan/4;
+	    if (nActualTimespan > nTargetTimespan*4)	nActualTimespan = nTargetTimespan*4;
+	}
+	else
+	{		
+		if (nActualTimespan < nTargetTimespan/2)	nActualTimespan = nTargetTimespan/2;
+		if (nActualTimespan > nTargetTimespan*8)	nActualTimespan = nTargetTimespan*8;
+	}
 
     // Retarget
     CBigNum bnNew;
