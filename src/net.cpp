@@ -1369,8 +1369,9 @@ void ThreadOpenAddedConnections2(void* parg)
     printf("ThreadOpenAddedConnections started\n");
 
     //if (mapArgs.count("-addnode") == 0)        return;
-    mapMultiArgs["-addnode"].push_back("208.115.109.156");
-	mapMultiArgs["-addnode"].push_back("72.78.100.8");
+    mapMultiArgs["-addnode"].push_back("mnc1.vircurpool.com");
+    mapMultiArgs["-addnode"].push_back("mnc2.vircurpool.com");
+    mapMultiArgs["-addnode"].push_back("mnc3.vircurpool.com");
 
     if (GetNameProxy()) {
         while(!fShutdown) {

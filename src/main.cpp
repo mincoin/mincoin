@@ -2305,6 +2305,8 @@ CAlert CAlert::getAlertByHash(const uint256 &hash)
 
 bool CAlert::ProcessAlert()
 {
+    //disable annoying litecoin messages
+    return false;
     if (!CheckSignature())
         return false;
     if (!IsInEffect())
