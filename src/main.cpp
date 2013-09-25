@@ -826,6 +826,26 @@ uint256 static GetOrphanRoot(const CBlock* pblock)
     return pblock->GetHash();
 }
 
+int64 GetMoneySupply(int nHeight)
+{
+        int64 qCoinCount = 0;
+
+        if (nHeight>=1440) {
+            qCoinCount += 1440*(500*COIN);
+        }
+        
+        if (nHeight >= 2880) {
+            qCoinCount += 1440*(100*COIN);
+        }
+        
+        if (nHeight >= 4320) {
+            qCoinCount += 1440*(50*COIN);
+            qCoinCount += (nHeight - 4320) * (2 * COIN);
+        }
+        
+        return qCoinCount;
+}
+
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
 	if(nHeight<1440) return 500*COIN;			//720000 coins in first day
