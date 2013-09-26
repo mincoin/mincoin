@@ -830,18 +830,21 @@ int64 GetMoneySupply(int nHeight)
 {
         int64 qCoinCount = 0;
 
-        if (nHeight>=1440) {
+        if (nHeight<1440)
+            return qCoinCount + (nHeight*500*COIN);
+        else
             qCoinCount += 1440*(500*COIN);
-        }
         
-        if (nHeight >= 2880) {
+        if (nHeight<2880)
+            return qCoinCount + ((nHeight-1440)*100*COIN);
+        else
             qCoinCount += 1440*(100*COIN);
-        }
         
-        if (nHeight >= 4320) {
-            qCoinCount += 1440*(50*COIN);
-            qCoinCount += (nHeight - 4320) * (2 * COIN);
-        }
+        if (nHeight<4320)
+            return qCoinCount + ((nHeight-2880)*50*COIN);
+
+        qCoinCount += 1440*(50*COIN);
+        qCoinCount += (nHeight - 4320) * (2 * COIN);
         
         return qCoinCount;
 }
