@@ -537,11 +537,16 @@ bool CTxDB::LoadBlockIndex()
         if (!block.ReadFromDisk(pindex))
             return error("LoadBlockIndex() : block.ReadFromDisk failed");
         // check level 1: verify block validity
-        if (nCheckLevel>0 && !Checkpoints::CheckBlock(pindex->nHeight, block.GetHash()) )
+        if (nCheckLevel>0 && !block.CheckBlock())
         {
             printf("LoadBlockIndex() : *** found bad block at %d, hash=%s\n", pindex->nHeight, pindex->GetBlockHash().ToString().c_str());
             pindexFork = pindex->pprev;
         }
+        if (nCheckLevel>0 && !Checkpoints::CheckBlock(pindex->nHeight, block.GetHash()) )
+	{
+		printf("LoadBlockIndex() : *** found bad block at %d, hash=%s\n", pindex->nHeight, pindex->GetBlockHash().ToString().c_str());
+		pindexFork = pindex->pprev;    
+	}
         // check level 2: verify transaction index validity
         if (nCheckLevel>1)
         {
