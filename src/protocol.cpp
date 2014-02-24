@@ -30,7 +30,7 @@ void GetMessageStart(unsigned char pchMessageStart[], bool fPersistent)
     //if (fTestNet)
     //    memcpy(pchMessageStart, (fPersistent || GetAdjustedTime() > nMessageStartTestSwitchTime)? pchMessageStartTestNew : pchMessageStartTestOld, sizeof(pchMessageStartTestNew));
     //else
-    memcpy(pchMessageStart, (fPersistent || GetAdjustedTime() > nMessageStartSwitchTime)? pchMessageStartMincoin : pchMessageStartOldMincoin, sizeof(pchMessageStart));
+    memcpy(pchMessageStart, (fPersistent || GetAdjustedTime() > nMessageStartSwitchTime)? pchMessageStartMincoin : pchMessageStartOldMincoin, sizeof(pchMessageStartMincoin));
     //memcpy(pchMessageStart, pchMessageStartOldMincoin, sizeof(pchMessageStart));
 
 }
