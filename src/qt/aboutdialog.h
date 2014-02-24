@@ -18,11 +18,13 @@ public:
     ~AboutDialog();
 
     void setModel(ClientModel *model);
+
 private:
     Ui::AboutDialog *ui;
 
 private slots:
     void on_buttonBox_accepted();
+    void on_btnWebsiteLogo_pressed();
 };
 
 #endif // ABOUTDIALOG_H

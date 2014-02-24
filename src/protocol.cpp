@@ -1,27 +1,52 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2012 The Bitcoin developers
-// Copyright (c) 2011-2012 Litecoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #include "protocol.h"
 #include "util.h"
 #include "netbase.h"
+#include "main.h"
 
 #ifndef WIN32
 # include <arpa/inet.h>
 #endif
+
+
+// Public testnet message start
+// unsigned char pchMessageStartTestBitcoin[4] = { 0x9b, 0xa1, 0xb2, 0xb6 };
+static unsigned char pchMessageStartTestOld[4] = { 0xdb, 0xe1, 0xf2, 0xf6 };
+static unsigned char pchMessageStartTestNew[4] = { 0x63, 0xf2, 0xc0, 0x2C };
+static unsigned int nMessageStartTestSwitchTime = 1;
+
+// MinCoin message start (switch from Bitcoin's in v0.2)
+static unsigned char pchMessageStartOldMincoin[4] = { 0xfb, 0xc0, 0xb6, 0xdb };
+static unsigned char pchMessageStartMincoin[4] = { 0x63, 0x42, 0x21, 0x2C };
+static unsigned int nMessageStartSwitchTime = 1393657079;
+
+
+void GetMessageStart(unsigned char pchMessageStart[], bool fPersistent)
+{
+    //if (fTestNet)
+    //    memcpy(pchMessageStart, (fPersistent || GetAdjustedTime() > nMessageStartTestSwitchTime)? pchMessageStartTestNew : pchMessageStartTestOld, sizeof(pchMessageStartTestNew));
+    //else
+    memcpy(pchMessageStart, (fPersistent || GetAdjustedTime() > nMessageStartSwitchTime)? pchMessageStartMincoin : pchMessageStartOldMincoin, sizeof(pchMessageStart));
+    //memcpy(pchMessageStart, pchMessageStartOldMincoin, sizeof(pchMessageStart));
+
+}
+
 
 static const char* ppszTypeName[] =
 {
     "ERROR",
     "tx",
     "block",
+    "filtered block"
 };
 
 CMessageHeader::CMessageHeader()
 {
-    memcpy(pchMessageStart, ::pchMessageStart, sizeof(pchMessageStart));
+    GetMessageStart(pchMessageStart);
     memset(pchCommand, 0, sizeof(pchCommand));
     pchCommand[1] = 1;
     nMessageSize = -1;
@@ -30,7 +55,8 @@ CMessageHeader::CMessageHeader()
 
 CMessageHeader::CMessageHeader(const char* pszCommand, unsigned int nMessageSizeIn)
 {
-    memcpy(pchMessageStart, ::pchMessageStart, sizeof(pchMessageStart));
+    //HEADER CHANGES
+    GetMessageStart(pchMessageStart);    
     strncpy(pchCommand, pszCommand, COMMAND_SIZE);
     nMessageSize = nMessageSizeIn;
     nChecksum = 0;
@@ -46,8 +72,12 @@ std::string CMessageHeader::GetCommand() const
 
 bool CMessageHeader::IsValid() const
 {
-    // Check start string
-    if (memcmp(pchMessageStart, ::pchMessageStart, sizeof(pchMessageStart)) != 0)
+
+    unsigned char pchMessageStartProtocol[4];
+    GetMessageStart(pchMessageStartProtocol,false);	
+    
+    //HEADER CHANGES
+    if (memcmp(pchMessageStart, pchMessageStartProtocol, sizeof(pchMessageStart)) != 0)
         return false;
 
     // Check the command string for errors
@@ -141,7 +171,7 @@ const char* CInv::GetCommand() const
 
 std::string CInv::ToString() const
 {
-    return strprintf("%s %s", GetCommand(), hash.ToString().substr(0,20).c_str());
+    return strprintf("%s %s", GetCommand(), hash.ToString().c_str());
 }
 
 void CInv::print() const
