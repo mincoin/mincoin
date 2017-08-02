@@ -36,7 +36,7 @@ unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
 uint256 hashGenesisBlock("0x12a765e31ffd4059bada1e25190f6e98c99d9714d334efa41a195a7e7e04bfe2");
-static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // Litecoin: starting difficulty is 1 / 2^12
+static CBigNum bnProofOfWorkLimit(~uint256(0) >> 16); // Mincoin: starting difficulty is 1 / 2^16
 CBlockIndex* pindexGenesisBlock = NULL;
 int nBestHeight = -1;
 uint256 nBestChainWork = 0;
@@ -1087,17 +1087,25 @@ uint256 static GetOrphanRoot(const CBlockHeader* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    int64 nSubsidy = 50 * COIN;
+    if(nHeight < 1440)
+        return 500 * COIN; // Mincoin: 720K MNC in first day
+    else if(nHeight < 2880)
+        return 100 * COIN; // Mincoin: 144K MNC in second day
+    else if(nHeight < 4320)
+        return 50 * COIN; // Mincoin: 72K MNC in third day
 
-    // Subsidy is cut in half every 840000 blocks, which will occur approximately every 4 years
-    nSubsidy >>= (nHeight / 840000); // Litecoin: 840k blocks in ~4 years
+    int64 nSubsidy = 2 * COIN; // Mincoin: 2.88K MNC per day thereafter
+
+    // Mincoin: 10M total MNC
+    if(nHeight > 4532000)
+        nSubsidy=0;
 
     return nSubsidy + nFees;
 }
 
-static const int64 nTargetTimespan = 3.5 * 24 * 60 * 60; // Litecoin: 3.5 days
-static const int64 nTargetSpacing = 2.5 * 60; // Litecoin: 2.5 minutes
-static const int64 nInterval = nTargetTimespan / nTargetSpacing;
+static int64 nTargetTimespan = 12 * 60 * 60; // Mincoin: 12 hours
+static int64 nTargetSpacing = 60; // Mincoin: 60 seconds
+static int64 nInterval = nTargetTimespan / nTargetSpacing;
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -1131,6 +1139,13 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Genesis block
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
+
+    if(pindexLast->nHeight >= 74999)
+    {
+        nTargetTimespan = 60 * 60; // Mincoin: 60 minutes
+        nTargetSpacing = 60; // Mincoin: 60 seconds
+        nInterval = nTargetTimespan / nTargetSpacing;
+    }
 
     // Only change once per interval
     if ((pindexLast->nHeight+1) % nInterval != 0)
@@ -1170,10 +1185,20 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %"PRI64d"  before bounds\n", nActualTimespan);
-    if (nActualTimespan < nTargetTimespan/4)
-        nActualTimespan = nTargetTimespan/4;
-    if (nActualTimespan > nTargetTimespan*4)
-        nActualTimespan = nTargetTimespan*4;
+    if(pindexLast->nHeight < 74999)
+    {
+        if (nActualTimespan < nTargetTimespan/4)
+            nActualTimespan = nTargetTimespan/4;
+        if (nActualTimespan > nTargetTimespan*4)
+            nActualTimespan = nTargetTimespan*4;
+    }
+    else
+    {
+        if (nActualTimespan < nTargetTimespan/2)
+            nActualTimespan = nTargetTimespan/2;
+        if (nActualTimespan > nTargetTimespan*8)
+            nActualTimespan = nTargetTimespan*8;
+    }
 
     // Retarget
     CBigNum bnNew;
