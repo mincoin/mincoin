@@ -1407,8 +1407,8 @@ Adresse: %4
     </message>
     <message>
         <location line="+34"/>
-        <source>The address to send the payment to (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
-        <translation>Litecoin-adressen som betalingen skal sendes til (f.eks. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
+        <source>The address to send the payment to (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
+        <translation>Litecoin-adressen som betalingen skal sendes til (f.eks. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
     <message>
         <location line="+60"/>
@@ -1448,8 +1448,8 @@ Adresse: %4
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Litecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
-        <translation>Indtast en Litecoin-adresse (f.eks. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
+        <source>Enter a Litecoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
+        <translation>Indtast en Litecoin-adresse (f.eks. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
 </context>
 <context>
@@ -1471,8 +1471,8 @@ Adresse: %4
     </message>
     <message>
         <location line="+18"/>
-        <source>The address to sign the message with (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
-        <translation>Litecoin-adressen som beskeden skal underskrives med (f.eks. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
+        <source>The address to sign the message with (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
+        <translation>Litecoin-adressen som beskeden skal underskrives med (f.eks. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1544,8 +1544,8 @@ Adresse: %4
     </message>
     <message>
         <location line="+21"/>
-        <source>The address the message was signed with (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
-        <translation>Litecoin-adressen som beskeden er underskrevet med (f.eks. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
+        <source>The address the message was signed with (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
+        <translation>Litecoin-adressen som beskeden er underskrevet med (f.eks. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
     <message>
         <location line="+40"/>
@@ -1565,8 +1565,8 @@ Adresse: %4
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Litecoin address (e.g. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</source>
-        <translation>Indtast en Litecoin-adresse (f.eks. Ler4HNAEfwYhBmGXcFP2Po1NpRUEiK8km2)</translation>
+        <source>Enter a Litecoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
+        <translation>Indtast en Litecoin-adresse (f.eks. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
     <message>
         <location line="-2"/>
