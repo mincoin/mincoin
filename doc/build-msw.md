@@ -84,6 +84,6 @@ Mincoin
 -------
 MSYS shell:
 
-	cd \litecoin\src
+	cd \mincoin\src
 	mingw32-make -f makefile.mingw
-	strip litecoind.exe
+	strip mincoind.exe

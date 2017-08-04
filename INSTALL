@@ -4,6 +4,6 @@ See doc/readme-qt.rst for instructions on building Mincoin-Qt,
 the intended-for-end-users, nice-graphical-interface, reference
 implementation of Mincoin.
 
-See doc/build-*.txt for instructions on building litecoind,
+See doc/build-*.txt for instructions on building mincoind,
 the intended-for-services, no-graphical-interface, reference
 implementation of Mincoin.

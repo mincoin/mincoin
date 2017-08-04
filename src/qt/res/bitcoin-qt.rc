@@ -23,10 +23,10 @@ BEGIN
             VALUE "CompanyName",        "Mincoin"
             VALUE "FileDescription",    "Mincoin-Qt (OSS GUI client for Mincoin)"
             VALUE "FileVersion",        VER_FILEVERSION_STR
-            VALUE "InternalName",       "litecoin-qt"
+            VALUE "InternalName",       "mincoin-qt"
             VALUE "LegalCopyright",     COPYRIGHT_STR
             VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
-            VALUE "OriginalFilename",   "litecoin-qt.exe"
+            VALUE "OriginalFilename",   "mincoin-qt.exe"
             VALUE "ProductName",        "Mincoin-Qt"
             VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
         END

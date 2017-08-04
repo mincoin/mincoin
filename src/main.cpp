@@ -4600,7 +4600,7 @@ void static MincoinMiner(CWallet *pwallet)
 {
     printf("MincoinMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("litecoin-miner");
+    RenameThread("mincoin-miner");
 
     // Each thread has its own key and counter
     CReserveKey reservekey(pwallet);
