@@ -1,8 +1,8 @@
 Mincoin 0.8.x BETA
 ====================
 
-Copyright (c) 2009-2014 Bitcoin Developers
-Copyright (c) 2011-2014 Mincoin Developers
+Copyright (c) 2009-2017 Bitcoin Developers
+Copyright (c) 2013-2017 Mincoin Developers
 
 Distributed under the MIT/X11 software license, see the accompanying
 file COPYING or http://www.opensource.org/licenses/mit-license.php.
