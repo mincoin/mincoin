@@ -4,13 +4,13 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Litecoin</source>
-        <translation>O Litecoin</translation>
+        <source>About Mincoin</source>
+        <translation>O Mincoin</translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Litecoin&lt;/b&gt; version</source>
-        <translation>Wersja &lt;b&gt;Litecoin&lt;/b&gt;</translation>
+        <source>&lt;b&gt;Mincoin&lt;/b&gt; version</source>
+        <translation>Wersja &lt;b&gt;Mincoin&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+57"/>
@@ -34,8 +34,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Litecoin developers</source>
-        <translation>Deweloperzy Litecoin</translation>
+        <source>The Mincoin developers</source>
+        <translation>Deweloperzy Mincoin</translation>
     </message>
 </context>
 <context>
@@ -67,8 +67,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="+63"/>
-        <source>These are your Litecoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
-        <translation>Tutaj znajdują się twoje adresy Litecoin do odbioru płatności. Możesz nadać oddzielne adresy dla każdego z wysyłających monety, żeby śledzić oddzielnie ich opłaty.</translation>
+        <source>These are your Mincoin addresses for receiving payments. You may want to give a different one to each sender so you can keep track of who is paying you.</source>
+        <translation>Tutaj znajdują się twoje adresy Mincoin do odbioru płatności. Możesz nadać oddzielne adresy dla każdego z wysyłających monety, żeby śledzić oddzielnie ich opłaty.</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="+14"/>
@@ -82,7 +82,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+11"/>
-        <source>Sign a message to prove you own a Litecoin address</source>
+        <source>Sign a message to prove you own a Mincoin address</source>
         <translation>Podpisz wiadomość aby dowieść, że ten adres jest twój</translation>
     </message>
     <message>
@@ -107,8 +107,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-44"/>
-        <source>Verify a message to ensure it was signed with a specified Litecoin address</source>
-        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Litecoin.</translation>
+        <source>Verify a message to ensure it was signed with a specified Mincoin address</source>
+        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Mincoin.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -122,8 +122,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="-5"/>
-        <source>These are your Litecoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>Tutaj znajdują się Twoje adresy Litecoin do wysyłania płatności. Zawsze sprawdzaj ilość i adres odbiorcy przed wysyłką monet.</translation>
+        <source>These are your Mincoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>Tutaj znajdują się Twoje adresy Mincoin do wysyłania płatności. Zawsze sprawdzaj ilość i adres odbiorcy przed wysyłką monet.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -275,8 +275,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-56"/>
-        <source>Litecoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your litecoins from being stolen by malware infecting your computer.</source>
-        <translation>Program Litecoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich litecoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
+        <source>Mincoin will close now to finish the encryption process. Remember that encrypting your wallet cannot fully protect your litecoins from being stolen by malware infecting your computer.</source>
+        <translation>Program Mincoin zamknie się aby dokończyć proces szyfrowania. Pamiętaj, że szyfrowanie portfela nie zabezpiecza w pełni Twoich litecoinów przed kradzieżą przez wirusy lub trojany mogące zainfekować Twój komputer.</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -374,8 +374,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+4"/>
-        <source>Show information about Litecoin</source>
-        <translation>Pokaż informację o Litecoin</translation>
+        <source>Show information about Mincoin</source>
+        <translation>Pokaż informację o Mincoin</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -419,12 +419,12 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="-347"/>
-        <source>Send coins to a Litecoin address</source>
-        <translation>Wyślij monety na adres Litecoin</translation>
+        <source>Send coins to a Mincoin address</source>
+        <translation>Wyślij monety na adres Mincoin</translation>
     </message>
     <message>
         <location line="+49"/>
-        <source>Modify configuration options for Litecoin</source>
+        <source>Modify configuration options for Mincoin</source>
         <translation>Zmienia opcje konfiguracji litecoina</translation>
     </message>
     <message>
@@ -455,8 +455,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-165"/>
         <location line="+530"/>
-        <source>Litecoin</source>
-        <translation>Litecoin</translation>
+        <source>Mincoin</source>
+        <translation>Mincoin</translation>
     </message>
     <message>
         <location line="-530"/>
@@ -480,8 +480,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+22"/>
-        <source>&amp;About Litecoin</source>
-        <translation>O Litecoin</translation>
+        <source>&amp;About Mincoin</source>
+        <translation>O Mincoin</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -500,13 +500,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+7"/>
-        <source>Sign messages with your Litecoin addresses to prove you own them</source>
+        <source>Sign messages with your Mincoin addresses to prove you own them</source>
         <translation>Podpisz wiadomości swoim adresem aby udowodnić jego posiadanie</translation>
     </message>
     <message>
         <location line="+2"/>
-        <source>Verify messages to ensure they were signed with specified Litecoin addresses</source>
-        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Litecoin.</translation>
+        <source>Verify messages to ensure they were signed with specified Mincoin addresses</source>
+        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Mincoin.</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -536,13 +536,13 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+47"/>
-        <source>Litecoin client</source>
-        <translation>Litecoin klient</translation>
+        <source>Mincoin client</source>
+        <translation>Mincoin klient</translation>
     </message>
     <message numerus="yes">
         <location line="+141"/>
-        <source>%n active connection(s) to Litecoin network</source>
-        <translation><numerusform>%n aktywne połączenie do sieci Litecoin</numerusform><numerusform>%n aktywne połączenia do sieci Litecoin</numerusform><numerusform>%n aktywnych połączeń do sieci Litecoin</numerusform></translation>
+        <source>%n active connection(s) to Mincoin network</source>
+        <translation><numerusform>%n aktywne połączenie do sieci Mincoin</numerusform><numerusform>%n aktywne połączenia do sieci Mincoin</numerusform><numerusform>%n aktywnych połączeń do sieci Mincoin</numerusform></translation>
     </message>
     <message>
         <location line="+22"/>
@@ -607,7 +607,7 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="+70"/>
         <source>This transaction is over the size limit. You can still send it for a fee of %1, which goes to the nodes that process your transaction and helps to support the network. Do you want to pay the fee?</source>
-        <translation>Transakcja przekracza limit. Możesz wysłać ją płacąc prowizję %1, która zostaje przekazana do węzłów, które ją prześlą i pomoże wspierać sieć Litecoin. Czy chcesz zapłacić prowizję?</translation>
+        <translation>Transakcja przekracza limit. Możesz wysłać ją płacąc prowizję %1, która zostaje przekazana do węzłów, które ją prześlą i pomoże wspierać sieć Mincoin. Czy chcesz zapłacić prowizję?</translation>
     </message>
     <message>
         <location line="-140"/>
@@ -656,8 +656,8 @@ Adres: %4
     <message>
         <location line="-23"/>
         <location line="+23"/>
-        <source>URI can not be parsed! This can be caused by an invalid Litecoin address or malformed URI parameters.</source>
-        <translation>URI nie może zostać przetworzony! Prawdopodobnie błędny adres Litecoin bądź nieprawidłowe parametry URI.</translation>
+        <source>URI can not be parsed! This can be caused by an invalid Mincoin address or malformed URI parameters.</source>
+        <translation>URI nie może zostać przetworzony! Prawdopodobnie błędny adres Mincoin bądź nieprawidłowe parametry URI.</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -671,8 +671,8 @@ Adres: %4
     </message>
     <message>
         <location filename="../bitcoin.cpp" line="+111"/>
-        <source>A fatal error occurred. Litecoin can no longer continue safely and will quit.</source>
-        <translation>Błąd krytyczny. Litecoin nie może kontynuować bezpiecznie więc zostanie zamknięty.</translation>
+        <source>A fatal error occurred. Mincoin can no longer continue safely and will quit.</source>
+        <translation>Błąd krytyczny. Mincoin nie może kontynuować bezpiecznie więc zostanie zamknięty.</translation>
     </message>
 </context>
 <context>
@@ -737,8 +737,8 @@ Adres: %4
     </message>
     <message>
         <location line="-5"/>
-        <source>The entered address &quot;%1&quot; is not a valid Litecoin address.</source>
-        <translation>Wprowadzony adres &quot;%1&quot; nie jest poprawnym adresem Litecoin.</translation>
+        <source>The entered address &quot;%1&quot; is not a valid Mincoin address.</source>
+        <translation>Wprowadzony adres &quot;%1&quot; nie jest poprawnym adresem Mincoin.</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -756,8 +756,8 @@ Adres: %4
     <message>
         <location filename="../guiutil.cpp" line="+424"/>
         <location line="+12"/>
-        <source>Litecoin-Qt</source>
-        <translation>Litecoin-Qt</translation>
+        <source>Mincoin-Qt</source>
+        <translation>Mincoin-Qt</translation>
     </message>
     <message>
         <location line="-12"/>
@@ -819,13 +819,13 @@ Adres: %4
     </message>
     <message>
         <location line="+31"/>
-        <source>Automatically start Litecoin after logging in to the system.</source>
-        <translation>Automatycznie uruchamia Litecoin po zalogowaniu do systemu.</translation>
+        <source>Automatically start Mincoin after logging in to the system.</source>
+        <translation>Automatycznie uruchamia Mincoin po zalogowaniu do systemu.</translation>
     </message>
     <message>
         <location line="+3"/>
-        <source>&amp;Start Litecoin on system login</source>
-        <translation>Uruchamiaj Litecoin wraz z zalogowaniem do &amp;systemu</translation>
+        <source>&amp;Start Mincoin on system login</source>
+        <translation>Uruchamiaj Mincoin wraz z zalogowaniem do &amp;systemu</translation>
     </message>
     <message>
         <location line="+35"/>
@@ -844,8 +844,8 @@ Adres: %4
     </message>
     <message>
         <location line="+6"/>
-        <source>Automatically open the Litecoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>Automatycznie otwiera port klienta Litecoin na routerze. Ta opcja dzieła tylko jeśli twój router wspiera UPnP i jest ono włączone.</translation>
+        <source>Automatically open the Mincoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>Automatycznie otwiera port klienta Mincoin na routerze. Ta opcja dzieła tylko jeśli twój router wspiera UPnP i jest ono włączone.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -854,8 +854,8 @@ Adres: %4
     </message>
     <message>
         <location line="+7"/>
-        <source>Connect to the Litecoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
-        <translation>Podłącz się do sieci Litecoin przez proxy SOCKS (np. gdy łączysz się poprzez Tor&apos;a)</translation>
+        <source>Connect to the Mincoin network through a SOCKS proxy (e.g. when connecting through Tor).</source>
+        <translation>Podłącz się do sieci Mincoin przez proxy SOCKS (np. gdy łączysz się poprzez Tor&apos;a)</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -929,8 +929,8 @@ Adres: %4
     </message>
     <message>
         <location line="+13"/>
-        <source>The user interface language can be set here. This setting will take effect after restarting Litecoin.</source>
-        <translation>Można tu ustawić język interfejsu uzytkownika. Żeby ustawienie przyniosło skutek trzeba uruchomić ponownie Litecoin.</translation>
+        <source>The user interface language can be set here. This setting will take effect after restarting Mincoin.</source>
+        <translation>Można tu ustawić język interfejsu uzytkownika. Żeby ustawienie przyniosło skutek trzeba uruchomić ponownie Mincoin.</translation>
     </message>
     <message>
         <location line="+11"/>
@@ -944,8 +944,8 @@ Adres: %4
     </message>
     <message>
         <location line="+9"/>
-        <source>Whether to show Litecoin addresses in the transaction list or not.</source>
-        <translation>Pokazuj adresy Litecoin na liście transakcji.</translation>
+        <source>Whether to show Mincoin addresses in the transaction list or not.</source>
+        <translation>Pokazuj adresy Mincoin na liście transakcji.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -996,8 +996,8 @@ Adres: %4
     <message>
         <location line="-9"/>
         <location line="+9"/>
-        <source>This setting will take effect after restarting Litecoin.</source>
-        <translation>To ustawienie zostanie zastosowane po restarcie Litecoin</translation>
+        <source>This setting will take effect after restarting Mincoin.</source>
+        <translation>To ustawienie zostanie zastosowane po restarcie Mincoin</translation>
     </message>
     <message>
         <location line="+29"/>
@@ -1015,7 +1015,7 @@ Adres: %4
     <message>
         <location line="+50"/>
         <location line="+166"/>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Litecoin network after a connection is established, but this process has not completed yet.</source>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Mincoin network after a connection is established, but this process has not completed yet.</source>
         <translation>Wyświetlana informacja może być nieaktualna. Twój portfel synchronizuje się automatycznie z siecią litecoin, zaraz po tym jak uzyskano połączenie, ale proces ten nie został jeszcze ukończony.</translation>
     </message>
     <message>
@@ -1219,8 +1219,8 @@ Adres: %4
     </message>
     <message>
         <location line="+7"/>
-        <source>Show the Litecoin-Qt help message to get a list with possible Litecoin command-line options.</source>
-        <translation>Pokaż pomoc Litecoin-Qt, aby zobaczyć listę wszystkich opcji linii poleceń</translation>
+        <source>Show the Mincoin-Qt help message to get a list with possible Mincoin command-line options.</source>
+        <translation>Pokaż pomoc Mincoin-Qt, aby zobaczyć listę wszystkich opcji linii poleceń</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1239,12 +1239,12 @@ Adres: %4
     </message>
     <message>
         <location line="-104"/>
-        <source>Litecoin - Debug window</source>
-        <translation>Litecoin - Okno debudowania</translation>
+        <source>Mincoin - Debug window</source>
+        <translation>Mincoin - Okno debudowania</translation>
     </message>
     <message>
         <location line="+25"/>
-        <source>Litecoin Core</source>
+        <source>Mincoin Core</source>
         <translation>Rdzeń BitCoin</translation>
     </message>
     <message>
@@ -1254,7 +1254,7 @@ Adres: %4
     </message>
     <message>
         <location line="+7"/>
-        <source>Open the Litecoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
+        <source>Open the Mincoin debug log file from the current data directory. This can take a few seconds for large log files.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1264,8 +1264,8 @@ Adres: %4
     </message>
     <message>
         <location filename="../rpcconsole.cpp" line="-30"/>
-        <source>Welcome to the Litecoin RPC console.</source>
-        <translation>Witam w konsoli Litecoin RPC</translation>
+        <source>Welcome to the Mincoin RPC console.</source>
+        <translation>Witam w konsoli Mincoin RPC</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -1448,8 +1448,8 @@ Adres: %4
     </message>
     <message>
         <location filename="../sendcoinsentry.cpp" line="+1"/>
-        <source>Enter a Litecoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
-        <translation>Wprowadź adres Litecoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
+        <source>Enter a Mincoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
+        <translation>Wprowadź adres Mincoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
 </context>
 <context>
@@ -1472,7 +1472,7 @@ Adres: %4
     <message>
         <location line="+18"/>
         <source>The address to sign the message with (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
-        <translation>Wprowadź adres Litecoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
+        <translation>Wprowadź adres Mincoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
     <message>
         <location line="+10"/>
@@ -1513,7 +1513,7 @@ Adres: %4
     </message>
     <message>
         <location line="+21"/>
-        <source>Sign the message to prove you own this Litecoin address</source>
+        <source>Sign the message to prove you own this Mincoin address</source>
         <translation>Podpisz wiadomość aby dowieść, że ten adres jest twój</translation>
     </message>
     <message>
@@ -1545,12 +1545,12 @@ Adres: %4
     <message>
         <location line="+21"/>
         <source>The address the message was signed with (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
-        <translation>Wprowadź adres Litecoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
+        <translation>Wprowadź adres Mincoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
     <message>
         <location line="+40"/>
-        <source>Verify the message to ensure it was signed with the specified Litecoin address</source>
-        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Litecoin.</translation>
+        <source>Verify the message to ensure it was signed with the specified Mincoin address</source>
+        <translation>Zweryfikuj wiadomość,  aby upewnić się, że została podpisana odpowiednim adresem Mincoin.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -1565,8 +1565,8 @@ Adres: %4
     <message>
         <location filename="../signverifymessagedialog.cpp" line="+27"/>
         <location line="+3"/>
-        <source>Enter a Litecoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
-        <translation>Wprowadź adres Litecoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
+        <source>Enter a Mincoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</source>
+        <translation>Wprowadź adres Mincoin (np. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)</translation>
     </message>
     <message>
         <location line="-2"/>
@@ -1575,8 +1575,8 @@ Adres: %4
     </message>
     <message>
         <location line="+3"/>
-        <source>Enter Litecoin signature</source>
-        <translation>Wprowadź podpis Litecoin</translation>
+        <source>Enter Mincoin signature</source>
+        <translation>Wprowadź podpis Mincoin</translation>
     </message>
     <message>
         <location line="+82"/>
@@ -1649,8 +1649,8 @@ Adres: %4
     <name>SplashScreen</name>
     <message>
         <location filename="../splashscreen.cpp" line="+22"/>
-        <source>The Litecoin developers</source>
-        <translation>Deweloperzy Litecoin</translation>
+        <source>The Mincoin developers</source>
+        <translation>Deweloperzy Mincoin</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2187,8 +2187,8 @@ Adres: %4
     <name>bitcoin-core</name>
     <message>
         <location filename="../bitcoinstrings.cpp" line="+94"/>
-        <source>Litecoin version</source>
-        <translation>Wersja Litecoin</translation>
+        <source>Mincoin version</source>
+        <translation>Wersja Mincoin</translation>
     </message>
     <message>
         <location line="+102"/>
@@ -2306,7 +2306,7 @@ rpcpassword=%s
 The username and password MUST NOT be the same.
 If the file does not exist, create it with owner-readable-only file permissions.
 It is also recommended to set alertnotify so you are notified of problems;
-for example: alertnotify=echo %%s | mail -s &quot;Litecoin Alert&quot; admin@foo.com
+for example: alertnotify=echo %%s | mail -s &quot;Mincoin Alert&quot; admin@foo.com
 </source>
         <translation>%s, musisz ustawić rpcpassword w pliku konfiguracyjnym:⏎
 %s⏎
@@ -2317,7 +2317,7 @@ rpcpassword=%s⏎
 Użytkownik i hasło nie mogą być takie same.⏎
 Jeśli plik nie istnieje, utwórz go z uprawnieniami tylko-do-odczytu dla właściciela.⏎
 Zalecane jest ustawienie alertnotify aby poinformować o problemach:⏎
-na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Litecoin&quot; admin@foo.com⏎</translation>
+na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Mincoin&quot; admin@foo.com⏎</translation>
     </message>
     <message>
         <location line="+17"/>
@@ -2331,8 +2331,8 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Litecoin&quot; admin@fo
     </message>
     <message>
         <location line="+3"/>
-        <source>Cannot obtain a lock on data directory %s. Litecoin is probably already running.</source>
-        <translation>Nie można zablokować folderu danych %s.  Litecoin prawdopodobnie już działa.</translation>
+        <source>Cannot obtain a lock on data directory %s. Mincoin is probably already running.</source>
+        <translation>Nie można zablokować folderu danych %s.  Mincoin prawdopodobnie już działa.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2376,8 +2376,8 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Litecoin&quot; admin@fo
     </message>
     <message>
         <location line="+3"/>
-        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Litecoin will not work properly.</source>
-        <translation>Uwaga: Sprawdź czy data i czas na Twoim komputerze są prawidłowe! Jeśli nie to Litecoin nie będzie działał prawidłowo.</translation>
+        <source>Warning: Please check that your computer&apos;s date and time are correct! If your clock is wrong Mincoin will not work properly.</source>
+        <translation>Uwaga: Sprawdź czy data i czas na Twoim komputerze są prawidłowe! Jeśli nie to Mincoin nie będzie działał prawidłowo.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -2626,8 +2626,8 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Litecoin&quot; admin@fo
     </message>
     <message>
         <location line="+5"/>
-        <source>SSL options: (see the Litecoin Wiki for SSL setup instructions)</source>
-        <translation>Opcje SSL: (odwiedź Litecoin Wiki w celu uzyskania instrukcji)</translation>
+        <source>SSL options: (see the Mincoin Wiki for SSL setup instructions)</source>
+        <translation>Opcje SSL: (odwiedź Mincoin Wiki w celu uzyskania instrukcji)</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -2816,13 +2816,13 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Litecoin&quot; admin@fo
     </message>
     <message>
         <location line="+1"/>
-        <source>Error loading wallet.dat: Wallet requires newer version of Litecoin</source>
-        <translation>Błąd ładowania wallet.dat: Portfel wymaga nowszej wersji Litecoin</translation>
+        <source>Error loading wallet.dat: Wallet requires newer version of Mincoin</source>
+        <translation>Błąd ładowania wallet.dat: Portfel wymaga nowszej wersji Mincoin</translation>
     </message>
     <message>
         <location line="+93"/>
-        <source>Wallet needed to be rewritten: restart Litecoin to complete</source>
-        <translation>Portfel wymaga przepisania: zrestartuj Litecoina żeby ukończyć</translation>
+        <source>Wallet needed to be rewritten: restart Mincoin to complete</source>
+        <translation>Portfel wymaga przepisania: zrestartuj Mincoina żeby ukończyć</translation>
     </message>
     <message>
         <location line="-95"/>
@@ -2881,8 +2881,8 @@ na przykład: alertnotify=echo %%s | mail -s &quot;Alarm Litecoin&quot; admin@fo
     </message>
     <message>
         <location line="-25"/>
-        <source>Unable to bind to %s on this computer. Litecoin is probably already running.</source>
-        <translation>Nie można przywiązać %s na tym komputerze. Litecoin prawdopodobnie już działa.</translation>
+        <source>Unable to bind to %s on this computer. Mincoin is probably already running.</source>
+        <translation>Nie można przywiązać %s na tym komputerze. Mincoin prawdopodobnie już działa.</translation>
     </message>
     <message>
         <location line="+64"/>

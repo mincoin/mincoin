@@ -15,7 +15,7 @@ src/test_litecoin
 *.qm
 Makefile
 litecoin-qt
-Litecoin-Qt.app
+Mincoin-Qt.app
 
 # Unit-tests
 Makefile.test

@@ -36,7 +36,7 @@ SendCoinsDialog::SendCoinsDialog(QWidget *parent) :
 #endif
 #if QT_VERSION >= 0x040700
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
-    ui->lineEditCoinControlChange->setPlaceholderText(tr("Enter a Litecoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)"));
+    ui->lineEditCoinControlChange->setPlaceholderText(tr("Enter a Mincoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)"));
 #endif
 
     addEntry();

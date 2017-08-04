@@ -28,11 +28,11 @@ SignVerifyMessageDialog::SignVerifyMessageDialog(QWidget *parent) :
 
 #if (QT_VERSION >= 0x040700)
     /* Do not move this to the XML file, Qt before 4.7 will choke on it */
-    ui->addressIn_SM->setPlaceholderText(tr("Enter a Litecoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)"));
+    ui->addressIn_SM->setPlaceholderText(tr("Enter a Mincoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)"));
     ui->signatureOut_SM->setPlaceholderText(tr("Click \"Sign Message\" to generate signature"));
 
-    ui->addressIn_VM->setPlaceholderText(tr("Enter a Litecoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)"));
-    ui->signatureIn_VM->setPlaceholderText(tr("Enter Litecoin signature"));
+    ui->addressIn_VM->setPlaceholderText(tr("Enter a Mincoin address (e.g. MVvA3XiDwgZh76TTitChvFtEWhaGQK415n)"));
+    ui->signatureIn_VM->setPlaceholderText(tr("Enter Mincoin signature"));
 #endif
 
     GUIUtil::setupAddressWidget(ui->addressIn_SM, this);

@@ -15,16 +15,16 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>Litecoin-Qt</string>
+	<string>Mincoin-Qt</string>
 	<key>CFBundleIdentifier</key>
-	<string>us.mincoin.Litecoin-Qt</string>
+	<string>us.mincoin.Mincoin-Qt</string>
         <key>CFBundleURLTypes</key>
         <array>
           <dict>
             <key>CFBundleTypeRole</key>
             <string>Editor</string>
             <key>CFBundleURLName</key>
-            <string>us.mincoin.LitecoinPayment</string>
+            <string>us.mincoin.MincoinPayment</string>
             <key>CFBundleURLSchemes</key>
             <array>
               <string>litecoin</string>
