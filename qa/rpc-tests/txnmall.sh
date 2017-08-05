@@ -8,8 +8,8 @@ if [ $# -lt 1 ]; then
         exit 1
 fi
 
-BITCOIND=${1}/bitcoind
-CLI=${1}/bitcoin-cli
+BITCOIND=${1}/mincoind
+CLI=${1}/mincoin-cli
 
 DIR="${BASH_SOURCE%/*}"
 SENDANDWAIT="${DIR}/send.sh"
@@ -87,7 +87,7 @@ B2ADDRESS=$( $CLI $B2ARGS getnewaddress )
 
 # Have B1 create two transactions; second will
 # spend change from first, since B1 starts with only a single
-# 50 bitcoin output:
+# 50 mincoin output:
 TXID1=$( $CLI $B1ARGS sendtoaddress $B2ADDRESS 1.0 )
 TXID2=$( $CLI $B1ARGS sendtoaddress $B2ADDRESS 2.0 )
 
@@ -132,11 +132,11 @@ wait $B1PID
 
 trap "" EXIT
 
-echo "Done, bitcoind's shut down. To rerun/poke around:"
-echo "${1}/bitcoind -datadir=$D1 -daemon"
-echo "${1}/bitcoind -datadir=$D2 -daemon -connect=127.0.0.1:11000"
+echo "Done, mincoind's shut down. To rerun/poke around:"
+echo "${1}/mincoind -datadir=$D1 -daemon"
+echo "${1}/mincoind -datadir=$D2 -daemon -connect=127.0.0.1:11000"
 echo "To cleanup:"
-echo "killall bitcoind; rm -rf test.*"
+echo "killall mincoind; rm -rf test.*"
 exit 0
 
 echo "Tests successful, cleaning up"

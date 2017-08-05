@@ -30,7 +30,7 @@ Unpack the files into a directory and run:
 - bin/64/mincoin-qt (GUI, 64-bit)
 - bin/64/mincoind (headless, 64-bit)
 
-See the documentation at the [Mincoin Wiki](http://mincoin.info)
+See the documentation at the [Mincoin Forums](http://mincoinforum.com)
 for help and more information.
 
 

@@ -1,8 +1,8 @@
 /*
- * Qt4 bitcoin GUI.
+ * Qt4 mincoin GUI.
  *
- * W.J. van der Laan 2011-2012
- * The Bitcoin Developers 2011-2013
+ * W.J. van der Laan 2011-2017
+ * The Bitcoin Developers 2011-2017
  */
 #include "walletstack.h"
 #include "walletview.h"

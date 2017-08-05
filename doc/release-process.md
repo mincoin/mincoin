@@ -6,7 +6,7 @@ Release Process
 ###update (commit) version in sources
 
 
-	bitcoin-qt.pro
+	mincoin-qt.pro
 	contrib/verifysfbinaries/verify.sh
 	doc/README*
 	share/setup.nsi
@@ -45,7 +45,7 @@ Release Process
 	./bin/gbuild ../mincoin/contrib/gitian-descriptors/boost-win32.yml
 	mv build/out/boost-*.zip inputs/
 	./bin/gbuild ../mincoin/contrib/gitian-descriptors/deps-win32.yml
-	mv build/out/bitcoin*.zip inputs/
+	mv build/out/mincoin*.zip inputs/
 	./bin/gbuild ../mincoin/contrib/gitian-descriptors/qt-win32.yml
 	mv build/out/qt*.zip inputs/
 
@@ -82,7 +82,7 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 
 	unzip mincoin-${VERSION}-win32-gitian.zip -d mincoin-${VERSION}-win32
 	mv mincoin-${VERSION}-win32/mincoin-*-setup.exe .
-	zip -r mincoin-${VERSION}-win32.zip bitcoin-${VERSION}-win32
+	zip -r mincoin-${VERSION}-win32.zip mincoin-${VERSION}-win32
 	rm -rf mincoin-${VERSION}-win32
 
 **Perform Mac build:**
@@ -102,7 +102,7 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 ###Next steps:
 
 * Code-sign Windows -setup.exe (in a Windows virtual machine) and
-  OSX Bitcoin-Qt.app (Note: only Gavin has the code-signing keys currently)
+  OSX Mincoin-Qt.app (Note: only Gavin has the code-signing keys currently)
 
 * update mincoin.us version
   make sure all OS download links go to the right versions

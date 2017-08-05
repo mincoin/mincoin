@@ -1,4 +1,4 @@
-diff --git a/contrib/test-patches/bitcoind-comparison.patch b/contrib/test-patches/bitcoind-comparison.patch
+diff --git a/contrib/test-patches/mincoind-comparison.patch b/contrib/test-patches/mincoind-comparison.patch
 index 04a8618..519429a 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp

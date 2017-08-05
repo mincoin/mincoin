@@ -22,14 +22,14 @@ set up to add test/*.cpp to test_mincoin automatically).
 Compiling/running Mincoin-Qt unit tests
 ---------------------------------------
 
-Bitcoin-Qt unit tests are in the src/qt/test/ directory; they
+Mincoin-Qt unit tests are in the src/qt/test/ directory; they
 use the Qt unit-testing framework.
 
 To compile and run the tests:
 
-	qmake bitcoin-qt.pro BITCOIN_QT_TEST=1
+	qmake mincoin-qt.pro BITCOIN_QT_TEST=1
 	make
 	./mincoin-qt_test
 
 To add more tests, add them to the `src/qt/test/` directory,
-the `src/qt/test/test_main.cpp` file, and bitcoin-qt.pro.
+the `src/qt/test/test_main.cpp` file, and mincoin-qt.pro.

@@ -7,12 +7,12 @@ handle those translations.
 Files and Folders
 -----------------
 
-### bitcoin-qt.pro
+### mincoin-qt.pro
 
 This file takes care of generating `.qm` files from `.ts` files. It is mostly
 automated.
 
-### src/qt/bitcoin.qrc
+### src/qt/mincoin.qrc
 
 This file must be updated whenever a new translation is added. Please note that
 files must end with `.qm`, not `.ts`.
@@ -39,7 +39,7 @@ so make sure that utility is installed (ie, `apt-get install gettext` on
 Ubuntu/Debian):
 
     python share/qt/extract_strings_qt.py
-    lupdate bitcoin-qt.pro -no-obsolete -locations relative -ts src/qt/locale/bitcoin_en.ts
+    lupdate mincoin-qt.pro -no-obsolete -locations relative -ts src/qt/locale/bitcoin_en.ts
     
 ##### Handling of plurals in the source file
 
@@ -100,6 +100,6 @@ It is also possible to directly download new translations one by one from the Tr
 ### Fetching new translations
 
 1. `tx pull -a`
-2. update `src/qt/bitcoin.qrc` manually or via
+2. update `src/qt/mincoin.qrc` manually or via
    `ls src/qt/locale/*ts|xargs -n1 basename|sed 's/\(bitcoin_\(.*\)\).ts/<file alias="\2">locale/\1.qm<\/file>/'`
 3. `git add` new translations from `src/qt/locale/`

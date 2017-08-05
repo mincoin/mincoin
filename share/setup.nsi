@@ -76,7 +76,7 @@ Section -Main SEC0000
     SetOutPath $INSTDIR
     WriteRegStr HKCU "${REGKEY}\Components" Main 1
 
-    # Remove old wxwidgets-based-bitcoin executable and locales:
+    # Remove old wxwidgets-based-mincoin executable and locales:
     Delete /REBOOTOK $INSTDIR\mincoin.exe
     RMDir /r /REBOOTOK $INSTDIR\locale
 SectionEnd
