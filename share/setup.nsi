@@ -7,7 +7,7 @@ SetCompressor /SOLID lzma
 !define REGKEY "SOFTWARE\$(^Name)"
 !define VERSION 0.8.7.5
 !define COMPANY "Mincoin project"
-!define URL http://www.mincoin.us/
+!define URL http://www.mincoin.io/
 
 # MUI Symbol Definitions
 !define MUI_ICON "../share/pixmaps/bitcoin.ico"

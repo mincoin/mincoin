@@ -1,7 +1,7 @@
 Mincoin integration/staging tree
 ================================
 
-http://www.mincoin.us
+http://www.mincoin.io
 
 Copyright (c) 2009-2017 Bitcoin Developers
 Copyright (c) 2013-2017 Mincoin Developers
@@ -10,13 +10,13 @@ What is Mincoin?
 ----------------
 
 Mincoin is a nominal version of Bitcoin using scrypt as a proof-of-work algorithm.
- - 1 minute block targets
- - ~10 million total coins
+ - 1 minute block targets for ultra fast transactions
+ - Only 10 million total coins will be generated
  - 2 coins per block
  - 60 blocks to retarget difficulty
 
 For more information, as well as an immediately useable, binary version of
-the Mincoin client sofware, see http://www.mincoin.us.
+the Mincoin client sofware, see http://www.mincoin.io.
 
 License
 -------

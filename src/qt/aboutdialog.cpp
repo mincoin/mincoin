@@ -8,6 +8,9 @@
 #include "clientmodel.h"
 #include "clientversion.h"
 
+#include <QDesktopServices>
+#include <QUrl>
+
 // Copyright year (2009-this)
 // Todo: update this when changing our copyright comments in the source
 const int ABOUTDIALOG_COPYRIGHT_YEAR = 2017;
@@ -38,4 +41,9 @@ AboutDialog::~AboutDialog()
 void AboutDialog::on_buttonBox_accepted()
 {
     close();
+}
+
+void AboutDialog::on_btnWebsiteLogo_pressed()
+{
+    QDesktopServices::openUrl(QUrl("http://mincoin.io"));
 }

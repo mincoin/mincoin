@@ -28,6 +28,7 @@ private:
 
 private slots:
     void on_buttonBox_accepted();
+    void on_btnWebsiteLogo_pressed();
 };
 
 #endif // ABOUTDIALOG_H

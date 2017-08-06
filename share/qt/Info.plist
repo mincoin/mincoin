@@ -17,14 +17,14 @@
 	<key>CFBundleExecutable</key>
 	<string>Mincoin-Qt</string>
 	<key>CFBundleIdentifier</key>
-	<string>us.mincoin.Mincoin-Qt</string>
+	<string>io.mincoin.Mincoin-Qt</string>
         <key>CFBundleURLTypes</key>
         <array>
           <dict>
             <key>CFBundleTypeRole</key>
             <string>Editor</string>
             <key>CFBundleURLName</key>
-            <string>us.mincoin.MincoinPayment</string>
+            <string>io.mincoin.MincoinPayment</string>
             <key>CFBundleURLSchemes</key>
             <array>
               <string>mincoin</string>

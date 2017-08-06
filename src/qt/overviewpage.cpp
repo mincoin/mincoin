@@ -17,6 +17,9 @@
 #include <QAbstractItemDelegate>
 #include <QPainter>
 
+#include <QDesktopServices>  // Added for openURL()
+#include <QUrl>
+
 #define DECORATION_SIZE 64
 #define NUM_ITEMS 3
 
@@ -141,14 +144,14 @@ void OverviewPage::setBalance(qint64 balance, qint64 unconfirmedBalance, qint64 
     currentBalance = balance;
     currentUnconfirmedBalance = unconfirmedBalance;
     currentImmatureBalance = immatureBalance;
-    ui->labelBalance->setText(BitcoinUnits::formatWithUnit(unit, balance));
-    ui->labelUnconfirmed->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
-    ui->labelImmature->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
+    ui->labelBalanceValue->setText(BitcoinUnits::formatWithUnit(unit, balance));
+    ui->labelUnconfirmedValue->setText(BitcoinUnits::formatWithUnit(unit, unconfirmedBalance));
+    ui->labelImmatureValue->setText(BitcoinUnits::formatWithUnit(unit, immatureBalance));
 
     // only show immature (newly mined) balance if it's non-zero, so as not to complicate things
     // for the non-mining users
     bool showImmature = immatureBalance != 0;
-    ui->labelImmature->setVisible(showImmature);
+    ui->labelImmatureValue->setVisible(showImmature);
     ui->labelImmatureText->setVisible(showImmature);
 }
 
@@ -214,4 +217,9 @@ void OverviewPage::showOutOfSyncWarning(bool fShow)
 {
     ui->labelWalletStatus->setVisible(fShow);
     ui->labelTransactionsStatus->setVisible(fShow);
+}
+
+void OverviewPage::on_btnWebsiteLogo_pressed()
+{
+    QDesktopServices::openUrl(QUrl("http://mincoin.io"));
 }
