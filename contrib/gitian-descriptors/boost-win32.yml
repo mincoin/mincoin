@@ -62,5 +62,5 @@ script: |
   cd "$INSTALLPREFIX"
   export LD_PRELOAD=/usr/lib/faketime/libfaketime.so.1
   export FAKETIME=$REFERENCE_DATETIME
-  zip -r boost-win32-1.55.0-gitian-r6.zip *
-  cp boost-win32-1.55.0-gitian-r6.zip $OUTDIR
+  zip -r boost-win32-1.55.0-gitian.zip *
+  cp boost-win32-1.55.0-gitian.zip $OUTDIR

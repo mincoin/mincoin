@@ -1,4 +1,4 @@
-Mincoin 0.8.x BETA
+Mincoin 0.8.7.5
 
 Copyright (c) 2009-2017 Bitcoin Developers
 Copyright (c) 2013-2017 Mincoin Developers

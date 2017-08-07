@@ -1,12 +1,11 @@
 ---
 name: "mincoin"
 suites:
-- "lucid"
+- "precise"
 architectures:
 - "i386"
 - "amd64"
 packages: 
-- "libdb4.8++-dev"
 - "qt4-qmake"
 - "libqt4-dev"
 - "libboost-system-dev"
@@ -23,26 +22,36 @@ remotes:
 - "url": "https://github.com/mincoin-project/mincoin.git"
   "dir": "mincoin"
 files:
-- "miniupnpc-1.9.20140401.tar.gz"
-- "qrencode-3.4.3.tar.bz2"
+- "miniupnpc-1.9.20160209.tar.gz"
+- "qrencode-3.4.4.tar.bz2"
+- "db-5.3.28.NC.tar.gz"
 script: |
   INSTDIR="$HOME/install"
   export LIBRARY_PATH="$INSTDIR/lib"
   # Integrity Check
-  echo "d02670112125300f7a3d61421714d99105edd90190bf12542d16785f16f017aa  miniupnpc-1.9.20140401.tar.gz"   | sha256sum -c
-  echo "dfd71487513c871bad485806bfd1fdb304dedc84d2b01a8fb8e0940b50597a98  qrencode-3.4.3.tar.bz2" | sha256sum -c
+  echo "572171eacc1d72537ce47b6f4571260757ab7bcfdaf54c3a55c7f88594d94b6f  miniupnpc-1.9.20160209.tar.gz"   | sha256sum -c
+  echo "efe5188b1ddbcbf98763b819b146be6a90481aac30cfc8d858ab78a19cde1fa5  qrencode-3.4.4.tar.bz2" | sha256sum -c
+  echo "76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013ef  db-5.3.28.NC.tar.gz" | sha256sum -c
 
   #
-  tar xzf miniupnpc-1.9.20140401.tar.gz
-  cd miniupnpc-1.9.20140401
+  tar xzf miniupnpc-1.9.20160209.tar.gz
+  cd miniupnpc-1.9.20160209
   INSTALLPREFIX=$INSTDIR make $MAKEOPTS install
   cd ..
   #
-  tar xjf qrencode-3.4.3.tar.bz2
-  cd qrencode-3.4.3
+  tar xjf qrencode-3.4.4.tar.bz2
+  cd qrencode-3.4.4
   ./configure --prefix=$INSTDIR --enable-static --disable-shared
   make $MAKEOPTS install
   cd ..
+  #
+  tar xzf db-5.3.28.NC.tar.gz
+  cd db-5.3.28.NC/build_unix
+  #   need --with-pic to avoid relocation error in 64 bit builds
+  ../dist/configure --prefix=$INSTDIR --enable-cxx --disable-shared --with-pic
+  make $MAKEOPTS library_build
+  make install_lib install_include
+  cd ../..
   #
   cd mincoin
   mkdir -p $OUTDIR/src

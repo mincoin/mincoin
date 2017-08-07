@@ -1,4 +1,4 @@
-Mincoin 0.8.x BETA
+Mincoin 0.8.7.5
 ====================
 
 Copyright (c) 2009-2017 Bitcoin Developers
@@ -30,7 +30,7 @@ Unpack the files into a directory and run:
 - bin/64/mincoin-qt (GUI, 64-bit)
 - bin/64/mincoind (headless, 64-bit)
 
-See the documentation at the [Mincoin Forums](http://mincoinforum.com)
+See the documentation at the [Mincoin Forum](http://mincoinforum.com)
 for help and more information.
 
 

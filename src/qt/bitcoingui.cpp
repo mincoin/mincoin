@@ -83,9 +83,6 @@ BitcoinGUI::BitcoinGUI(QWidget *parent) :
     QString guiStyleSheet = QLatin1String(file.readAll());
     qApp->setStyleSheet(guiStyleSheet);
 
-    // Set the style of the Qt app explicitly: (options: "windows", "fusion", "windowsxp", or "macintosh")
-    QApplication::setStyle("fusion");
-
     // Create wallet frame and make it the central widget
     walletFrame = new WalletFrame(this);
     setCentralWidget(walletFrame);
@@ -637,19 +634,24 @@ void BitcoinGUI::message(const QString &title, const QString &message, unsigned 
 
     QString msgType;
 
-    // Prefer style based title
-    switch (style) {
-    case CClientUIInterface::MSG_ERROR:
-        msgType = tr("Error");
-        break;
-    case CClientUIInterface::MSG_WARNING:
-        msgType = tr("Warning");
-        break;
-    case CClientUIInterface::MSG_INFORMATION:
-        msgType = tr("Information");
-        break;
-    default:
+    // Prefer supplied title over style based title
+    if (!title.isEmpty()) {
         msgType = title;
+    }
+    else {
+        switch (style) {
+        case CClientUIInterface::MSG_ERROR:
+            msgType = tr("Error");
+            break;
+        case CClientUIInterface::MSG_WARNING:
+            msgType = tr("Warning");
+            break;
+        case CClientUIInterface::MSG_INFORMATION:
+            msgType = tr("Information");
+            break;
+        default:
+            break;
+        }
     }
     // Append title to "Mincoin - "
     if (!msgType.isEmpty())
