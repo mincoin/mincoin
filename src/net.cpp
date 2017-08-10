@@ -1177,8 +1177,8 @@ void MapPort(bool)
 // The first name is used as information source for addrman.
 // The second name should resolve to a list of seed addresses.
 static const char *strMainNetDNSSeed[][2] = {
-    {"mincointools.com", "dnsseed.mincointools.com"},
-    {"mincoinpool.org", "dnsseed.mincoinpool.org"},
+    {"mincointools.com", "seed.mincointools.com"},
+    {"mincoinpool.org", "seed.mincoinpool.org"},
     {NULL, NULL}
 };
 
@@ -1231,11 +1231,7 @@ void ThreadDNSAddressSeed()
 
 
 
-unsigned int pnSeed[] =
-{
-    0xab4d7eac, 0xd2c031b2, 0x051fd768, 0x8ed2b234, 0x0134ac34, 0x75414d2d, 0xe870ef47, 0x89a6202d,
-    0xdfd38268, 0x5c80a28b
-};
+unsigned int pnSeed[] = {};
 
 void DumpAddresses()
 {
@@ -1244,7 +1240,7 @@ void DumpAddresses()
     CAddrDB adb;
     adb.Write(addrman);
 
-    printf("Flushed %d addresses to peers.dat  %"PRI64d"ms\n",
+    printf("Flushed %d addresses to peers.dat  %" PRI64d"ms\n",
            addrman.size(), GetTimeMillis() - nStart);
 }
 
