@@ -1,4 +1,4 @@
-Mincoin 0.8.7.5
+Mincoin 0.8.7.6
 
 Copyright (c) 2009-2017 Bitcoin Developers
 Copyright (c) 2013-2017 Mincoin Developers
@@ -16,6 +16,15 @@ completely decentralized, without the need for a central server or trusted
 parties.  Users hold the crypto keys to their own money and transact directly
 with each other, with the help of a P2P network to check for double-spending.
 
+ - Bitcoin Talk (https://bitcointalk.org/index.php?topic=165397.new)
+ - Facebook (https://www.facebook.com/mincoin.us/)
+ - freenode #mincoin (http://webchat.freenode.net/?channels=#mincoin)
+ - GitHub (https://github.com/mincoin-project/mincoin)
+ - Mincoin Forum (http://mincoinforum.com/)
+ - Official Website (https://www.mincoin.us/)
+ - Reddit (https://www.reddit.com/r/MinCoin/)
+ - Twitter @MinCoinus @mincoinio @Mincointeam
+ - YouTube (https://www.youtube.com/channel/UCx2iIh_Xuu8gZUWYwflWF-A)
 
 Setup
 -----

@@ -25,6 +25,13 @@ class CNode;
 
 struct CBlockIndexWorkComparator;
 
+// Define difficulty retarget algorithms
+enum DiffMode {
+    DIFF_CLASSIC_MNC	= 1, // Retarget every 720 blocks (Classic Mincoin style)
+    DIFF_MNC		= 2, // Retarget every 60 blocks (Mincoin style)
+    DIFF_DGW		= 3, // Retarget using Dark Gravity Wave v3
+};
+
 /** The maximum allowed size for a serialized block, in bytes (network rule) */
 static const unsigned int MAX_BLOCK_SIZE = 1000000;                      // 1000KB block hard limit
 /** Obsolete: maximum size for mined blocks */

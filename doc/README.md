@@ -1,4 +1,4 @@
-Mincoin 0.8.7.5
+Mincoin 0.8.7.6
 ====================
 
 Copyright (c) 2009-2017 Bitcoin Developers

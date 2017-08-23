@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2017 The Bitcoin developers
+// Copyright (c) 2013-2017 The Mincoin developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -1103,9 +1104,11 @@ int64 static GetBlockValue(int nHeight, int64 nFees)
     return nSubsidy + nFees;
 }
 
-static int64 nTargetTimespan = 12 * 60 * 60; // Mincoin: 12 hours
-static int64 nTargetSpacing = 60; // Mincoin: 60 seconds
-static int64 nInterval = nTargetTimespan / nTargetSpacing;
+static const int64 nTargetTimespan = 12 * 60 * 60; // Mincoin: 12 hours
+static const int64 nTargetSpacing = 60; // Mincoin: 60 seconds
+static const int64 nInterval = nTargetTimespan / nTargetSpacing;
+static const int64 nTargetTimespan2Q13 = 60 * 60; // Mincoin: 60 minutes
+static const int64 nInterval2Q13 = nTargetTimespan2Q13 / nTargetSpacing;
 
 //
 // minimum amount of work that could possibly be required nTime after
@@ -1132,7 +1135,7 @@ unsigned int ComputeMinWork(unsigned int nBase, int64 nTime)
     return bnResult.GetCompact();
 }
 
-unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
+unsigned int static GetNextWorkRequiredMincoin(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
 {
     unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
 
@@ -1140,20 +1143,13 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     if (pindexLast == NULL)
         return nProofOfWorkLimit;
 
-    if(pindexLast->nHeight >= 74999)
-    {
-        nTargetTimespan = 60 * 60; // Mincoin: 60 minutes
-        nTargetSpacing = 60; // Mincoin: 60 seconds
-        nInterval = nTargetTimespan / nTargetSpacing;
-    }
-
     // Only change once per interval
-    if ((pindexLast->nHeight+1) % nInterval != 0)
+    if ((pindexLast->nHeight+1) % nInterval2Q13 != 0)
     {
         // Special difficulty rule for testnet:
         if (fTestNet)
         {
-            // If the new block's timestamp is more than 2* 10 minutes
+            // If the new block's timestamp is more than 2 minutes
             // then allow mining of a min-difficulty block.
             if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
                 return nProofOfWorkLimit;
@@ -1161,7 +1157,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
             {
                 // Return the last non-special-min-difficulty-rules-block
                 const CBlockIndex* pindex = pindexLast;
-                while (pindex->pprev && pindex->nHeight % nInterval != 0 && pindex->nBits == nProofOfWorkLimit)
+                while (pindex->pprev && pindex->nHeight % nInterval2Q13 != 0 && pindex->nBits == nProofOfWorkLimit)
                     pindex = pindex->pprev;
                 return pindex->nBits;
             }
@@ -1172,11 +1168,11 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
 
     // Mincoin: This fixes an issue where a 51% attack can change difficulty at will.
     // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
-    int blockstogoback = nInterval-1;
-    if ((pindexLast->nHeight+1) != nInterval)
-        blockstogoback = nInterval;
+    int blockstogoback = nInterval2Q13-1;
+    if ((pindexLast->nHeight+1) != nInterval2Q13)
+        blockstogoback = nInterval2Q13;
 
-    // Go back by what we want to be 14 days worth of blocks
+    // Go back by what we want to be 60 minutes worth of blocks
     const CBlockIndex* pindexFirst = pindexLast;
     for (int i = 0; pindexFirst && i < blockstogoback; i++)
         pindexFirst = pindexFirst->pprev;
@@ -1185,37 +1181,204 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
     // Limit adjustment step
     int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
     printf("  nActualTimespan = %" PRI64d"  before bounds\n", nActualTimespan);
-    if(pindexLast->nHeight < 74999)
-    {
-        if (nActualTimespan < nTargetTimespan/4)
-            nActualTimespan = nTargetTimespan/4;
-        if (nActualTimespan > nTargetTimespan*4)
-            nActualTimespan = nTargetTimespan*4;
-    }
-    else
-    {
-        if (nActualTimespan < nTargetTimespan/2)
-            nActualTimespan = nTargetTimespan/2;
-        if (nActualTimespan > nTargetTimespan*8)
-            nActualTimespan = nTargetTimespan*8;
-    }
+    if (nActualTimespan < nTargetTimespan2Q13/2)
+        nActualTimespan = nTargetTimespan2Q13/2;
+    if (nActualTimespan > nTargetTimespan2Q13*8)
+        nActualTimespan = nTargetTimespan2Q13*8;
 
     // Retarget
     CBigNum bnNew;
     bnNew.SetCompact(pindexLast->nBits);
     bnNew *= nActualTimespan;
-    bnNew /= nTargetTimespan;
+    bnNew /= nTargetTimespan2Q13;
 
     if (bnNew > bnProofOfWorkLimit)
         bnNew = bnProofOfWorkLimit;
 
     /// debug print
     printf("GetNextWorkRequired RETARGET\n");
-    printf("nTargetTimespan = %" PRI64d"    nActualTimespan = %" PRI64d"\n", nTargetTimespan, nActualTimespan);
+    printf("nTargetTimespan = %" PRI64d"    nActualTimespan = %" PRI64d"\n", nTargetTimespan2Q13, nActualTimespan);
     printf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString().c_str());
     printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
 
     return bnNew.GetCompact();
+}
+
+unsigned int static DarkGravityWave3(const CBlockIndex* pindexLast, const CBlockHeader *pblock) {
+    // Credits
+    //
+    // This application uses Open Source components. You can find the source
+    // code of the open source project along with license information below.
+    // We acknowledge and are grateful to these developers for their
+    // contributions to open source.
+    //
+    // Project: Dash Core https://github.com/dashpay/dash
+    // Copyright (c) 2014-2017 The Dash Core developers
+    // License (MIT) https://github.com/dashpay/dash/blob/master/COPYING
+
+    /* current difficulty formula, dash - DarkGravity v3, written by Evan Duffield - evan@dash.org */
+    const CBlockIndex *BlockLastSolved = pindexLast;
+    const CBlockIndex *BlockReading = pindexLast;
+    int64_t nActualTimespan = 0;
+    int64_t LastBlockTime = 0;
+    int64_t PastBlocksMin = 60; // Mincoin: look-back 60 minutes
+    int64_t PastBlocksMax = 60; // Mincoin: look-back 60 minutes
+    int64_t CountBlocks = 0;
+    CBigNum PastDifficultyAverage;
+    CBigNum PastDifficultyAveragePrev;
+
+
+    if (BlockLastSolved == NULL || BlockLastSolved->nHeight == 0 || BlockLastSolved->nHeight < PastBlocksMin) {
+        return bnProofOfWorkLimit.GetCompact();
+    }
+
+
+    for (unsigned int i = 1; BlockReading && BlockReading->nHeight > 0; i++) {
+        if (PastBlocksMax > 0 && i > PastBlocksMax) { break; }
+        CountBlocks++;
+
+
+        if(CountBlocks <= PastBlocksMin) {
+            if (CountBlocks == 1) { PastDifficultyAverage.SetCompact(BlockReading->nBits); }
+            else { PastDifficultyAverage = ((PastDifficultyAveragePrev * CountBlocks) + (CBigNum().SetCompact(BlockReading->nBits))) / (CountBlocks + 1); }
+            PastDifficultyAveragePrev = PastDifficultyAverage;
+        }
+
+
+        if(LastBlockTime > 0){
+            int64_t Diff = (LastBlockTime - BlockReading->GetBlockTime());
+            nActualTimespan += Diff;
+        }
+        LastBlockTime = BlockReading->GetBlockTime();
+
+
+        if (BlockReading->pprev == NULL) { assert(BlockReading); break; }
+        BlockReading = BlockReading->pprev;
+    }
+
+
+    CBigNum bnNew(PastDifficultyAverage);
+
+
+    int64_t _nTargetTimespan = CountBlocks * nTargetSpacing;
+
+
+    if (nActualTimespan < _nTargetTimespan/3)
+        nActualTimespan = _nTargetTimespan/3;
+    if (nActualTimespan > _nTargetTimespan*3)
+        nActualTimespan = _nTargetTimespan*3;
+
+
+    // Retarget
+    bnNew *= nActualTimespan;
+    bnNew /= _nTargetTimespan;
+
+
+    if (bnNew > bnProofOfWorkLimit){
+        bnNew = bnProofOfWorkLimit;
+    }
+
+
+    return bnNew.GetCompact();
+}
+
+unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHeader *pblock)
+{
+    unsigned int retarget;
+
+    if (fTestNet) {
+        if (pindexLast->nHeight + 1 >= 12240) {
+            retarget = DIFF_DGW;
+        } else {
+            retarget = DIFF_CLASSIC_MNC;
+        }
+    } else {
+/**
+        if (pindexLast->nHeight + 1 >= 1424400) {
+            retarget = DIFF_DGW;
+        } else if (pindexLast->nHeight + 1 >= 75000) {
+**/
+        if (pindexLast->nHeight + 1 >= 75000) {
+            retarget = DIFF_MNC;
+        } else {
+            retarget = DIFF_CLASSIC_MNC;
+        }
+    }
+
+    if (retarget == DIFF_DGW) {
+        // Retarget using Dark Gravity Wave 3
+        return DarkGravityWave3(pindexLast, pblock);
+    } else if (retarget == DIFF_MNC) {
+        // Retarget using Mincoin style retargeting
+        return GetNextWorkRequiredMincoin(pindexLast, pblock);
+    } else  {
+        // Retarget using Classic Mincoin style retargeting
+        unsigned int nProofOfWorkLimit = bnProofOfWorkLimit.GetCompact();
+
+        // Genesis block
+        if (pindexLast == NULL)
+            return nProofOfWorkLimit;
+
+        // Only change once per interval
+        if ((pindexLast->nHeight+1) % nInterval != 0)
+        {
+            // Special difficulty rule for testnet:
+            if (fTestNet)
+            {
+                // If the new block's timestamp is more than 2 minutes
+                // then allow mining of a min-difficulty block.
+                if (pblock->nTime > pindexLast->nTime + nTargetSpacing*2)
+                    return nProofOfWorkLimit;
+                else
+                {
+                    // Return the last non-special-min-difficulty-rules-block
+                    const CBlockIndex* pindex = pindexLast;
+                    while (pindex->pprev && pindex->nHeight % nInterval != 0 && pindex->nBits == nProofOfWorkLimit)
+                        pindex = pindex->pprev;
+                    return pindex->nBits;
+                }
+            }
+
+            return pindexLast->nBits;
+        }
+
+        // Mincoin: This fixes an issue where a 51% attack can change difficulty at will.
+        // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
+        int blockstogoback = nInterval-1;
+        if ((pindexLast->nHeight+1) != nInterval)
+            blockstogoback = nInterval;
+
+        // Go back by what we want to be 12 hours worth of blocks
+        const CBlockIndex* pindexFirst = pindexLast;
+        for (int i = 0; pindexFirst && i < blockstogoback; i++)
+            pindexFirst = pindexFirst->pprev;
+        assert(pindexFirst);
+
+        // Limit adjustment step
+        int64 nActualTimespan = pindexLast->GetBlockTime() - pindexFirst->GetBlockTime();
+        printf("  nActualTimespan = %" PRI64d"  before bounds\n", nActualTimespan);
+        if (nActualTimespan < nTargetTimespan/4)
+            nActualTimespan = nTargetTimespan/4;
+        if (nActualTimespan > nTargetTimespan*4)
+            nActualTimespan = nTargetTimespan*4;
+
+        // Retarget
+        CBigNum bnNew;
+        bnNew.SetCompact(pindexLast->nBits);
+        bnNew *= nActualTimespan;
+        bnNew /= nTargetTimespan;
+
+        if (bnNew > bnProofOfWorkLimit)
+            bnNew = bnProofOfWorkLimit;
+
+        /// debug print
+        printf("GetNextWorkRequired RETARGET\n");
+        printf("nTargetTimespan = %" PRI64d"    nActualTimespan = %" PRI64d"\n", nTargetTimespan, nActualTimespan);
+        printf("Before: %08x  %s\n", pindexLast->nBits, CBigNum().SetCompact(pindexLast->nBits).getuint256().ToString().c_str());
+        printf("After:  %08x  %s\n", bnNew.GetCompact(), bnNew.getuint256().ToString().c_str());
+
+        return bnNew.GetCompact();
+    }
 }
 
 bool CheckProofOfWork(uint256 hash, unsigned int nBits)

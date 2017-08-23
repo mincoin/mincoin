@@ -1,3 +1,12 @@
+0.8.7.6 changes
+=============
+- Dark Gravity Wave v3 has been implmented for Mincoin Testnet3 from block 12240 onwards.
+  DGW or Dark Gravity Wave is an open source difficulty-adjusting algorithm that was first used in Darkcoin/Dash.
+  DGW was authored by Evan Duffield, the developer and creator of X11/Darkcoin/Dash, as a response to a time-warp
+  exploit found in Kimoto's Gravity Well. Version 3.0 further improves difficulty re-targeting with smoother
+  transitions. It also fixes issues with various architectures that had different levels of floating-point
+  accuracy through the use of integers.
+
 0.8.7.5 changes
 =============
 - openssl-1.0.1k or older versions patched for CVE-2014-8275 broke compatibility with Bitcoin and Mincoin.
