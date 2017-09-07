@@ -1088,17 +1088,17 @@ uint256 static GetOrphanRoot(const CBlockHeader* pblock)
 
 int64 static GetBlockValue(int nHeight, int64 nFees)
 {
-    if(nHeight < 1440)
+    if (nHeight < 1440)
         return 500 * COIN; // Mincoin: 720K MNC in first day
-    else if(nHeight < 2880)
+    else if (nHeight < 2880)
         return 100 * COIN; // Mincoin: 144K MNC in second day
-    else if(nHeight < 4320)
+    else if (nHeight < 4320)
         return 50 * COIN; // Mincoin: 72K MNC in third day
 
     int64 nSubsidy = 2 * COIN; // Mincoin: 2.88K MNC per day thereafter
 
     // Mincoin: 10M total MNC
-    if(nHeight > 4532000)
+    if (nHeight > 4536544)
         nSubsidy=0;
 
     return nSubsidy + nFees;
