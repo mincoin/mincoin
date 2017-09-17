@@ -14,11 +14,11 @@ Release Process
 
 ###tag version in git
 
-	git tag -s v0.8.7.6
+	git tag -s v0.8.7.7
 
 ###write release notes. git shortlog helps a lot, for example:
 
-	git shortlog --no-merges v0.8.7.5..v0.8.7.6
+	git shortlog --no-merges v0.8.7.6..v0.8.7.7
 
 * * *
 
@@ -27,7 +27,7 @@ Release Process
  From a directory containing the mincoin source, gitian-builder and gitian.sigs
   
 	export SIGNER=(your gitian key, ie bluematt, sipa, etc)
-	export VERSION=0.8.7.6
+	export VERSION=0.8.7.7
 	cd ./gitian-builder
 
  Fetch and build inputs: (first time, or when dependency versions change)
@@ -88,7 +88,7 @@ repackage gitian builds for release as stand-alone zip/tar/installer exe
 **Perform Mac build:**
 
   OSX binaries are created on a dedicated 64-bit, OSX 10.12.6 machine.
-  Mincoin 0.8.7.6 is built with MacPorts.  0.9.x will be Homebrew only.
+  Mincoin 0.8.7.7 is built with MacPorts.  0.9.x will be Homebrew only.
 
 	qmake RELEASE=1 USE_UPNP=1 USE_QRCODE=1
 	make

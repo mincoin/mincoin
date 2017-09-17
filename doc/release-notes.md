@@ -1,3 +1,10 @@
+0.8.7.7 changes
+=============
+- COINBASE_MATURITY has been increased to 280 on Testnet3 from block 13500 onwards.
+  This makes the effective maturity for a newly minted block to be 300.
+  Projected block for Main network hardfork for DGW v3 and Coinbase Maturity set to 1446540,
+  but is inactive and currently commented out in src/main.cpp pending stakeholder testing.
+
 0.8.7.6 changes
 =============
 - Dark Gravity Wave v3 has been implmented for Mincoin Testnet3 from block 12240 onwards.

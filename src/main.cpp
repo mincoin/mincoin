@@ -942,11 +942,29 @@ int CMerkleTx::GetDepthInMainChain(CBlockIndex* &pindexRet) const
     return nResult;
 }
 
+int CMerkleTx::GetHeightInMainChain(CBlockIndex* &pindexRet) const
+{
+    return GetDepthInMainChain(pindexRet) + pindexBest->nHeight - 1;
+}
+
 int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
+    if (fTestNet) {
+        if(GetHeightInMainChain() >= COINBASE_MATURITY_TESTNET_SWITCH)
+            return max(0, (COINBASE_MATURITY_NEW+20) - GetDepthInMainChain());
+        else
+            return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
+    } else {
+/**
+        if(GetHeightInMainChain() >= COINBASE_MATURITY_SWITCH)
+            return max(0, (COINBASE_MATURITY_NEW+20) - GetDepthInMainChain());
+        else
+            return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
+**/
+        return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
+    }
 }
 
 
@@ -1294,7 +1312,7 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
         }
     } else {
 /**
-        if (pindexLast->nHeight + 1 >= 1424400) {
+        if (pindexLast->nHeight + 1 >= 1446540) {
             retarget = DIFF_DGW;
         } else if (pindexLast->nHeight + 1 >= 75000) {
 **/
@@ -1628,7 +1646,17 @@ bool CTransaction::CheckInputs(CValidationState &state, CCoinsViewCache &inputs,
 
             // If prev is coinbase, check that it's matured
             if (coins.IsCoinBase()) {
-                if (nSpendHeight - coins.nHeight < COINBASE_MATURITY)
+                int minDepth = COINBASE_MATURITY;
+                if (fTestNet) {
+                    if (coins.nHeight >= COINBASE_MATURITY_TESTNET_SWITCH)
+                        minDepth = COINBASE_MATURITY_NEW;
+/**
+                } else {
+                    if (coins.nHeight >= COINBASE_MATURITY_SWITCH)
+                        minDepth = COINBASE_MATURITY_NEW;
+**/
+                }
+                if (nSpendHeight - coins.nHeight < minDepth)
                     return state.Invalid(error("CheckInputs() : tried to spend coinbase at depth %d", nSpendHeight - coins.nHeight));
             }
 
