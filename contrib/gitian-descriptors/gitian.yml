@@ -22,20 +22,20 @@ remotes:
 - "url": "https://github.com/mincoin-project/mincoin.git"
   "dir": "mincoin"
 files:
-- "miniupnpc-1.9.20160209.tar.gz"
+- "miniupnpc-2.0.20170509.tar.gz"
 - "qrencode-3.4.4.tar.bz2"
 - "db-5.3.28.NC.tar.gz"
 script: |
   INSTDIR="$HOME/install"
   export LIBRARY_PATH="$INSTDIR/lib"
   # Integrity Check
-  echo "572171eacc1d72537ce47b6f4571260757ab7bcfdaf54c3a55c7f88594d94b6f  miniupnpc-1.9.20160209.tar.gz"   | sha256sum -c
+  echo "d3c368627f5cdfb66d3ebd64ca39ba54d6ff14a61966dbecb8dd296b7039f16a  miniupnpc-2.0.20170509.tar.gz"   | sha256sum -c
   echo "efe5188b1ddbcbf98763b819b146be6a90481aac30cfc8d858ab78a19cde1fa5  qrencode-3.4.4.tar.bz2" | sha256sum -c
   echo "76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013ef  db-5.3.28.NC.tar.gz" | sha256sum -c
 
   #
-  tar xzf miniupnpc-1.9.20160209.tar.gz
-  cd miniupnpc-1.9.20160209
+  tar xzf miniupnpc-2.0.20170509.tar.gz
+  cd miniupnpc-2.0.20170509
   INSTALLPREFIX=$INSTDIR make $MAKEOPTS install
   cd ..
   #
