@@ -16,7 +16,7 @@ remotes: []
 files:
 - "openssl-1.0.2l.tar.gz"
 - "db-5.3.28.NC.tar.gz"
-- "miniupnpc-1.9.20140401.tar.gz"
+- "miniupnpc-2.0.20170509.tar.gz"
 - "zlib-1.2.11.tar.gz"
 - "libpng-1.6.30.tar.gz"
 - "qrencode-3.4.4.tar.bz2"
@@ -30,7 +30,7 @@ script: |
   # Integrity Check
   echo "ce07195b659e75f4e1db43552860070061f156a98bb37b672b101ba6e3ddf30c  openssl-1.0.2l.tar.gz"  | sha256sum -c
   echo "76a25560d9e52a198d37a31440fd07632b5f1f8f9f2b6d5438f4bc3e7c9013ef  db-5.3.28.NC.tar.gz"    | sha256sum -c
-  echo "d02670112125300f7a3d61421714d99105edd90190bf12542d16785f16f017aa  miniupnpc-1.9.20140401.tar.gz"   | sha256sum -c
+  echo "d3c368627f5cdfb66d3ebd64ca39ba54d6ff14a61966dbecb8dd296b7039f16a  miniupnpc-2.0.20170509.tar.gz"   | sha256sum -c
   echo "c3e5e9fdd5004dcb542feda5ee4f0ff0744628baf8ed2dd5d66f8ca1197cb1a1  zlib-1.2.11.tar.gz"      | sha256sum -c
   echo "460ab9211da1dfa5fedbaa2d19ba78ae0b98ad263b9edfc8542ead0f1ca31825  libpng-1.6.30.tar.gz"    | sha256sum -c
   echo "efe5188b1ddbcbf98763b819b146be6a90481aac30cfc8d858ab78a19cde1fa5  qrencode-3.4.4.tar.bz2" | sha256sum -c
@@ -54,21 +54,21 @@ script: |
   make install_lib install_include
   cd ../..
   #
-  tar xzf miniupnpc-1.9.20140401.tar.gz
-  cd miniupnpc-1.9.20140401
+  tar xzf miniupnpc-2.0.20170509.tar.gz
+  cd miniupnpc-2.0.20170509
   echo "
-  --- miniupnpc-1.6/Makefile.mingw.orig   2013-09-29 18:52:51.014087958 -1000
-  +++ miniupnpc-1.6/Makefile.mingw        2013-09-29 19:09:29.663318691 -1000
-  @@ -67,8 +67,8 @@
+  --- miniupnpc-2.0.20170509/Makefile.mingw.orig  2016-01-19 04:26:58.000000000 -0600
+  +++ miniupnpc-2.0.20170509/Makefile.mingw       2017-09-17 02:16:44.656483442 -0500
+  @@ -74,8 +74,8 @@
    
    wingenminiupnpcstrings.o:	wingenminiupnpcstrings.c
    
   -miniupnpcstrings.h: miniupnpcstrings.h.in wingenminiupnpcstrings
   -	wingenminiupnpcstrings \$< \$@
-  +miniupnpcstrings.h: miniupnpcstrings.h.in 
+  +miniupnpcstrings.h: miniupnpcstrings.h.in
   +	sed -e 's|OS/version|MSWindows/5.1.2600|' -e 's|MINIUPNPC_VERSION_STRING \"version\"|MINIUPNPC_VERSION_STRING \"VERSIONHERE\"|' \$< > \$@
    
-   minixml.o:	minixml.c minixml.h miniupnpcstrings.h
+   minixml.o:	minixml.c minixml.h
    
   " | sed "s/VERSIONHERE/$(cat VERSION)/" | patch -p1
   mkdir -p dll
