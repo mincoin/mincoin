@@ -11,10 +11,10 @@
    </rect>
   </property>
   <property name="sizePolicy">
-    <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-    </sizepolicy>
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="minimumSize">
    <size>
@@ -145,7 +145,7 @@
     </font>
    </property>
    <property name="cursor">
-    <cursorShape>IBeamCursor</cursorShape>
+    <cursorShape>ArrowCursor</cursorShape>
    </property>
    <property name="mouseTracking">
     <bool>true</bool>
@@ -172,7 +172,7 @@
     <number>0</number>
    </property>
    <property name="textInteractionFlags">
-    <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    <set>Qt::NoTextInteraction</set>
    </property>
   </widget>
   <widget class="QLabel" name="labelUnconfirmedText">
@@ -217,14 +217,14 @@
    </property>
    <property name="font">
     <font>
-     <family>Droid Sans [unknown]</family>
+     <family>Droid Sans</family>
      <pointsize>12</pointsize>
      <weight>50</weight>
      <bold>false</bold>
     </font>
    </property>
    <property name="cursor">
-    <cursorShape>IBeamCursor</cursorShape>
+    <cursorShape>ArrowCursor</cursorShape>
    </property>
    <property name="mouseTracking">
     <bool>true</bool>
@@ -236,7 +236,7 @@
     <string>Total of transactions that have yet to be confirmed, and do not yet count toward the current balance</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: #FFFFFF;</string>
+    <string notr="true">color: #FFFFFF; border-top: 0px; border-bottom: 0px; border-right: 0px; border-left: 0px; border-radius: 0px;</string>
    </property>
    <property name="text">
     <string notr="true">0.00000000 MNC</string>
@@ -248,7 +248,7 @@
     <number>0</number>
    </property>
    <property name="textInteractionFlags">
-    <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    <set>Qt::NoTextInteraction</set>
    </property>
   </widget>
   <widget class="QLabel" name="labelImmatureText">
@@ -300,7 +300,7 @@
     </font>
    </property>
    <property name="cursor">
-    <cursorShape>IBeamCursor</cursorShape>
+    <cursorShape>ArrowCursor</cursorShape>
    </property>
    <property name="mouseTracking">
     <bool>true</bool>
@@ -312,7 +312,7 @@
     <string>Mined balance that has not yet matured</string>
    </property>
    <property name="styleSheet">
-    <string notr="true">color: #FFFFFF;</string>
+    <string notr="true">color: #FFFFFF; border-top: 0px; border-bottom: 0px; border-right: 0px; border-left: 0px; border-radius: 0px;</string>
    </property>
    <property name="text">
     <string notr="true">0.00000000 MNC</string>
@@ -324,7 +324,7 @@
     <number>0</number>
    </property>
    <property name="textInteractionFlags">
-    <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+    <set>Qt::NoTextInteraction</set>
    </property>
   </widget>
   <widget class="QLabel" name="labelBackgroundImage">
