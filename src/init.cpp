@@ -332,7 +332,7 @@ std::string HelpMessage()
 #endif
 #endif
         "  -paytxfee=<amt>        " + _("Fee per KB to add to transactions you send") + "\n" +
-        "  -mininput=<amt>        " + _("When creating transactions, ignore inputs with value less than this (default: 0.0001)") + "\n" +
+        "  -mininput=<amt>        " + _("When creating transactions, ignore inputs with value less than this (default: 0.000025)") + "\n" +
 #ifdef QT_GUI
         "  -server                " + _("Accept command line and JSON-RPC commands") + "\n" +
 #endif
@@ -368,14 +368,14 @@ std::string HelpMessage()
         "  -checklevel=<n>        " + _("How thorough the block verification is (0-4, default: 3)") + "\n" +
         "  -txindex               " + _("Maintain a full transaction index (default: 0)") + "\n" +
         "  -loadblock=<file>      " + _("Imports blocks from external blk000??.dat file") + "\n" +
-        "  -maxorphantx=<n>       " + _("Keep at most <n> unconnectable transactions in memory (default: 25)") + "\n" +
+        "  -maxorphantx=<n>       " + _("Keep at most <n> unconnectable transactions in memory (default: 1500)") + "\n" +
         "  -reindex               " + _("Rebuild block chain index from current blk000??.dat files") + "\n" +
         "  -par=<n>               " + _("Set the number of script verification threads (up to 16, 0 = auto, <0 = leave that many cores free, default: 0)") + "\n" +
 
         "\n" + _("Block creation options:") + "\n" +
         "  -blockminsize=<n>      "   + _("Set minimum block size in bytes (default: 0)") + "\n" +
-        "  -blockmaxsize=<n>      "   + _("Set maximum block size in bytes (default: 250000)") + "\n" +
-        "  -blockprioritysize=<n> "   + _("Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)") + "\n" +
+        "  -blockmaxsize=<n>      "   + _("Set maximum block size in bytes (default: 500000)") + "\n" +
+        "  -blockprioritysize=<n> "   + _("Set maximum size of high-priority/low-fee transactions in bytes (default: 64000)") + "\n" +
 
         "\n" + _("SSL options: (see the Mincoin Wiki for SSL setup instructions)") + "\n" +
         "  -rpcssl                                  " + _("Use OpenSSL (https) for JSON-RPC connections") + "\n" +

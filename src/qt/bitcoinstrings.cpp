@@ -55,7 +55,7 @@ QT_TRANSLATE_NOOP("mincoin-core", ""
 "86400)"),
 QT_TRANSLATE_NOOP("mincoin-core", ""
 "Set maximum size of high-priority/low-fee transactions in bytes (default: "
-"27000)"),
+"64000)"),
 QT_TRANSLATE_NOOP("mincoin-core", ""
 "Set the number of script verification threads (up to 16, 0 = auto, <0 = "
 "leave that many cores free, default: 0)"),
@@ -172,7 +172,7 @@ QT_TRANSLATE_NOOP("mincoin-core", "Server certificate file (default: server.cert
 QT_TRANSLATE_NOOP("mincoin-core", "Server private key (default: server.pem)"),
 QT_TRANSLATE_NOOP("mincoin-core", "Set database cache size in megabytes (default: 25)"),
 QT_TRANSLATE_NOOP("mincoin-core", "Set key pool size to <n> (default: 100)"),
-QT_TRANSLATE_NOOP("mincoin-core", "Set maximum block size in bytes (default: 250000)"),
+QT_TRANSLATE_NOOP("mincoin-core", "Set maximum block size in bytes (default: 500000)"),
 QT_TRANSLATE_NOOP("mincoin-core", "Set minimum block size in bytes (default: 0)"),
 QT_TRANSLATE_NOOP("mincoin-core", "Set the number of threads to service RPC calls (default: 4)"),
 QT_TRANSLATE_NOOP("mincoin-core", "Shrink debug.log file on client startup (default: 1 when no -debug)"),

@@ -2357,8 +2357,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta Mincoin&quot; admin@foo
     </message>
     <message>
         <location line="+11"/>
-        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
-        <translation>Definir tamanho máximo de transações de alta-/baixa-prioridade em bytes (por defeito: 27000)</translation>
+        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 64000)</source>
+        <translation>Definir tamanho máximo de transações de alta-/baixa-prioridade em bytes (por defeito: 64000)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2647,8 +2647,8 @@ por exemplo: alertnotify=echo %%s | mail -s &quot;Alerta Mincoin&quot; admin@foo
     </message>
     <message>
         <location line="+5"/>
-        <source>Set maximum block size in bytes (default: 250000)</source>
-        <translation>Definir tamanho máximo de um bloco em bytes (por defeito: 250000)</translation>
+        <source>Set maximum block size in bytes (default: 500000)</source>
+        <translation>Definir tamanho máximo de um bloco em bytes (por defeito: 500000)</translation>
     </message>
     <message>
         <location line="+1"/>

@@ -2357,8 +2357,8 @@ For eksempel: varselmelding=echo %%s | mail -s &quot;Mincoin varsel&quot; admin@
     </message>
     <message>
         <location line="+11"/>
-        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
-        <translation>Sett maks størrelse for transaksjoner med høy prioritet / lavt gebyr, i bytes (standardverdi: 27000)</translation>
+        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 64000)</source>
+        <translation>Sett maks størrelse for transaksjoner med høy prioritet / lavt gebyr, i bytes (standardverdi: 64000)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2647,8 +2647,8 @@ For eksempel: varselmelding=echo %%s | mail -s &quot;Mincoin varsel&quot; admin@
     </message>
     <message>
         <location line="+5"/>
-        <source>Set maximum block size in bytes (default: 250000)</source>
-        <translation>Sett maks blokkstørrelse i bytes (standardverdi: 250000)</translation>
+        <source>Set maximum block size in bytes (default: 500000)</source>
+        <translation>Sett maks blokkstørrelse i bytes (standardverdi: 500000)</translation>
     </message>
     <message>
         <location line="+1"/>

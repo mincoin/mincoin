@@ -2367,8 +2367,8 @@ alertnotify=echo %%s | mail -s &quot;Mincoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+11"/>
-        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
-        <translation>設定高優先權或低手續費的交易資料大小上限為多少位元組 (預設: 27000)</translation>
+        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 64000)</source>
+        <translation>設定高優先權或低手續費的交易資料大小上限為多少位元組 (預設: 64000)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2657,8 +2657,8 @@ alertnotify=echo %%s | mail -s &quot;Mincoin Alert&quot; admin@foo.com
     </message>
     <message>
         <location line="+5"/>
-        <source>Set maximum block size in bytes (default: 250000)</source>
-        <translation>設定區塊大小上限為多少位元組 (預設: 250000)</translation>
+        <source>Set maximum block size in bytes (default: 500000)</source>
+        <translation>設定區塊大小上限為多少位元組 (預設: 500000)</translation>
     </message>
     <message>
         <location line="+1"/>

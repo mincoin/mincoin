@@ -2358,8 +2358,8 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+11"/>
-        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 27000)</source>
-        <translation>Максимальный размер высокоприоритетных/низкокомиссионных транзакций в байтах (по умолчанию: 27000)</translation>
+        <source>Set maximum size of high-priority/low-fee transactions in bytes (default: 64000)</source>
+        <translation>Максимальный размер высокоприоритетных/низкокомиссионных транзакций в байтах (по умолчанию: 64000)</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -2649,8 +2649,8 @@ rpcpassword=%s
     </message>
     <message>
         <location line="+5"/>
-        <source>Set maximum block size in bytes (default: 250000)</source>
-        <translation>Максимальный размер блока в байтах (по умолчанию: 250000)</translation>
+        <source>Set maximum block size in bytes (default: 500000)</source>
+        <translation>Максимальный размер блока в байтах (по умолчанию: 500000)</translation>
     </message>
     <message>
         <location line="+1"/>
