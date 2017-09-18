@@ -1,3 +1,16 @@
+0.8.8.0 changes
+=============
+- Enable Dark Gravity Wave v3 on Mainnet from block 1452840 onwards.
+- Mined Mincoins fully mature at 300 confirmations on Mainnet from block 1452840 onwards.
+- Fees smaller than 50 Micro-Mincoins are considered zero fee for both transaction creation and relaying.
+- blockmaxsize: maximum size for mined blocks defaults to 500kB
+- blockprioritysize: maximum space for zero/low-fee transactions defaults to 64kB
+- maxorphantx: maximum number of orphan transactions kept in memory defaults to 1500
+- mininput: ignore inputs with value less than 25 Micro-Mincoins by default
+- dust: 75 Micro-Mincoins or less allowed with additional fee per output
+- update PnSeed array
+- update checkpoints
+
 0.8.7.7 changes
 =============
 - COINBASE_MATURITY has been increased to 280 on Testnet3 from block 13500 onwards.

@@ -9,11 +9,11 @@ Copyright (c) 2013-2017 Mincoin Developers
 What is Mincoin?
 ----------------
 
-Mincoin is a nominal version of Bitcoin using scrypt as a proof-of-work algorithm.
+Mincoin is a fast version of Bitcoin using scrypt as a proof-of-work algorithm.
  - 1 minute block targets for ultra fast transactions
  - Only 10 million total coins will be generated
  - 2 coins per block
- - 60 blocks to retarget difficulty
+ - SplashGuard retargets difficulty after every block
 
 For more information, as well as an immediately useable, binary version of
 the Mincoin client sofware, see http://www.mincoin.io.

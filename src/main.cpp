@@ -957,13 +957,10 @@ int CMerkleTx::GetBlocksToMaturity() const
         else
             return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
     } else {
-/**
         if(GetHeightInMainChain() >= COINBASE_MATURITY_SWITCH)
             return max(0, (COINBASE_MATURITY_NEW+20) - GetDepthInMainChain());
         else
             return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
-**/
-        return max(0, (COINBASE_MATURITY+20) - GetDepthInMainChain());
     }
 }
 
@@ -1311,12 +1308,9 @@ unsigned int static GetNextWorkRequired(const CBlockIndex* pindexLast, const CBl
             retarget = DIFF_CLASSIC_MNC;
         }
     } else {
-/**
-        if (pindexLast->nHeight + 1 >= 1446540) {
+        if (pindexLast->nHeight + 1 >= 1452840) {
             retarget = DIFF_DGW;
         } else if (pindexLast->nHeight + 1 >= 75000) {
-**/
-        if (pindexLast->nHeight + 1 >= 75000) {
             retarget = DIFF_MNC;
         } else {
             retarget = DIFF_CLASSIC_MNC;

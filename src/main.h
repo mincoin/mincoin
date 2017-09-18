@@ -68,7 +68,7 @@ static const int COINBASE_MATURITY_NEW = 280;
 /** Block at which COINBASE_MATURITY_NEW comes into effect on Testnet3 **/
 static const int COINBASE_MATURITY_TESTNET_SWITCH = 13500;
 /** Block at which COINBASE_MATURITY_NEW comes into effect **/
-static const int COINBASE_MATURITY_SWITCH = 1446540;
+static const int COINBASE_MATURITY_SWITCH = 1452840;
 /** Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp. */
 static const unsigned int LOCKTIME_THRESHOLD = 500000000; // Tue Nov  5 00:53:20 1985 UTC
 /** Maximum number of script-checking threads allowed */

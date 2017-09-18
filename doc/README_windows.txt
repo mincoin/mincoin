@@ -1,4 +1,4 @@
-Mincoin 0.8.7.7
+Mincoin 0.8.8.0
 
 Copyright (c) 2009-2017 Bitcoin Developers
 Copyright (c) 2013-2017 Mincoin Developers
@@ -21,9 +21,10 @@ with each other, with the help of a P2P network to check for double-spending.
  - freenode #mincoin (http://webchat.freenode.net/?channels=#mincoin)
  - GitHub (https://github.com/mincoin-project/mincoin)
  - Mincoin Forum (http://mincoinforum.com/)
+ - Mincoin Forum on Facebook (https://www.facebook.com/mincoinforum/)
  - Official Website (https://www.mincoin.us/)
  - Reddit (https://www.reddit.com/r/MinCoin/)
- - Twitter @MinCoinus @mincoinio @Mincointeam
+ - Twitter @MinCoinForum @MinCoinus @mincoinio @Mincointeam @MinCoinProject
  - YouTube (https://www.youtube.com/channel/UCx2iIh_Xuu8gZUWYwflWF-A)
 
 Setup
