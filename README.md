@@ -1,7 +1,7 @@
 Mincoin integration/staging tree
 ================================
 
-http://www.mincoin.io
+https://www.mincoin.us
 
 Copyright (c) 2009-2017 Bitcoin Developers
 Copyright (c) 2013-2017 Mincoin Developers
@@ -16,7 +16,7 @@ Mincoin is a fast version of Bitcoin using scrypt as a proof-of-work algorithm.
  - SplashGuard retargets difficulty after every block
 
 For more information, as well as an immediately useable, binary version of
-the Mincoin client sofware, see http://www.mincoin.io.
+the Mincoin client sofware, see https://www.mincoin.us.
 
 License
 -------
