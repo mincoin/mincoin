@@ -3,8 +3,8 @@ Mincoin integration/staging tree
 
 https://www.mincoin.us
 
-Copyright (c) 2009-2017 Bitcoin Developers
-Copyright (c) 2013-2017 Mincoin Developers
+Copyright (c) 2009-2018 Bitcoin Developers
+Copyright (c) 2013-2018 Mincoin Developers
 
 What is Mincoin?
 ----------------
