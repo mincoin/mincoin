@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Mincoin
+Comment=Mincoin P2P Cryptocurrency
+Comment[fr]=Mincoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=Mincoin, eşten eşe kriptografik sanal para birimi
+Exec=mincoin-qt %u
+Terminal=false
+Type=Application
+Icon=mincoin128
+MimeType=x-scheme-handler/mincoin;
+Categories=Office;Finance;

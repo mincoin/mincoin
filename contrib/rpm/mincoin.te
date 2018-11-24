@@ -1,0 +1,81 @@
+policy_module(mincoin, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type mincoin_t;
+type mincoin_exec_t;
+init_daemon_domain(mincoin_t, mincoin_exec_t)
+
+permissive mincoin_t;
+
+type mincoin_initrc_exec_t;
+init_script_file(mincoin_initrc_exec_t)
+
+type mincoin_conf_t;
+files_type(mincoin_conf_t)
+
+type mincoin_var_lib_t;
+files_type(mincoin_var_lib_t)
+
+type mincoin_var_run_t;
+files_type(mincoin_var_run_t)
+
+type mincoin_port_t;
+corenet_port(mincoin_port_t)
+
+########################################
+#
+# mincoin local policy
+#
+allow mincoin_t self:process { fork };
+
+allow mincoin_t self:fifo_file rw_fifo_file_perms;
+allow mincoin_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(mincoin_t, mincoin_conf_t, mincoin_conf_t)
+manage_files_pattern(mincoin_t, mincoin_conf_t, mincoin_conf_t)
+
+manage_dirs_pattern(mincoin_t, mincoin_var_lib_t, mincoin_var_lib_t)
+manage_files_pattern(mincoin_t, mincoin_var_lib_t, mincoin_var_lib_t)
+files_var_lib_filetrans(mincoin_t, mincoin_var_lib_t, { dir file })
+
+manage_dirs_pattern(mincoin_t, mincoin_var_run_t, mincoin_var_run_t)
+manage_files_pattern(mincoin_t, mincoin_var_run_t, mincoin_var_run_t)
+
+sysnet_dns_name_resolve(mincoin_t)
+corenet_all_recvfrom_unlabeled(mincoin_t)
+
+allow mincoin_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(mincoin_t)
+corenet_tcp_sendrecv_generic_node(mincoin_t)
+corenet_tcp_sendrecv_all_ports(mincoin_t)
+corenet_tcp_bind_generic_node(mincoin_t)
+
+gen_require(`
+    type mincoin_port_t;
+')
+allow mincoin_t mincoin_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type mincoin_port_t;
+')
+allow mincoin_t mincoin_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(mincoin_t)
+
+files_read_etc_files(mincoin_t)
+
+miscfiles_read_localization(mincoin_t)
+
+sysnet_dns_name_resolve(mincoin_t)
+
+allow mincoin_t mincoin_exec_t:file execute_no_trans;
+allow mincoin_t self:process setsched;
+corecmd_exec_ls(mincoin_t)
+corenet_tcp_connect_http_port(mincoin_t)
+dev_read_urand(mincoin_t)
+fs_getattr_xattr_fs(mincoin_t)
+kernel_read_system_state(mincoin_t)

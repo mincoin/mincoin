@@ -1,0 +1,6 @@
+usr/local/bin/mincoin-qt usr/bin
+share/pixmaps/mincoin32.xpm usr/share/pixmaps
+share/pixmaps/mincoin16.xpm usr/share/pixmaps
+share/pixmaps/mincoin128.png usr/share/pixmaps
+debian/mincoin-qt.desktop usr/share/applications
+debian/mincoin-qt.protocol usr/share/kde4/services/

@@ -1,0 +1,22 @@
+[Unit]
+Description=Mincoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=mincoin
+Group=mincoin
+
+Type=forking
+PIDFile=/var/lib/mincoind/mincoind.pid
+ExecStart=/usr/bin/mincoind -daemon -pid=/var/lib/mincoind/mincoind.pid \
+-conf=/etc/mincoin/mincoin.conf -datadir=/var/lib/mincoind -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

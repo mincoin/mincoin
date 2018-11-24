@@ -1,12 +1,12 @@
 #!/usr/bin/make -f
 # -*- mode: makefile; coding: utf-8 -*-
 
-#DEB_MAKE_CHECK_TARGET = test_bitcoin
-#build/bitcoind::
-#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_bitcoin)
+#DEB_MAKE_CHECK_TARGET = test_mincoin
+#build/mincoind::
+#	$(if $(filter nocheck,$(DEB_BUILD_OPTIONS)),,src/test_mincoin)
 
-DEB_INSTALL_EXAMPLES_bitcoind += debian/examples/*
-DEB_INSTALL_MANPAGES_bitcoind += debian/manpages/*
+DEB_INSTALL_EXAMPLES_mincoind += debian/examples/*
+DEB_INSTALL_MANPAGES_mincoind += debian/manpages/*
 
 %:
 	dh --with bash-completion $@
