@@ -60,7 +60,9 @@ struct Params {
     bool fPowNoRetargeting;
     int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
+    int64_t nClassicPowTargetTimespan;
     int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
+    int64_t ClassicDifficultyAdjustmentInterval() const { return nClassicPowTargetTimespan / nPowTargetSpacing; }
 };
 } // namespace Consensus
 
