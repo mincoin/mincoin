@@ -1,27 +1,145 @@
-Bitcoin Core version 0.13.0 is now available from:
+Mincoin Core version 0.13.0 is now available from:
 
-  <https://bitcoin.org/bin/bitcoin-core-0.13.0/>
+  <https://mincoinforum.com/bin/mincoin-core-0.13.0/>
 
-This is a new major version release, including new features, various bugfixes
-and performance improvements, as well as updated translations.
+This is a security update and new major version release, including new features,
+various bugfixes and performance improvements as well as updated translations.
+It is recommended to upgrade to this release as soon as possible.
 
 Please report bugs using the issue tracker at github:
 
-  <https://github.com/bitcoin/bitcoin/issues>
+  <https://github.com/mincoin/mincoin/issues>
 
-To receive security and update notifications, please subscribe to:
+The notes below chronicle inherited changes introduced upstream starting with
+the 0.9 branch and ending with v0.13.0 for this release. References to
+pull-requests, branches and some other details have been preserved.
 
-  <https://bitcoincore.org/en/list/announcements/join/>
+
+Upgrading and downgrading
+=========================
+
+How to Upgrade
+--------------
+
+If you are running an older version, shut it down. Wait until it has completely
+shut down (which might take a few minutes for older versions), then run the
+installer (on Windows) or just copy over /Applications/Mincoin-Qt (on Mac) or
+mincoind/mincoin-qt (on Linux).
+
+
+Downgrade warning
+-----------------
+
+### Downgrade to a version < 0.10.0
+
+Because release 0.10.0 and later makes use of headers-first synchronization and
+parallel block download (see further), the block files and databases are not
+backwards-compatible with pre-0.10 versions of Mincoin Core or other software:
+
+* Blocks will be stored on disk out of order (in the order they are
+received, really), which makes it incompatible with some tools or
+other programs. Reindexing using earlier versions will also not work
+anymore as a result of this.
+
+* The block index database will now hold headers for which no block is
+stored on disk, which earlier versions won't support.
+
+If you want to be able to downgrade smoothly, make a backup of your entire data
+directory. Without this your node will need start syncing (or importing from
+bootstrap.dat) anew afterwards. It is possible that the data from a completely
+synchronised 0.10 node may be usable in older versions as-is, but this is not
+supported and may break as soon as the older version attempts to reindex.
+
+This does not affect wallet forward or backward compatibility.
+
+### Downgrade to a version < 0.12.0
+
+Because release 0.12.0 and later will obfuscate the chainstate on every
+fresh sync or reindex, the chainstate is not backwards-compatible with
+pre-0.12 versions of Mincoin Core or other software.
+
+If you want to downgrade after you have done a reindex with 0.12.0 or later,
+you will need to reindex when you first start Mincoin Core version 0.11 or
+earlier.
+
+
+Windows 64-bit installer
+------------------------
+
+New in 0.9.0 is the Windows 64-bit version of the client. There have been
+frequent reports of users running out of virtual memory on 32-bit systems
+during the initial sync. Because of this it is recommended to install the
+64-bit version if your system supports it.
+
+NOTE: Release candidate 2 Windows binaries are not code-signed; use PGP
+and the SHA256SUMS.asc file to make sure your binaries are correct.
+In the final 0.9.0 release, Windows setup.exe binaries will be code-signed.
+
+
+OSX 10.5 / 32-bit no longer supported
+-------------------------------------
+
+0.9.0 drops support for older Macs. The minimum requirements are now:
+* A 64-bit-capable CPU (see http://support.apple.com/kb/ht3696);
+* Mac OS 10.6 or later (see https://support.apple.com/kb/ht1633).
+
+
+Important information
+=====================
+
+Rebranding to Mincoin Core
+--------------------------
+
+To reduce confusion between Mincoin-the-network and Mincoin-the-software we
+have renamed the reference client to Mincoin Core.
+
+
+Gitian OSX build
+----------------
+
+The deterministic build system that was already used for Windows and Linux
+builds is now used for OSX as well. Although the resulting executables have
+been tested quite a bit, there could be possible regressions. Be sure to report
+these on the Github bug tracker mentioned above.
+
+
+Transaction flooding
+--------------------
+
+At the time of this release, the P2P network is being flooded with low-fee
+transactions. This causes a ballooning of the mempool size.
+
+If this growth of the mempool causes problematic memory use on your node, it is
+possible to change a few configuration options to work around this. The growth
+of the mempool can be monitored with the RPC command `getmempoolinfo`.
+
+One is to increase the minimum transaction relay fee `minrelaytxfee`, which
+defaults to 0.00001. This will cause transactions with fewer MNC/kB fee to be
+rejected, and thus fewer transactions entering the mempool.
+
+The other is to restrict the relaying of free transactions with
+`limitfreerelay`. This option sets the number of kB/minute at which
+free transactions (with enough priority) will be accepted. It defaults to 15.
+Reducing this number reduces the speed at which the mempool can grow due
+to free transactions.
+
+For example, add the following to `mincoin.conf`:
+
+    minrelaytxfee=0.00005 
+    limitfreerelay=5
+
+More robust solutions are being worked on for a follow-up release.
+
 
 Compatibility
-==============
+=============
 
 Microsoft ended support for Windows XP on [April 8th, 2014](https://www.microsoft.com/en-us/WindowsForBusiness/end-of-xp-support),
 an OS initially released in 2001. This means that not even critical security
-updates will be released anymore. Without security updates, using a bitcoin
+updates will be released anymore. Without security updates, using a mincoin
 wallet on a XP machine is irresponsible at least.
 
-In addition to that, with 0.12.x there have been varied reports of Bitcoin Core
+In addition to that, with 0.12.x there have been varied reports of Mincoin Core
 randomly crashing on Windows XP. It is [not clear](https://github.com/bitcoin/bitcoin/issues/7681#issuecomment-217439891)
 what the source of these crashes is, but it is likely that upstream
 libraries such as Qt are no longer being tested on XP.
@@ -35,8 +153,1151 @@ No attempt is made to prevent installing or running the software on Windows XP,
 you can still do so at your own risk, but do not expect it to work: do not
 report issues about Windows XP to the issue tracker.
 
+
 Notable changes
 ===============
+
+OP_RETURN and data in the block chain
+-------------------------------------
+
+On OP_RETURN:  There was been some confusion and misunderstanding in
+the community, regarding the OP_RETURN feature in 0.9 and data in the
+blockchain.  This change is not an endorsement of storing data in the
+blockchain.  The OP_RETURN change creates a provably-prunable output,
+to avoid data storage schemes -- some of which were already deployed --
+that were storing arbitrary data such as images as forever-unspendable
+TX outputs, bloating mincoin's UTXO database.
+
+Storing arbitrary data in the blockchain is still a bad idea; it is less
+costly and far more efficient to store non-currency data elsewhere.
+
+
+Autotools build system
+-----------------------
+
+For 0.9.0 we switched to an autotools-based build system instead of individual
+(q)makefiles.
+
+Using the standard "./autogen.sh; ./configure; make" to build Mincoin-Qt and
+mincoind makes it easier for experienced open source developers to contribute 
+to the project.
+
+Be sure to check doc/build-*.md for your platform before building from source.
+
+
+Mincoin-cli
+-----------
+
+Another change in the 0.9 release is moving away from the mincoind executable
+functioning both as a server and as a RPC client. The RPC client functionality
+("tell the running mincoin daemon to do THIS") was split into a separate
+executable, 'mincoin-cli'. The RPC client code will eventually be removed from
+mincoind, but will be kept for backwards compatibility for a release or two.
+
+
+`walletpassphrase` RPC
+----------------------
+
+The behavior of the `walletpassphrase` RPC when the wallet is already unlocked
+has changed between 0.8 and 0.9.
+
+The 0.8 behavior of `walletpassphrase` is to fail when the wallet is already unlocked:
+
+    > walletpassphrase 1000
+    walletunlocktime = now + 1000
+    > walletpassphrase 10
+    Error: Wallet is already unlocked (old unlock time stays)
+
+The new behavior of `walletpassphrase` is to set a new unlock time overriding
+the old one:
+
+    > walletpassphrase 1000
+    walletunlocktime = now + 1000
+    > walletpassphrase 10
+    walletunlocktime = now + 10 (overriding the old unlock time)
+
+
+Transaction malleability-related fixes
+--------------------------------------
+
+This release contains a few fixes for transaction ID (TXID) malleability 
+issues:
+
+- -nospendzeroconfchange command-line option, to avoid spending
+  zero-confirmation change
+- IsStandard() transaction rules tightened to prevent relaying and mining of
+  mutated transactions
+- Additional information in listtransactions/gettransaction output to
+  report wallet transactions that conflict with each other because
+  they spend the same outputs.
+- Bug fixes to the getbalance/listaccounts RPC commands, which would report
+  incorrect balances for double-spent (or mutated) transactions.
+- New option: -zapwallettxes to rebuild the wallet's transaction information
+
+Transaction Fees
+----------------
+
+This release drops the default fee required to relay transactions across the
+network and for miners to consider the transaction in their blocks to
+0.01mMNC per kilobyte.
+
+Note that getting a transaction relayed across the network does NOT guarantee
+that the transaction will be accepted by a miner; by default, miners fill
+their blocks with 50 kilobytes of high-priority transactions, and then with
+700 kilobytes of the highest-fee-per-kilobyte transactions.
+
+The minimum relay/mining fee-per-kilobyte may be changed with the
+minrelaytxfee option. Note that previous releases incorrectly used
+the mintxfee setting to determine which low-priority transactions should
+be considered for inclusion in blocks.
+
+The wallet code still uses a default fee for low-priority transactions of
+0.1mMNC per kilobyte. During periods of heavy transaction volume, even this
+fee may not be enough to get transactions confirmed quickly; the mintxfee
+option may be used to override the default.
+
+
+Faster synchronization
+----------------------
+
+Mincoin Core now uses 'headers-first synchronization'. This means that we first
+ask peers for block headers (a total of 27 megabytes, as of December 2014) and
+validate those. In a second stage, when the headers have been discovered, we
+download the blocks. However, as we already know about the whole chain in
+advance, the blocks can be downloaded in parallel from all available peers.
+
+In practice, this means a much faster and more robust synchronization. On
+recent hardware with a decent network link, it can be as little as 3 hours
+for an initial full synchronization. You may notice a slower progress in the
+very first few minutes, when headers are still being fetched and verified, but
+it should gain speed afterwards.
+
+A few RPCs were added/updated as a result of this:
+- `getblockchaininfo` now returns the number of validated headers in addition to
+the number of validated blocks.
+- `getpeerinfo` lists both the number of blocks and headers we know we have in
+common with each peer. While synchronizing, the heights of the blocks that we
+have requested from peers (but haven't received yet) are also listed as
+'inflight'.
+- A new RPC `getchaintips` lists all known branches of the block chain,
+including those we only have headers for.
+
+
+Transaction fee changes
+-----------------------
+
+This release automatically estimates how high a transaction fee (or how
+high a priority) transactions require to be confirmed quickly. The default
+settings will create transactions that confirm quickly; see the new
+'txconfirmtarget' setting to control the tradeoff between fees and
+confirmation times. Fees are added by default unless the 'sendfreetransactions' 
+setting is enabled.
+
+Prior releases used hard-coded fees (and priorities), and would
+sometimes create transactions that took a very long time to confirm.
+
+Statistics used to estimate fees and priorities are saved in the
+data directory in the `fee_estimates.dat` file just before
+program shutdown, and are read in at startup.
+
+New command line options for transaction fee changes:
+- `-txconfirmtarget=n` : create transactions that have enough fees (or priority)
+so they are likely to begin confirmation within n blocks (default: 1). This setting
+is over-ridden by the -paytxfee option.
+- `-sendfreetransactions` : Send transactions as zero-fee transactions if possible 
+(default: 0)
+
+New RPC commands for fee estimation:
+- `estimatefee nblocks` : Returns approximate fee-per-1,000-bytes needed for
+a transaction to begin confirmation within nblocks. Returns -1 if not enough
+transactions have been observed to compute a good estimate.
+- `estimatepriority nblocks` : Returns approximate priority needed for
+a zero-fee transaction to begin confirmation within nblocks. Returns -1 if not
+enough free transactions have been observed to compute a good
+estimate.
+
+
+RPC access control changes
+--------------------------
+
+Subnet matching for the purpose of access control is now done
+by matching the binary network address, instead of with string wildcard matching.
+For the user this means that `-rpcallowip` takes a subnet specification, which can be
+
+- a single IP address (e.g. `1.2.3.4` or `fe80::0012:3456:789a:bcde`)
+- a network/CIDR (e.g. `1.2.3.0/24` or `fe80::0000/64`)
+- a network/netmask (e.g. `1.2.3.4/255.255.255.0` or `fe80::0012:3456:789a:bcde/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff`)
+
+An arbitrary number of `-rpcallow` arguments can be given. An incoming connection will be accepted if its origin address
+matches one of them.
+
+For example:
+
+| 0.9.x and before                           | 0.10.x                                |
+|--------------------------------------------|---------------------------------------|
+| `-rpcallowip=192.168.1.1`                  | `-rpcallowip=192.168.1.1` (unchanged) |
+| `-rpcallowip=192.168.1.*`                  | `-rpcallowip=192.168.1.0/24`          |
+| `-rpcallowip=192.168.*`                    | `-rpcallowip=192.168.0.0/16`          |
+| `-rpcallowip=*` (dangerous!)               | `-rpcallowip=::/0` (still dangerous!) |
+
+Using wildcards will result in the rule being rejected with the following error in debug.log:
+
+    Error: Invalid -rpcallowip subnet specification: *. Valid are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24).
+
+
+REST interface
+--------------
+
+A new HTTP API is exposed when running with the `-rest` flag, which allows
+unauthenticated access to public node data.
+
+It is served on the same port as RPC, but does not need a password, and uses
+plain HTTP instead of JSON-RPC.
+
+Assuming a local RPC server running on port 9335, it is possible to request:
+- Blocks: http://localhost:9335/rest/block/*HASH*.*EXT*
+- Blocks without transactions: http://localhost:9335/rest/block/notxdetails/*HASH*.*EXT*
+- Transactions (requires `-txindex`): http://localhost:9335/rest/tx/*HASH*.*EXT*
+
+In every case, *EXT* can be `bin` (for raw binary data), `hex` (for hex-encoded
+binary) or `json`.
+
+For more details, see the `doc/REST-interface.md` document in the repository.
+
+
+RPC Server "Warm-Up" Mode
+-------------------------
+
+The RPC server is started earlier now, before most of the expensive
+intialisations like loading the block index.  It is available now almost
+immediately after starting the process.  However, until all initialisations
+are done, it always returns an immediate error with code -28 to all calls.
+
+This new behaviour can be useful for clients to know that a server is already
+started and will be available soon (for instance, so that they do not
+have to start it themselves).
+
+
+Improved signing security
+-------------------------
+
+For 0.10 the security of signing against unusual attacks has been
+improved by making the signatures constant time and deterministic.
+
+This change is a result of switching signing to use libsecp256k1
+instead of OpenSSL. Libsecp256k1 is a cryptographic library
+optimized for the curve Mincoin uses which was created by Bitcoin
+Core developer Pieter Wuille.
+
+There exist attacks[1] against most ECC implementations where an
+attacker on shared virtual machine hardware could extract a private
+key if they could cause a target to sign using the same key hundreds
+of times. While using shared hosts and reusing keys are inadvisable
+for other reasons, it's a better practice to avoid the exposure.
+
+OpenSSL has code in their source repository for derandomization
+and reduction in timing leaks that we've eagerly wanted to use for a
+long time, but this functionality has still not made its
+way into a released version of OpenSSL. Libsecp256k1 achieves
+significantly stronger protection: As far as we're aware this is
+the only deployed implementation of constant time signing for
+the curve Mincoin uses and we have reason to believe that
+libsecp256k1 is better tested and more thoroughly reviewed
+than the implementation in OpenSSL.
+
+[1] https://eprint.iacr.org/2014/161.pdf
+
+
+Watch-only wallet support
+-------------------------
+
+The wallet can now track transactions to and from wallets for which you know
+all addresses (or scripts), even without the private keys.
+
+This can be used to track payments without needing the private keys online on a
+possibly vulnerable system. In addition, it can help for (manual) construction
+of multisig transactions where you are only one of the signers.
+
+One new RPC, `importaddress`, is added which functions similarly to
+`importprivkey`, but instead takes an address or script (in hexadecimal) as
+argument.  After using it, outputs credited to this address or script are
+considered to be received, and transactions consuming these outputs will be
+considered to be sent.
+
+The following RPCs have optional support for watch-only:
+`getbalance`, `listreceivedbyaddress`, `listreceivedbyaccount`,
+`listtransactions`, `listaccounts`, `listsinceblock`, `gettransaction`. See the
+RPC documentation for those methods for more information.
+
+Compared to using `getrawtransaction`, this mechanism does not require
+`-txindex`, scales better, integrates better with the wallet, and is compatible
+with future block chain pruning functionality. It does mean that all relevant
+addresses need to added to the wallet before the payment, though.
+
+
+Consensus library
+-----------------
+
+Starting from 0.10.0, the Mincoin Core distribution includes a consensus library.
+
+The purpose of this library is to make the verification functionality that is
+critical to Mincoin's consensus available to other applications, e.g. to language
+bindings such as [python-bitcoinlib](https://pypi.python.org/pypi/python-bitcoinlib) or
+alternative node implementations.
+
+This library is called `libbitcoinconsensus.so` (or, `.dll` for Windows).
+Its interface is defined in the C header [bitcoinconsensus.h](https://github.com/bitcoin/bitcoin/blob/0.10/src/script/bitcoinconsensus.h).
+
+In its initial version the API includes two functions:
+
+- `bitcoinconsensus_verify_script` verifies a script. It returns whether the indicated input of the provided serialized transaction 
+correctly spends the passed scriptPubKey under additional constraints indicated by flags
+- `bitcoinconsensus_version` returns the API version, currently at an experimental `0`
+
+The functionality is planned to be extended to e.g. UTXO management in upcoming releases, but the interface
+for existing methods should remain stable.
+
+
+Standard script rules relaxed for P2SH addresses
+------------------------------------------------
+
+The IsStandard() rules have been almost completely removed for P2SH
+redemption scripts, allowing applications to make use of any valid
+script type, such as "n-of-m OR y", hash-locked oracle addresses, etc.
+While the Mincoin protocol has always supported these types of script,
+actually using them on mainnet has been previously inconvenient as
+standard Mincoin Core nodes wouldn't relay them to miners, nor would
+most miners include them in blocks they mined.
+
+
+mincoin-tx
+----------
+
+It has been observed that many of the RPC functions offered by mincoind are
+"pure functions", and operate independently of the mincoind wallet. This
+included many of the RPC "raw transaction" API functions, such as
+createrawtransaction.
+
+mincoin-tx is a newly introduced command line utility designed to enable easy
+manipulation of mincoin transactions. A summary of its operation may be
+obtained via "mincoin-tx --help" Transactions may be created or signed in a
+manner similar to the RPC raw tx API. Transactions may be updated, deleting
+inputs or outputs, or appending new inputs and outputs. Custom scripts may be
+easily composed using a simple text notation, borrowed from the mincoin test
+suite.
+
+This tool may be used for experimenting with new transaction types, signing
+multi-party transactions, and many other uses. Long term, the goal is to
+deprecate and remove "pure function" RPC API calls, as those do not require a
+server round-trip to execute.
+
+Other utilities "mincoin-key" and "mincoin-script" have been proposed, making
+key and script operations easily accessible via command line.
+
+
+Mining and relay policy enhancements
+------------------------------------
+
+Mincoin Core's block templates are now for version 3 blocks only, and any mining
+software relying on its `getblocktemplate` must be updated in parallel to use
+libblkmaker either version 0.4.2 or any version from 0.5.1 onward.
+If you are solo mining, this will affect you the moment you upgrade Mincoin
+Core, which must be done prior to BIP66 achieving its 951/1001 status.
+If you are mining with the stratum mining protocol: this does not affect you.
+If you are mining with the getblocktemplate protocol to a pool: this will affect
+you at the pool operator's discretion, which must be no later than BIP66
+achieving its 951/1001 status.
+
+The `prioritisetransaction` RPC method has been added to enable miners to
+manipulate the priority of transactions on an individual basis.
+
+Mincoin Core now supports BIP 22 long polling, so mining software can be
+notified immediately of new templates rather than having to poll periodically.
+
+Support for BIP 23 block proposals is now available in Mincoin Core's
+`getblocktemplate` method. This enables miners to check the basic validity of
+their next block before expending work on it, reducing risks of accidental
+hardforks or mining invalid blocks.
+
+Two new options to control mining policy:
+- `-datacarrier=0/1` : Relay and mine "data carrier" (OP_RETURN) transactions
+if this is 1.
+- `-datacarriersize=n` : Maximum size, in bytes, we consider acceptable for
+"data carrier" outputs.
+
+The relay policy has changed to more properly implement the desired behavior of not 
+relaying free (or very low fee) transactions unless they have a priority above the 
+AllowFreeThreshold(), in which case they are relayed subject to the rate limiter.
+
+
+BIP 66: strict DER encoding for signatures
+------------------------------------------
+
+Mincoin Core 0.10 implements BIP 66, which introduces block version 3, and a new
+consensus rule, which prohibits non-DER signatures. Such transactions have been
+non-standard since Mincoin v0.8.0 (released in February 2013), but were
+technically still permitted inside blocks.
+
+This change breaks the dependency on OpenSSL's signature parsing, and is
+required if implementations would want to remove all of OpenSSL from the
+consensus code.
+
+The same miner-voting mechanism as in BIP 34 is used: when 751 out of a
+sequence of 1001 blocks have version number 3 or higher, the new consensus
+rule becomes active for those blocks. When 951 out of a sequence of 1001
+blocks have version number 3 or higher, it becomes mandatory for all blocks.
+
+Backward compatibility with current mining software is NOT provided, thus miners
+should read the first paragraph of "Mining and relay policy enhancements" above.
+
+
+Block file pruning
+------------------
+
+This release supports running a fully validating node without maintaining a copy 
+of the raw block and undo data on disk. To recap, there are four types of data 
+related to the blockchain in the mincoin system: the raw blocks as received over 
+the network (blk???.dat), the undo data (rev???.dat), the block index and the 
+UTXO set (both LevelDB databases). The databases are built from the raw data.
+
+Block pruning allows Mincoin Core to delete the raw block and undo data once 
+it's been validated and used to build the databases. At that point, the raw data 
+is used only to relay blocks to other nodes, to handle reorganizations, to look 
+up old transactions (if -txindex is enabled or via the RPC/REST interfaces), or 
+for rescanning the wallet. The block index continues to hold the metadata about 
+all blocks in the blockchain.
+
+The user specifies how much space to allot for block & undo files. The minimum 
+allowed is 550MB. Note that this is in addition to whatever is required for the 
+block index and UTXO databases. The minimum was chosen so that Mincoin Core will 
+be able to maintain at least 288 blocks on disk (two days worth of blocks at 10 
+minutes per block). In rare instances it is possible that the amount of space 
+used will exceed the pruning target in order to keep the required last 288 
+blocks on disk.
+
+Block pruning works during initial sync in the same way as during steady state, 
+by deleting block files "as you go" whenever disk space is allocated. Thus, if 
+the user specifies 550MB, once that level is reached the program will begin 
+deleting the oldest block and undo files, while continuing to download the 
+blockchain.
+
+For now, block pruning disables block relay.  In the future, nodes with block 
+pruning will at a minimum relay "new" blocks, meaning blocks that extend their 
+active chain. 
+
+Block pruning is currently incompatible with running a wallet due to the fact 
+that block data is used for rescanning the wallet and importing keys or 
+addresses (which require a rescan.) However, running the wallet with block 
+pruning will be supported in the near future, subject to those limitations.
+
+Block pruning is also incompatible with -txindex and will automatically disable 
+it.
+
+Once you have pruned blocks, going back to unpruned state requires 
+re-downloading the entire blockchain. To do this, re-start the node with 
+-reindex. Note also that any problem that would cause a user to reindex (e.g., 
+disk corruption) will cause a pruned node to redownload the entire blockchain. 
+Finally, note that when a pruned node reindexes, it will delete any blk???.dat 
+and rev???.dat files in the data directory prior to restarting the download.
+
+To enable block pruning on the command line:
+
+- `-prune=N`: where N is the number of MB to allot for raw block & undo data.
+
+Modified RPC calls:
+
+- `getblockchaininfo` now includes whether we are in pruned mode or not.
+- `getblock` will check if the block's data has been pruned and if so, return an 
+error.
+- `getrawtransaction` will no longer be able to locate a transaction that has a 
+UTXO but where its block file has been pruned. 
+
+Pruning is disabled by default.
+
+
+Big endian support
+------------------
+
+Experimental support for big-endian CPU architectures was added in this
+release. All little-endian specific code was replaced with endian-neutral
+constructs. This has been tested on at least MIPS and PPC hosts. The build
+system will automatically detect the endianness of the target.
+
+
+Memory usage optimization
+-------------------------
+
+There have been many changes in this release to reduce the default memory usage
+of a node, among which:
+
+- Accurate UTXO cache size accounting (#6102); this makes the option `-dbcache`
+  precise where this grossly underestimated memory usage before
+- Reduce size of per-peer data structure (#6064 and others); this increases the
+  number of connections that can be supported with the same amount of memory
+- Reduce the number of threads (#5964, #5679); lowers the amount of (esp.
+  virtual) memory needed
+
+
+Fee estimation changes
+----------------------
+
+This release improves the algorithm used for fee estimation.  Previously, -1
+was returned when there was insufficient data to give an estimate.  Now, -1
+will also be returned when there is no fee or priority high enough for the
+desired confirmation target. In those cases, it can help to ask for an estimate
+for a higher target number of blocks. It is not uncommon for there to be no
+fee or priority high enough to be reliably (85%) included in the next block and
+for this reason, the default for `-txconfirmtarget=n` has changed from 1 to 2.
+
+
+Privacy: Disable wallet transaction broadcast
+---------------------------------------------
+
+This release adds an option `-walletbroadcast=0` to prevent automatic
+transaction broadcast and rebroadcast (#5951). This option allows separating
+transaction submission from the node functionality.
+
+Making use of this, third-party scripts can be written to take care of
+transaction (re)broadcast:
+
+- Send the transaction as normal, either through RPC or the GUI
+- Retrieve the transaction data through RPC using `gettransaction` (NOT
+  `getrawtransaction`). The `hex` field of the result will contain the raw
+  hexadecimal representation of the transaction
+- The transaction can then be broadcasted through arbitrary mechanisms
+  supported by the script
+
+One such application is selective Tor usage, where the node runs on the normal
+internet but transactions are broadcasted over Tor.
+
+For an example script see [bitcoin-submittx](https://github.com/laanwj/bitcoin-submittx).
+
+
+Privacy: Stream isolation for Tor
+---------------------------------
+
+This release adds functionality to create a new circuit for every peer
+connection, when the software is used with Tor. The new option,
+`-proxyrandomize`, is on by default.
+
+When enabled, every outgoing connection will (potentially) go through a
+different exit node. That significantly reduces the chance to get unlucky and
+pick a single exit node that is either malicious, or widely banned from the P2P
+network. This improves connection reliability as well as privacy, especially
+for the initial connections.
+
+**Important note:** If a non-Tor SOCKS5 proxy is configured that supports
+authentication, but doesn't require it, this change may cause that proxy to reject
+connections. A user and password is sent where they weren't before. This setup
+is exceedingly rare, but in this case `-proxyrandomize=0` can be passed to
+disable the behavior.
+
+
+Fix buffer overflow in bundled upnp
+-----------------------------------
+
+Bundled miniupnpc was updated to 1.9.20151008. This fixes a buffer overflow in
+the XML parser during initial network discovery.
+
+Details can be found here: http://talosintel.com/reports/TALOS-2015-0035/
+
+This applies to the distributed executables only, not when building from source or
+using distribution provided packages.
+
+Additionally, upnp has been disabled by default. This may result in a lower
+number of reachable nodes on IPv4, however this prevents future libupnpc
+vulnerabilities from being a structural risk to the network
+(see https://github.com/bitcoin/bitcoin/pull/6795).
+
+
+Test for LowS signatures before relaying
+----------------------------------------
+
+Make the node require the canonical 'low-s' encoding for ECDSA signatures when
+relaying or mining.  This removes a nuisance malleability vector.
+
+Consensus behavior is unchanged.
+
+If widely deployed this change would eliminate the last remaining known vector
+for nuisance malleability on SIGHASH_ALL P2PKH transactions. On the down-side
+it will block most transactions made by sufficiently out of date software.
+
+Unlike the other avenues to change txids on transactions this
+one was randomly violated by all deployed mincoin software prior to
+its discovery. So, while other malleability vectors where made
+non-standard as soon as they were discovered, this one has remained
+permitted. Even BIP62 did not propose applying this rule to
+old version transactions, but conforming implementations have become
+much more common since BIP62 was initially written.
+
+Mincoin Core has produced compatible signatures since a28fb70e in
+September 2013, but this didn't make it into a release until 0.9
+in March 2014; Bitcoinj has done so for a similar span of time.
+Bitcoinjs and electrum have been more recently updated.
+
+This does not replace the need for BIP62 or similar, as miners can
+still cooperate to break transactions.  Nor does it replace the
+need for wallet software to handle malleability sanely[1]. This
+only eliminates the cheap and irritating DOS attack.
+
+[1] On the Malleability of Bitcoin Transactions
+Marcin Andrychowicz, Stefan Dziembowski, Daniel Malinowski, Łukasz Mazurek
+http://fc15.ifca.ai/preproceedings/bitcoin/paper_9.pdf
+
+
+Minimum relay fee default increase
+-----------------------------------
+
+The default for the `-minrelaytxfee` setting has been increased from `0.00001`
+to `0.00005`.
+
+This is necessitated by the current transaction flooding, causing
+outrageous memory usage on nodes due to the mempool ballooning. This is a
+temporary measure, bridging the time until a dynamic method for determining
+this fee is merged (which will be in 0.12).
+
+(see https://github.com/bitcoin/bitcoin/pull/6793, as well as the 0.11
+release notes, in which this value was suggested)
+
+
+BIP65 soft fork to enforce OP_CHECKLOCKTIMEVERIFY opcode
+--------------------------------------------------------
+
+This release includes several changes related to the [BIP65][] soft fork
+which redefines the existing OP_NOP2 opcode as OP_CHECKLOCKTIMEVERIFY
+(CLTV) so that a transaction output can be made unspendable until a
+specified point in the future.
+
+1. This release will only relay and mine transactions spending a CLTV
+   output if they comply with the BIP65 rules as provided in code.
+
+2. This release will produce version 4 blocks by default. Please see the
+   *notice to miners* below.
+
+3. Once 951 out of a sequence of 1,001 blocks on the local node's best block
+   chain contain version 4 (or higher) blocks, this release will no
+   longer accept new version 3 blocks and it will only accept version 4
+   blocks if they comply with the BIP65 rules for CLTV.
+
+For more information about the soft-forking change, please see
+<https://github.com/bitcoin/bitcoin/pull/6351>
+
+Graphs showing the progress towards block version 4 adoption may be
+found at the URLs below:
+
+- Block versions over the last 50,000 blocks as progress towards BIP65
+  consensus enforcement: <http://bitcoin.sipa.be/ver-50k.png>
+
+- Block versions over the last 2,000 blocks showing the days to the
+  earliest possible BIP65 consensus-enforced block: <http://bitcoin.sipa.be/ver-2k.png>
+
+**Notice to miners:** Mincoin Core’s block templates are now for
+version 4 blocks only, and any mining software relying on its
+getblocktemplate must be updated in parallel to use libblkmaker either
+version 0.4.3 or any version from 0.5.2 onward.
+
+- If you are solo mining, this will affect you the moment you upgrade
+  Mincoin Core, which must be done prior to BIP65 achieving its 951/1001
+  status.
+
+- If you are mining with the stratum mining protocol: this does not
+  affect you.
+
+- If you are mining with the getblocktemplate protocol to a pool: this
+  will affect you at the pool operator’s discretion, which must be no
+  later than BIP65 achieving its 951/1001 status.
+
+[BIP65]: https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki
+
+
+BIP113 mempool-only locktime enforcement using GetMedianTimePast()
+------------------------------------------------------------------
+
+Mincoin transactions currently may specify a locktime indicating when
+they may be added to a valid block.  Current consensus rules require
+that blocks have a block header time greater than the locktime specified
+in any transaction in that block.
+
+Miners get to choose what time they use for their header time, with the
+consensus rule being that no node will accept a block whose time is more
+than two hours in the future.  This creates a incentive for miners to
+set their header times to future values in order to include locktimed
+transactions which weren't supposed to be included for up to two more
+hours.
+
+The consensus rules also specify that valid blocks may have a header
+time greater than that of the median of the 11 previous blocks.  This
+GetMedianTimePast() time has a key feature we generally associate with
+time: it can't go backwards.
+
+[BIP113][] specifies a soft fork (**not enforced in this release**) that
+weakens this perverse incentive for individual miners to use a future
+time by requiring that valid blocks have a computed GetMedianTimePast()
+greater than the locktime specified in any transaction in that block.
+
+Mempool inclusion rules currently require transactions to be valid for
+immediate inclusion in a block in order to be accepted into the mempool.
+This release begins applying the BIP113 rule to received transactions,
+so transaction whose time is greater than the GetMedianTimePast() will
+no longer be accepted into the mempool.
+
+**Implication for miners:** you will begin rejecting transactions that
+would not be valid under BIP113, which will prevent you from producing
+invalid blocks if/when BIP113 is enforced on the network. Any
+transactions which are valid under the current rules but not yet valid
+under the BIP113 rules will either be mined by other miners or delayed
+until they are valid under BIP113. Note, however, that time-based
+locktime transactions are more or less unseen on the network currently.
+
+**Implication for users:** GetMedianTimePast() always trails behind the
+current time, so a transaction locktime set to the present time will be
+rejected by nodes running this release until the median time moves
+forward. To compensate, subtract one hour (3,600 seconds) from your
+locktimes to allow those transactions to be included in mempools at
+approximately the expected time.
+
+[BIP113]: https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki
+
+
+Windows bug fix for corrupted UTXO database on unclean shutdowns
+----------------------------------------------------------------
+
+Several Windows users reported that they often need to reindex the
+entire blockchain after an unclean shutdown of Mincoin Core on Windows
+(or an unclean shutdown of Windows itself). Although unclean shutdowns
+remain unsafe, this release no longer relies on memory-mapped files for
+the UTXO database, which significantly reduced the frequency of unclean
+shutdowns leading to required reindexes during testing.
+
+For more information, see: <https://github.com/bitcoin/bitcoin/pull/6917>
+
+Other fixes for database corruption on Windows are expected in the
+next major release.
+
+
+Signature validation using libsecp256k1
+---------------------------------------
+
+ECDSA signatures inside Mincoin transactions now use validation using
+[libsecp256k1](https://github.com/bitcoin-core/secp256k1) instead of OpenSSL.
+
+Depending on the platform, this means a significant speedup for raw signature
+validation speed. The advantage is largest on x86_64, where validation is over
+five times faster. In practice, this translates to a raw reindexing and new
+block validation times that are less than half of what it was before.
+
+Libsecp256k1 has undergone very extensive testing and validation.
+
+A side effect of this change is that libconsensus no longer depends on OpenSSL.
+
+
+Reduce upload traffic
+---------------------
+
+A major part of the outbound traffic is caused by serving historic blocks to
+other nodes in initial block download state.
+
+It is now possible to reduce the total upload traffic via the `-maxuploadtarget`
+parameter. This is *not* a hard limit but a threshold to minimize the outbound
+traffic. When the limit is about to be reached, the uploaded data is cut by not
+serving historic blocks (blocks older than one week).
+Moreover, any SPV peer is disconnected when they request a filtered block.
+
+This option can be specified in MiB per day and is turned off by default
+(`-maxuploadtarget=0`).
+The recommended minimum is 144 * MAX_BLOCK_SIZE (currently 144MB) per day.
+
+Whitelisted peers will never be disconnected, although their traffic counts for
+calculating the target.
+
+A more detailed documentation about keeping traffic low can be found in
+[/doc/reduce-traffic.md](/doc/reduce-traffic.md).
+
+Direct headers announcement (BIP 130)
+-------------------------------------
+
+Between compatible peers, [BIP 130]
+(https://github.com/bitcoin/bips/blob/master/bip-0130.mediawiki)
+direct headers announcement is used. This means that blocks are advertised by
+announcing their headers directly, instead of just announcing the hash. In a
+reorganization, all new headers are sent, instead of just the new tip. This
+can often prevent an extra roundtrip before the actual block is downloaded.
+
+
+Memory pool limiting
+--------------------
+
+Previous versions of Mincoin Core had their mempool limited by checking
+a transaction's fees against the node's minimum relay fee. There was no
+upper bound on the size of the mempool and attackers could send a large
+number of transactions paying just slighly more than the default minimum
+relay fee to crash nodes with relatively low RAM. A temporary workaround
+for previous versions of Mincoin Core was to raise the default minimum
+relay fee.
+
+Mincoin Core 0.12 will have a strict maximum size on the mempool. The
+default value is 300 MB and can be configured with the `-maxmempool`
+parameter. Whenever a transaction would cause the mempool to exceed
+its maximum size, the transaction that (along with in-mempool descendants) has
+the lowest total feerate (as a package) will be evicted and the node's effective
+minimum relay feerate will be increased to match this feerate plus the initial
+minimum relay feerate. The initial minimum relay feerate is set to
+1000 satoshis per kB.
+
+Mincoin Core 0.12 also introduces new default policy limits on the length and
+size of unconfirmed transaction chains that are allowed in the mempool
+(generally limiting the length of unconfirmed chains to 25 transactions, with a
+total size of 101 KB).  These limits can be overriden using command line
+arguments; see the extended help (`--help -help-debug`) for more information.
+
+
+Opt-in Replace-by-fee transactions
+----------------------------------
+
+It is now possible to replace transactions in the transaction memory pool of
+Mincoin Core 0.12 nodes. Mincoin Core will only allow replacement of
+transactions which have any of their inputs' `nSequence` number set to less
+than `0xffffffff - 1`.  Moreover, a replacement transaction may only be
+accepted when it pays sufficient fee, as described in [BIP 125]
+(https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki).
+
+Transaction replacement can be disabled with a new command line option,
+`-mempoolreplacement=0`.  Transactions signaling replacement under BIP125 will
+still be allowed into the mempool in this configuration, but replacements will
+be rejected.  This option is intended for miners who want to continue the
+transaction selection behavior of previous releases.
+
+The `-mempoolreplacement` option is *not recommended* for wallet users seeking
+to avoid receipt of unconfirmed opt-in transactions, because this option does
+not prevent transactions which are replaceable under BIP 125 from being accepted
+(only subsequent replacements, which other nodes on the network that implement
+BIP 125 are likely to relay and mine).  Wallet users wishing to detect whether
+a transaction is subject to replacement under BIP 125 should instead use the
+updated RPC calls `gettransaction` and `listtransactions`, which now have an
+additional field in the output indicating if a transaction is replaceable under
+BIP125 ("bip125-replaceable").
+
+Note that the wallet in Mincoin Core 0.12 does not yet have support for
+creating transactions that would be replaceable under BIP 125.
+
+
+RPC: Random-cookie RPC authentication
+-------------------------------------
+
+When no `-rpcpassword` is specified, the daemon now uses a special 'cookie'
+file for authentication. This file is generated with random content when the
+daemon starts, and deleted when it exits. Its contents are used as
+authentication token. Read access to this file controls who can access through
+RPC. By default it is stored in the data directory but its location can be
+overridden with the option `-rpccookiefile`.
+
+This is similar to Tor's CookieAuthentication: see
+https://www.torproject.org/docs/tor-manual.html.en
+
+This allows running mincoind without having to do any manual configuration.
+
+Relay: Any sequence of pushdatas in OP_RETURN outputs now allowed
+-----------------------------------------------------------------
+
+Previously OP_RETURN outputs with a payload were only relayed and mined if they
+had a single pushdata. This restriction has been lifted to allow any
+combination of data pushes and numeric constant opcodes (OP_1 to OP_16) after
+the OP_RETURN. The limit on OP_RETURN output size is now applied to the entire
+serialized scriptPubKey, 83 bytes by default. (the previous 80 byte default plus
+three bytes overhead)
+
+
+Relay: New and only new blocks relayed when pruning
+---------------------------------------------------
+
+When running in pruned mode, the client will now relay new blocks. When
+responding to the `getblocks` message, only hashes of blocks that are on disk
+and are likely to remain there for some reasonable time window (1 hour) will be
+returned (previously all relevant hashes were returned).
+
+
+Relay and Mining: Priority transactions
+---------------------------------------
+
+Mincoin Core has a heuristic 'priority' based on coin value and age. This
+calculation is used for relaying of transactions which do not pay the
+minimum relay fee, and can be used as an alternative way of sorting
+transactions for mined blocks. Mincoin Core will relay transactions with
+insufficient fees depending on the setting of `-limitfreerelay=<r>` (default:
+`r=15` kB per minute) and `-blockprioritysize=<s>`.
+
+In Mincoin Core 0.12, when mempool limit has been reached a higher minimum
+relay fee takes effect to limit memory usage. Transactions which do not meet
+this higher effective minimum relay fee will not be relayed or mined even if
+they rank highly according to the priority heuristic.
+
+The mining of transactions based on their priority is also now disabled by
+default. To re-enable it, simply set `-blockprioritysize=<n>` where is the size
+in bytes of your blocks to reserve for these transactions. The old default was
+50k, so to retain approximately the same policy, you would set
+`-blockprioritysize=50000`.
+
+Additionally, as a result of computational simplifications, the priority value
+used for transactions received with unconfirmed inputs is lower than in prior
+versions due to avoiding recomputing the amounts as input transactions confirm.
+
+External miner policy set via the `prioritisetransaction` RPC to rank
+transactions already in the mempool continues to work as it has previously.
+Note, however, that if mining priority transactions is left disabled, the
+priority delta will be ignored and only the fee metric will be effective.
+
+This internal automatic prioritization handling is being considered for removal
+entirely in Mincoin Core 0.13, and it is at this time undecided whether the
+more accurate priority calculation for chained unconfirmed transactions will be
+restored. Community direction on this topic is particularly requested to help
+set project priorities.
+
+
+Automatically use Tor hidden services
+-------------------------------------
+
+Starting with Tor version 0.2.7.1 it is possible, through Tor's control socket
+API, to create and destroy 'ephemeral' hidden services programmatically.
+Mincoin Core has been updated to make use of this.
+
+This means that if Tor is running (and proper authorization is available),
+Mincoin Core automatically creates a hidden service to listen on, without
+manual configuration. Mincoin Core will also use Tor automatically to connect
+to other .onion nodes if the control socket can be successfully opened. This
+will positively affect the number of available .onion nodes and their usage.
+
+This new feature is enabled by default if Mincoin Core is listening, and
+a connection to Tor can be made. It can be configured with the `-listenonion`,
+`-torcontrol` and `-torpassword` settings. To show verbose debugging
+information, pass `-debug=tor`.
+
+
+Notifications through ZMQ
+-------------------------
+
+Mincoind can now (optionally) asynchronously notify clients through a
+ZMQ-based PUB socket of the arrival of new transactions and blocks.
+This feature requires installation of the ZMQ C API library 4.x and
+configuring its use through the command line or configuration file.
+Please see [docs/zmq.md](/doc/zmq.md) for details of operation.
+
+
+Wallet: Transaction fees
+------------------------
+
+Various improvements have been made to how the wallet calculates
+transaction fees.
+
+Users can decide to pay a predefined fee rate by setting `-paytxfee=<n>`
+(or `settxfee <n>` rpc during runtime). A value of `n=0` signals Mincoin
+Core to use floating fees. By default, Mincoin Core will use floating
+fees.
+
+Based on past transaction data, floating fees approximate the fees
+required to get into the `m`th block from now. This is configurable
+with `-txconfirmtarget=<m>` (default: `2`).
+
+Sometimes, it is not possible to give good estimates, or an estimate
+at all. Therefore, a fallback value can be set with `-fallbackfee=<f>`
+(default: `0.0002` MNC/kB).
+
+At all times, Mincoin Core will cap fees at `-maxtxfee=<x>` (default:
+0.10) MNC.
+Furthermore, Mincoin Core will never create transactions paying less than
+the current minimum relay fee.
+Finally, a user can set the minimum fee rate for all transactions with
+`-mintxfee=<i>`, which defaults to 1000 satoshis per kB.
+
+
+Wallet: Negative confirmations and conflict detection
+-----------------------------------------------------
+
+The wallet will now report a negative number for confirmations that indicates
+how deep in the block chain the conflict is found. For example, if a transaction
+A has 5 confirmations and spends the same input as a wallet transaction B, B
+will be reported as having -5 confirmations. If another wallet transaction C
+spends an output from B, it will also be reported as having -5 confirmations.
+To detect conflicts with historical transactions in the chain a one-time
+`-rescan` may be needed.
+
+Unlike earlier versions, unconfirmed but non-conflicting transactions will never
+get a negative confirmation count. They are not treated as spendable unless
+they're coming from ourself (change) and accepted into our local mempool,
+however. The new "trusted" field in the `listtransactions` RPC output
+indicates whether outputs of an unconfirmed transaction are considered
+spendable.
+
+
+Wallet: Merkle branches removed
+-------------------------------
+
+Previously, every wallet transaction stored a Merkle branch to prove its
+presence in blocks. This wasn't being used for more than an expensive
+sanity check. Since 0.12, these are no longer stored. When loading a
+0.12 wallet into an older version, it will automatically rescan to avoid
+failed checks.
+
+
+Wallet: Pruning
+---------------
+
+With 0.12 it is possible to use wallet functionality in pruned mode.
+This can reduce the disk usage from currently around 60 GB to
+around 2 GB.
+
+However, rescans as well as the RPCs `importwallet`, `importaddress`,
+`importprivkey` are disabled.
+
+To enable block pruning set `prune=<N>` on the command line or in
+`mincoin.conf`, where `N` is the number of MiB to allot for
+raw block & undo data.
+
+A value of 0 disables pruning. The minimal value above 0 is 550. Your
+wallet is as secure with high values as it is with low ones. Higher
+values merely ensure that your node will not shut down upon blockchain
+reorganizations of more than 2 days - which are unlikely to happen in
+practice. In future releases, a higher value may also help the network
+as a whole: stored blocks could be served to other nodes.
+
+For further information about pruning, you may also consult the [release
+notes of v0.11.0](https://github.com/bitcoin/bitcoin/blob/v0.11.0/doc/release-notes.md#block-file-pruning).
+
+
+`NODE_BLOOM` service bit
+------------------------
+
+Support for the `NODE_BLOOM` service bit, as described in [BIP
+111](https://github.com/bitcoin/bips/blob/master/bip-0111.mediawiki), has been
+added to the P2P protocol code.
+
+BIP 111 defines a service bit to allow peers to advertise that they support
+bloom filters (such as used by SPV clients) explicitly. It also bumps the protocol
+version to allow peers to identify old nodes which allow bloom filtering of the
+connection despite lacking the new service bit.
+
+In this version, it is only enforced for peers that send protocol versions
+`>=70011`. For the next major version it is planned that this restriction will be
+removed. It is recommended to update SPV clients to check for the `NODE_BLOOM`
+service bit for nodes that report versions newer than 70011.
+
+
+Option parsing behavior
+-----------------------
+
+Command line options are now parsed strictly in the order in which they are
+specified. It used to be the case that `-X -noX` ends up, unintuitively, with X
+set, as `-X` had precedence over `-noX`. This is no longer the case. Like for
+other software, the last specified value for an option will hold.
+
+
+RPC: Low-level API changes
+--------------------------
+
+- Monetary amounts can be provided as strings. This means that for example the
+  argument to sendtoaddress can be "0.0001" instead of 0.0001. This can be an
+  advantage if a JSON library insists on using a lossy floating point type for
+  numbers, which would be dangerous for monetary amounts.
+
+* The `asm` property of each scriptSig now contains the decoded signature hash
+  type for each signature that provides a valid defined hash type.
+
+* OP_NOP2 has been renamed to OP_CHECKLOCKTIMEVERIFY by [BIP 65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)
+
+The following items contain assembly representations of scriptSig signatures
+and are affected by this change:
+
+- RPC `getrawtransaction`
+- RPC `decoderawtransaction`
+- RPC `decodescript`
+- REST `/rest/tx/` (JSON format)
+- REST `/rest/block/` (JSON format when including extended tx details)
+- `mincoin-tx -json`
+
+For example, the `scriptSig.asm` property of a transaction input that
+previously showed an assembly representation of:
+
+    304502207fa7a6d1e0ee81132a269ad84e68d695483745cde8b541e3bf630749894e342a022100c1f7ab20e13e22fb95281a870f3dcf38d782e53023ee313d741ad0cfbc0c509001 400000 OP_NOP2
+
+now shows as:
+
+    304502207fa7a6d1e0ee81132a269ad84e68d695483745cde8b541e3bf630749894e342a022100c1f7ab20e13e22fb95281a870f3dcf38d782e53023ee313d741ad0cfbc0c5090[ALL] 400000 OP_CHECKLOCKTIMEVERIFY
+
+Note that the output of the RPC `decodescript` did not change because it is
+configured specifically to process scriptPubKey and not scriptSig scripts.
+
+
+RPC: SSL support dropped
+------------------------
+
+SSL support for RPC, previously enabled by the option `rpcssl` has been dropped
+from both the client and the server. This was done in preparation for removing
+the dependency on OpenSSL for the daemon completely.
+
+Trying to use `rpcssl` will result in an error:
+
+    Error: SSL mode for RPC (-rpcssl) is no longer supported.
+
+If you are one of the few people that relies on this feature, a flexible
+migration path is to use `stunnel`. This is an utility that can tunnel
+arbitrary TCP connections inside SSL. On e.g. Ubuntu it can be installed with:
+
+    sudo apt-get install stunnel4
+
+Then, to tunnel a SSL connection on 29335 to a RPC server bound on localhost on port 19335 do:
+
+    stunnel -d 29335 -r 127.0.0.1:19335 -p stunnel.pem -P ''
+
+It can also be set up system-wide in inetd style.
+
+Another way to re-attain SSL would be to setup a httpd reverse proxy. This solution
+would allow the use of different authentication, loadbalancing, on-the-fly compression and
+caching. A sample config for apache2 could look like:
+
+    Listen 443
+
+    NameVirtualHost *:443
+    <VirtualHost *:443>
+
+    SSLEngine On
+    SSLCertificateFile /etc/apache2/ssl/server.crt
+    SSLCertificateKeyFile /etc/apache2/ssl/server.key
+
+    <Location /mincoinrpc>
+        ProxyPass http://127.0.0.1:9335/
+        ProxyPassReverse http://127.0.0.1:9335/
+        # optional enable digest auth
+        # AuthType Digest
+        # ...
+
+        # optional bypass mincoind rpc basic auth
+        # RequestHeader set Authorization "Basic <hash>"
+        # get the <hash> from the shell with: base64 <<< mincoinrpc:<password>
+    </Location>
+
+    # Or, balance the load:
+    # ProxyPass / balancer://balancer_cluster_name
+
+    </VirtualHost>
+
+
+Mining Code Changes
+-------------------
+
+The mining code in 0.12 has been optimized to be significantly faster and use less
+memory. As part of these changes, consensus critical calculations are cached on a
+transaction's acceptance into the mempool and the mining code now relies on the
+consistency of the mempool to assemble blocks. However all blocks are still tested
+for validity after assembly.
+
+
+Other P2P Changes
+-----------------
+
+The list of banned peers is now stored on disk rather than in memory.
+Restarting mincoind will no longer clear out the list of banned peers; instead
+a new RPC call (`clearbanned`) can be used to manually clear the list.  The new
+`setban` RPC call can also be used to manually ban or unban a peer.
+
 
 Database cache memory increased
 --------------------------------
@@ -48,21 +1309,21 @@ For this reason the default was changed to 300 MiB in this release.
 For nodes on low-memory systems, the database cache can be changed back to
 100 MiB (or to another value) by either:
 
-- Adding `dbcache=100` in bitcoin.conf
+- Adding `dbcache=100` in mincoin.conf
 - Changing it in the GUI under `Options → Size of database cache`
 
 Note that the database cache setting has the most performance impact
 during initial sync of a node, and when catching up after downtime.
 
 
-bitcoin-cli: arguments privacy
+mincoin-cli: arguments privacy
 ------------------------------
 
 The RPC command line client gained a new argument, `-stdin`
 to read extra arguments from standard input, one per line until EOF/Ctrl-D.
 For example:
 
-    $ src/bitcoin-cli -stdin walletpassphrase
+    $ src/mincoin-cli -stdin walletpassphrase
     mysecretcode
     120
     ..... press Ctrl-D here to end input
@@ -76,7 +1337,7 @@ table by any user on the system.
 C++11 and Python 3
 ------------------
 
-Various code modernizations have been done. The Bitcoin Core code base has
+Various code modernizations have been done. The Mincoin Core code base has
 started using C++11. This means that a C++11-capable compiler is now needed for
 building. Effectively this means GCC 4.7 or higher, or Clang 3.3 or higher.
 
@@ -95,9 +1356,9 @@ executables.
 
 The following extra files can be found in the download directory or torrent:
 
-- `bitcoin-${VERSION}-arm-linux-gnueabihf.tar.gz`: Linux binaries for the most
+- `mincoin-${VERSION}-arm-linux-gnueabihf.tar.gz`: Linux binaries for the most
   common 32-bit ARM architecture.
-- `bitcoin-${VERSION}-aarch64-linux-gnu.tar.gz`: Linux binaries for the most
+- `mincoin-${VERSION}-aarch64-linux-gnu.tar.gz`: Linux binaries for the most
   common 64-bit ARM architecture.
 
 ARM builds are still experimental. If you have problems on a certain device or
@@ -151,7 +1412,7 @@ You can't disable HD key generation once you have created a HD wallet.
 
 There is no distinction between internal (change) and external keys.
 
-HD wallets are incompatible with older versions of Bitcoin Core.
+HD wallets are incompatible with older versions of Mincoin Core.
 
 [Pull request](https://github.com/bitcoin/bitcoin/pull/8035/files), [BIP 32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki)
 
@@ -167,7 +1428,7 @@ The code preparations for Segregated Witness ("segwit"), as described in [BIP
 finished and included in this release.  However, BIP 141 does not yet specify
 activation parameters on mainnet, and so this release does not support segwit
 use on mainnet.  Testnet use is supported, and after BIP 141 is updated with
-proposed parameters, a future release of Bitcoin Core is expected that
+proposed parameters, a future release of Mincoin Core is expected that
 implements those parameters for mainnet.
 
 Furthermore, because segwit activation is not yet specified for mainnet,
@@ -227,7 +1488,7 @@ files on disk. These two have now been split up, so that all blocks are known
 before validation starts. This was necessary to make certain optimizations that
 are available during normal synchronizations also available during reindexing.
 
-The two phases are distinct in the Bitcoin-Qt GUI. During the first one,
+The two phases are distinct in the Mincoin-Qt GUI. During the first one,
 "Reindexing blocks on disk" is shown. During the second (slower) one,
 "Processing blocks on disk" is shown.
 
@@ -333,7 +1594,7 @@ Low-level RPC changes
     - RPC `decodescript`
     - REST `/rest/tx/` (JSON format)
     - REST `/rest/block/` (JSON format when including extended tx details)
-    - `bitcoin-tx -json`
+    - `mincoin-tx -json`
 
 - The sorting of the output of the `getrawmempool` output has changed.
 
@@ -354,510 +1615,3 @@ Low-level ZMQ changes
   The sequence number is always the last element in a multi-part ZMQ notification and
   therefore backward compatible. Each message type has its own counter.
   PR [#7762](https://github.com/bitcoin/bitcoin/pull/7762).
-
-
-0.13.0 Change log
-=================
-
-Detailed release notes follow. This overview includes changes that affect
-behavior, not code moves, refactors and string updates. For convenience in locating
-the code changes and accompanying discussion, both the pull request and
-git merge commit are mentioned.
-
-### RPC and other APIs
-
-- #7156 `9ee02cf` Remove cs_main lock from `createrawtransaction` (laanwj)
-- #7326 `2cd004b` Fix typo, wrong information in gettxout help text (paveljanik)
-- #7222 `82429d0` Indicate which transactions are signaling opt-in RBF (sdaftuar)
-- #7480 `b49a623` Changed getnetworkhps value to double to avoid overflow (instagibbs)
-- #7550 `8b958ab` Input-from-stdin mode for bitcoin-cli (laanwj)
-- #7670 `c9a1265` Use cached block hash in blockToJSON() (rat4)
-- #7726 `9af69fa` Correct importaddress help reference to importpubkey (CypherGrue)
-- #7766 `16555b6` Register calls where they are defined (laanwj)
-- #7797 `e662a76` Fix generatetoaddress failing to parse address (mruddy)
-- #7774 `916b15a` Add versionHex in getblock and getblockheader JSON results (mruddy)
-- #7863 `72c54e3` Getblockchaininfo: make bip9_softforks an object, not an array (rustyrussell)
-- #7842 `d97101e` Do not print minping time in getpeerinfo when no ping received yet (paveljanik)
-- #7518 `be14ca5` Add multiple options to fundrawtransaction (promag)
-- #7756 `9e47fce` Add cursor to iterate over utxo set, use this in `gettxoutsetinfo` (laanwj)
-- #7848 `88616d2` Divergence between 32- and 64-bit when hashing >4GB affects `gettxoutsetinfo` (laanwj)
-- #7827 `4205ad7` Speed up `getchaintips` (mrbandrews)
-- #7762 `a1eb344` Append a message sequence number to every ZMQ notification (jonasschnelli)
-- #7688 `46880ed` List solvability in listunspent output and improve help (sipa)
-- #7926 `5725807` Push back `getaddednodeinfo` dead value (instagibbs)
-- #7953 `0630353` Create `signmessagewithprivkey` rpc (achow101)
-- #8049 `c028c7b` Expose information on whether transaction relay is enabled in `getnetworkinfo` (laanwj)
-- #7967 `8c1e49b` Add feerate option to `fundrawtransaction` (jonasschnelli)
-- #8118 `9b6a48c` Reduce unnecessary hashing in `signrawtransaction` (jonasnick)
-- #7957 `79004d4` Add support for transaction sequence number (jonasschnelli)
-- #8153 `75ec320` `fundrawtransaction` feeRate: Use BTC/kB (MarcoFalke)
-- #7292 `7ce9ac5` Expose ancestor/descendant information over RPC (sdaftuar)
-- #8171 `62fcf27` Fix createrawtx sequence number unsigned int parsing (jonasschnelli)
-- #7892 `9c3d0fa` Add full UTF-8 support to RPC (laanwj)
-- #8317 `304eff3` Don't use floating point in rpcwallet (MarcoFalke)
-- #8258 `5a06ebb` Hide softfork in `getblockchaininfo` if timeout is 0 (jl2012)
-- #8244 `1922e5a` Remove unnecessary LOCK(cs_main) in getrawmempool (dcousens)
-
-### Block and transaction handling
-
-- #7056 `6a07208` Save last db read (morcos)
-- #6842 `0192806` Limitfreerelay edge case bugfix (ptschip)
-- #7084 `11d74f6` Replace maxFeeRate of 10000*minRelayTxFee with maxTxFee in mempool (MarcoFalke)
-- #7539 `9f33dba` Add tags to mempool's mapTx indices (sdaftuar)
-- #7592 `26a2a72` Re-remove ERROR logging for mempool rejects (laanwj)
-- #7187 `14d6324` Keep reorgs fast for SequenceLocks checks (morcos)
-- #7594 `01f4267` Mempool: Add tracking of ancestor packages (sdaftuar)
-- #7904 `fc9e334` Txdb: Fix assert crash in new UTXO set cursor (laanwj)
-- #7927 `f9c2ac7` Minor changes to dbwrapper to simplify support for other databases (laanwj)
-- #7933 `e26b620` Fix OOM when deserializing UTXO entries with invalid length (sipa)
-- #8020 `5e374f7` Use SipHash-2-4 for various non-cryptographic hashes (sipa)
-- #8076 `d720980` VerifyDB: don't check blocks that have been pruned (sdaftuar)
-- #8080 `862fd24` Do not use mempool for GETDATA for tx accepted after the last mempool req (gmaxwell)
-- #7997 `a82f033` Replace mapNextTx with slimmer setSpends (kazcw)
-- #8220 `1f86d64` Stop trimming when mapTx is empty (sipa)
-- #8273 `396f9d6` Bump `-dbcache` default to 300MiB (laanwj)
-- #7225 `eb33179` Eliminate unnecessary call to CheckBlock (sdaftuar)
-- #7907 `006cdf6` Optimize and Cleanup CScript::FindAndDelete (pstratem)
-- #7917 `239d419` Optimize reindex (sipa)
-- #7763 `3081fb9` Put hex-encoded version in UpdateTip (sipa)
-- #8149 `d612837` Testnet-only segregated witness (sipa)
-- #8305 `3730393` Improve handling of unconnecting headers (sdaftuar)
-- #8363 `fca1a41` Rename "block cost" to "block weight" (sdaftuar)
-- #8381 `f84ee3d` Make witness v0 outputs non-standard (jl2012)
-- #8364 `3f65ba2` Treat high-sigop transactions as larger rather than rejecting them (sipa)
-
-### P2P protocol and network code
-
-- #6589 `dc0305d` Log bytes recv/sent per command (jonasschnelli)
-- #7164 `3b43cad` Do not download transactions during initial blockchain sync (ptschip)
-- #7458 `898fedf` peers.dat, banlist.dat recreated when missing (kirkalx)
-- #7637 `3da5d1b` Fix memleak in TorController (laanwj, jonasschnelli)
-- #7553 `9f14e5a` Remove vfReachable and modify IsReachable to only use vfLimited (pstratem)
-- #7708 `9426632` De-neuter NODE_BLOOM (pstratem)
-- #7692 `29b2be6` Remove P2P alert system (btcdrak)
-- #7542 `c946a15` Implement "feefilter" P2P message (morcos)
-- #7573 `352fd57` Add `-maxtimeadjustment` command line option (mruddy)
-- #7570 `232592a` Add IPv6 Link-Local Address Support (mruddy)
-- #7874 `e6a4d48` Improve AlreadyHave (morcos)
-- #7856 `64e71b3` Only send one GetAddr response per connection (gmaxwell)
-- #7868 `7daa3ad` Split DNS resolving functionality out of net structures (theuni)
-- #7919 `7617682` Fix headers announcements edge case (sdaftuar)
-- #7514 `d9594bf` Fix IsInitialBlockDownload for testnet (jmacwhyte)
-- #7959 `03cf6e8` fix race that could fail to persist a ban (kazcw)
-- #7840 `3b9a0bf` Several performance and privacy improvements to inv/mempool handling (sipa)
-- #8011 `65aecda` Don't run ThreadMessageHandler at lowered priority (kazcw)
-- #7696 `5c3f8dd` Fix de-serialization bug where AddrMan is left corrupted (EthanHeilman)
-- #7932 `ed749bd` CAddrMan::Deserialize handle corrupt serializations better (pstratem)
-- #7906 `83121cc` Prerequisites for p2p encapsulation changes (theuni)
-- #8033 `18436d8` Fix Socks5() connect failures to be less noisy and less unnecessarily scary (wtogami)
-- #8082 `01d8359` Defer inserting into maprelay until just before relaying (gmaxwell)
-- #7960 `6a22373` Only use AddInventoryKnown for transactions (sdaftuar)
-- #8078 `2156fa2` Disable the mempool P2P command when bloom filters disabled (petertodd)
-- #8065 `67c91f8` Addrman offline attempts (gmaxwell)
-- #7703 `761cddb` Tor: Change auth order to only use password auth if -torpassword (laanwj)
-- #8083 `cd0c513` Add support for dnsseeds with option to filter by servicebits (jonasschnelli)
-- #8173 `4286f43` Use SipHash for node eviction (sipa)
-- #8154 `1445835` Drop vAddrToSend after sending big addr message (kazcw)
-- #7749 `be9711e` Enforce expected outbound services (sipa)
-- #8208 `0a64777` Do not set extra flags for unfiltered DNS seed results (sipa)
-- #8084 `e4bb4a8` Add recently accepted blocks and txn to AttemptToEvictConnection (gmaxwell)
-- #8113 `3f89a53` Rework addnode behaviour (sipa)
-- #8179 `94ab58b` Evict orphans which are included or precluded by accepted blocks (gmaxwell)
-- #8068 `e9d76a1` Compact Blocks (TheBlueMatt)
-- #8204 `0833894` Update petertodd's testnet seed (petertodd)
-- #8247 `5cd35d3` Mark my dnsseed as supporting filtering (sipa)
-- #8275 `042c323` Remove bad chain alert partition check (btcdrak)
-- #8271 `1bc9c80` Do not send witnesses in cmpctblock (sipa)
-- #8312 `ca40ef6` Fix mempool DoS vulnerability from malleated transactions (sdaftuar)
-- #7180 `16ccb74` Account for `sendheaders` `verack` messages (laanwj)
-- #8102 `425278d` Bugfix: use global ::fRelayTxes instead of CNode in version send (sipa)
-- #8408 `b7e2011` Prevent fingerprinting, disk-DoS with compact blocks (sdaftuar)
-
-### Build system
-
-- #7302 `41f1a3e` C++11 build/runtime fixes (theuni)
-- #7322 `fd9356b` c++11: add scoped enum fallbacks to CPPFLAGS rather than defining them locally (theuni)
-- #7441 `a6771fc` Use Debian 8.3 in gitian build guide (fanquake)
-- #7349 `152a821` Build against system UniValue when available (luke-jr)
-- #7520 `621940e` LibreSSL doesn't define OPENSSL_VERSION, use LIBRESSL_VERSION_TEXT instead (paveljanik)
-- #7528 `9b9bfce` autogen.sh: warn about needing autoconf if autoreconf is not found (knocte)
-- #7504 `19324cf` Crystal clean make clean (paveljanik)
-- #7619 `18b3f1b` Add missing sudo entry in gitian VM setup (btcdrak)
-- #7616 `639ec58`  [depends] Delete unused patches  (MarcoFalke)
-- #7658 `c15eb28` Add curl to Gitian setup instructions (btcdrak)
-- #7710 `909b72b` [Depends] Bump miniupnpc and config.guess+sub (fanquake)
-- #7723 `5131005` build: python 3 compatibility (laanwj)
-- #7477 `28ad4d9` Fix quoting of copyright holders in configure.ac (domob1812)
-- #7711 `a67bc5e` [build-aux] Update Boost & check macros to latest serials (fanquake)
-- #7788 `4dc1b3a` Use relative paths instead of absolute paths in protoc calls (paveljanik)
-- #7809 `bbd210d` depends: some base fixes/changes (theuni)
-- #7603 `73fc922` Build System: Use PACKAGE_TARNAME in NSIS script (JeremyRand)
-- #7905 `187186b` test: move accounting_tests and rpc_wallet_tests to wallet/test (laanwj)
-- #7911 `351abf9` leveldb: integrate leveldb into our buildsystem (theuni)
-- #7944 `a407807` Re-instate TARGET_OS=linux in configure.ac. Removed by 351abf9e035 (randy-waterhouse)
-- #7920 `c3e3cfb` Switch Travis to Trusty (theuni)
-- #7954 `08b37c5` build: quiet annoying warnings without adding new ones (theuni)
-- #7165 `06162f1` build: Enable C++11 in build, require C++11 compiler (laanwj)
-- #7982 `559fbae` build: No need to check for leveldb atomics (theuni)
-- #8002 `f9b4582` [depends] Add -stdlib=libc++ to darwin CXX flags (fanquake)
-- #7993 `6a034ed` [depends] Bump Freetype, ccache, ZeroMQ, miniupnpc, expat (fanquake)
-- #8167 `19ea173` Ship debug tarballs/zips with debug symbols (theuni)
-- #8175 `f0299d8` Add --disable-bench to config flags for windows (laanwj)
-- #7283 `fd9881a` [gitian] Default reference_datetime to commit author date (MarcoFalke)
-- #8181 `9201ce8` Get rid of `CLIENT_DATE` (laanwj)
-- #8133 `fde0ac4` Finish up out-of-tree changes (theuni)
-- #8188 `65a9d7d` Add armhf/aarch64 gitian builds (theuni)
-- #8194 `cca1c8c` [gitian] set correct PATH for wrappers (MarcoFalke)
-- #8198 `5201614` Sync ax_pthread with upstream draft4 (fanquake)
-- #8210 `12a541e` [Qt] Bump to Qt5.6.1 (jonasschnelli)
-- #8285 `da50997` windows: Add testnet link to installer (laanwj)
-- #8304 `0cca2fe` [travis] Update SDK_URL (MarcoFalke)
-- #8310 `6ae20df` Require boost for bench (theuni)
-- #8315 `2e51590` Don't require sudo for Linux (theuni)
-- #8314 `67caef6` Fix pkg-config issues for 0.13 (theuni)
-- #8373 `1fe7f40` Fix OSX non-deterministic dmg (theuni)
-- #8358 `cfd1280` Gbuild: Set memory explicitly (default is too low) (MarcoFalke)
-
-### GUI
-
-- #7154 `00b4b8d` Add InMempool() info to transaction details (jonasschnelli)
-- #7068 `5f3c670` [RPC-Tests] add simple way to run rpc test over QT clients (jonasschnelli)
-- #7218 `a1c185b` Fix misleading translation (MarcoFalke)
-- #7214 `be9a9a3` qt5: Use the fixed font the system recommends (MarcoFalke)
-- #7256 `08ab906` Add note to coin control dialog QT5 workaround (fanquake)
-- #7255 `e289807` Replace some instances of formatWithUnit with formatHtmlWithUnit (fanquake)
-- #7317 `3b57e9c` Fix RPCTimerInterface ordering issue (jonasschnelli)
-- #7327 `c079d79` Transaction View: LastMonth calculation fixed (crowning-)
-- #7334 `e1060c5` coincontrol workaround is still needed in qt5.4 (fixed in qt5.5) (MarcoFalke)
-- #7383 `ae2db67` Rename "amount" to "requested amount" in receive coins table (jonasschnelli)
-- #7396 `cdcbc59` Add option to increase/decrease font size in the console window (jonasschnelli)
-- #7437 `9645218` Disable tab navigation for peers tables (Kefkius)
-- #7604 `354b03d` build: Remove spurious dollar sign. Fixes #7189 (dooglus)
-- #7605 `7f001bd` Remove openssl info from init/log and from Qt debug window (jonasschnelli)
-- #7628 `87d6562` Add 'copy full transaction details' option (ericshawlinux)
-- #7613 `3798e5d` Add autocomplete to bitcoin-qt's console window (GamerSg)
-- #7668 `b24266c` Fix history deletion bug after font size change (achow101)
-- #7680 `41d2dfa` Remove reflection from `about` icon (laanwj)
-- #7686 `f034bce` Remove 0-fee from send dialog (MarcoFalke)
-- #7506 `b88e0b0` Use CCoinControl selection in CWallet::FundTransaction (promag)
-- #7732 `0b98dd7` Debug window: replace "Build date" with "Datadir" (jonasschnelli)
-- #7761 `60db51d` remove trailing output-index from transaction-id (jonasschnelli)
-- #7772 `6383268` Clear the input line after activating autocomplete (paveljanik)
-- #7925 `f604bf6` Fix out-of-tree GUI builds (laanwj)
-- #7939 `574ddc6` Make it possible to show details for multiple transactions (laanwj)
-- #8012 `b33824b` Delay user confirmation of send (Tyler-Hardin)
-- #8006 `7c8558d` Add option to disable the system tray icon (Tyler-Hardin)
-- #8046 `169d379` Fix Cmd-Q / Menu Quit shutdown on OSX (jonasschnelli)
-- #8042 `6929711` Don't allow to open the debug window during splashscreen & verification state (jonasschnelli)
-- #8014 `77b49ac` Sort transactions by date (Tyler-Hardin)
-- #8073 `eb2f6f7` askpassphrasedialog: Clear pass fields on accept (rat4)
-- #8129 `ee1533e` Fix RPC console auto completer (UdjinM6)
-- #7636 `fb0ac48` Add bitcoin address label to request payment QR code (makevoid)
-- #8231 `760a6c7` Fix a bug where the SplashScreen will not be hidden during startup (jonasschnelli)
-- #8256 `af2421c` BUG: bitcoin-qt crash (fsb4000)
-- #8257 `ff03c50` Do not ask a UI question from bitcoind (sipa)
-- #8288 `91abb77` Network-specific example address (laanwj)
-- #7707 `a914968` UI support for abandoned transactions (jonasschnelli)
-- #8207 `f7a403b` Add a link to the Bitcoin-Core repository and website to the About Dialog (MarcoFalke)
-- #8281 `6a87eb0` Remove client name from debug window (laanwj)
-- #8407 `45eba4b` Add dbcache migration path (jonasschnelli)
-
-### Wallet
-
-- #7262 `fc08994` Reduce inefficiency of GetAccountAddress() (dooglus)
-- #7537 `78e81b0` Warn on unexpected EOF while salvaging wallet (laanwj)
-- #7521 `3368895` Don't resend wallet txs that aren't in our own mempool (morcos)
-- #7576 `86a1ec5` Move wallet help string creation to CWallet (jonasschnelli)
-- #7577 `5b3b5a7` Move "load wallet phase" to CWallet (jonasschnelli)
-- #7608 `0735c0c` Move hardcoded file name out of log messages (MarcoFalke)
-- #7649 `4900641` Prevent multiple calls to CWallet::AvailableCoins (promag)
-- #7646 `e5c3511` Fix lockunspent help message (promag)
-- #7558 `b35a591` Add import/removeprunedfunds rpc call (instagibbs)
-- #6215 `48c5adf` add bip32 pub key serialization (jonasschnelli)
-- #7913 `bafd075` Fix for incorrect locking in GetPubKey() (keystore.cpp) (yurizhykin)
-- #8036 `41138f9` init: Move berkeleydb version reporting to wallet (laanwj)
-- #8028 `373b50d` Fix insanity of CWalletDB::WriteTx and CWalletTx::WriteToDisk (pstratem)
-- #8061 `f6b7df3` Improve Wallet encapsulation (pstratem)
-- #7891 `950be19` Always require OS randomness when generating secret keys (sipa)
-- #7689 `b89ef13` Replace OpenSSL AES with ctaes-based version (sipa)
-- #7825 `f972b04` Prevent multiple calls to ExtractDestination (pedrobranco)
-- #8137 `243ac0c` Improve CWallet API with new AccountMove function (pstratem)
-- #8142 `52c3f34` Improve CWallet API  with new GetAccountPubkey function (pstratem)
-- #8035 `b67a472` Add simplest BIP32/deterministic key generation implementation (jonasschnelli)
-- #7687 `a6ddb19` Stop treating importaddress'ed scripts as change (sipa)
-- #8298 `aef3811` wallet: Revert input selection post-pruning (laanwj)
-- #8324 `bc94b87` Keep HD seed during salvagewallet (jonasschnelli)
-- #8323 `238300b` Add HD keypath to CKeyMetadata, report metadata in validateaddress (jonasschnelli)
-- #8367 `3b38a6a` Ensure <0.13 clients can't open HD wallets (jonasschnelli)
-- #8378 `ebea651` Move SetMinVersion for FEATURE_HD to SetHDMasterKey (pstratem)
-- #8390 `73adfe3` Correct hdmasterkeyid/masterkeyid name confusion (jonasschnelli)
-- #8206 `18b8ee1` Add HD xpriv to dumpwallet (jonasschnelli)
-- #8389 `c3c82c4` Create a new HD seed after encrypting the wallet (jonasschnelli)
-
-### Tests and QA
-
-- #7320 `d3dfc6d` Test walletpassphrase timeout (MarcoFalke)
-- #7208 `47c5ed1` Make max tip age an option instead of chainparam (laanwj)
-- #7372 `21376af` Trivial: [qa] wallet: Print maintenance (MarcoFalke)
-- #7280 `668906f` [travis] Fail when documentation is outdated (MarcoFalke)
-- #7177 `93b0576` [qa] Change default block priority size to 0 (MarcoFalke)
-- #7236 `02676c5` Use createrawtx locktime parm in txn_clone (dgenr8)
-- #7212 `326ffed` Adds unittests for CAddrMan and CAddrinfo, removes source of non-determinism (EthanHeilman)
-- #7490 `d007511` tests: Remove May15 test (laanwj)
-- #7531 `18cb2d5` Add bip68-sequence.py to extended rpc tests (btcdrak)
-- #7536 `ce5fc02` test: test leading spaces for ParseHex (laanwj)
-- #7620 `1b68de3` [travis] Only run check-doc.py once (MarcoFalke)
-- #7455 `7f96671` [travis] Exit early when check-doc.py fails (MarcoFalke)
-- #7667 `56d2c4e` Move GetTempPath() to testutil (musalbas)
-- #7517 `f1ca891` test: script_error checking in script_invalid tests (laanwj)
-- #7684 `3d0dfdb` Extend tests (MarcoFalke)
-- #7697 `622fe6c` Tests: make prioritise_transaction.py more robust (sdaftuar)
-- #7709 `efde86b` Tests: fix missing import in mempool_packages (sdaftuar)
-- #7702 `29e1131` Add tests verifychain, lockunspent, getbalance, listsinceblock (MarcoFalke)
-- #7720 `3b4324b` rpc-test: Normalize assert() (MarcoFalke)
-- #7757 `26794d4` wallet: Wait for reindex to catch up (MarcoFalke)
-- #7764 `a65b36c` Don't run pruning.py twice (MarcoFalke)
-- #7773 `7c80e72` Fix comments in tests (btcdrak)
-- #7489 `e9723cb` tests: Make proxy_test work on travis servers without IPv6 (laanwj)
-- #7801 `70ac71b` Remove misleading "errorString syntax" (MarcoFalke)
-- #7803 `401c65c` maxblocksinflight: Actually enable test (MarcoFalke)
-- #7802 `3bc71e1` httpbasics: Actually test second connection (MarcoFalke)
-- #7849 `ab8586e` tests: add varints_bitpatterns test (laanwj)
-- #7846 `491171f` Clean up lockorder data of destroyed mutexes (sipa)
-- #7853 `6ef5e00` py2: Unfiddle strings into bytes explicitly (MarcoFalke)
-- #7878 `53adc83` [test] bctest.py: Revert faa41ee (MarcoFalke)
-- #7798 `cabba24` [travis] Print the commit which was evaluated (MarcoFalke)
-- #7833 `b1bf511` tests: Check Content-Type header returned from RPC server (laanwj)
-- #7851 `fa9d86f` pull-tester: Don't mute zmq ImportError (MarcoFalke)
-- #7822 `0e6fd5e` Add listunspent() test for spendable/unspendable UTXO (jpdffonseca)
-- #7912 `59ad568` Tests: Fix deserialization of reject messages (sdaftuar)
-- #7941 `0ea3941` Fixing comment in script_test.json test case (Christewart)
-- #7807 `0ad1041` Fixed miner test values, gave constants for less error-prone values (instagibbs)
-- #7980 `88b77c7` Smartfees: Properly use ordered dict (MarcoFalke)
-- #7814 `77b637f` Switch to py3 (MarcoFalke)
-- #8030 `409a8a1` Revert fatal-ness of missing python-zmq (laanwj)
-- #8018 `3e90fe6` Autofind rpc tests --srcdir (jonasschnelli)
-- #8016 `5767e80` Fix multithread CScheduler and reenable test (paveljanik)
-- #7972 `423ca30` pull-tester: Run rpc test in parallel  (MarcoFalke)
-- #8039 `69b3a6d` Bench: Add crypto hash benchmarks (laanwj)
-- #8041 `5b736dd` Fix bip9-softforks blockstore issue (MarcoFalke)
-- #7994 `1f01443` Add op csv tests to script_tests.json (Christewart)
-- #8038 `e2bf830` Various minor fixes (MarcoFalke)
-- #8072 `1b87e5b` Travis: 'make check' in parallel and verbose (MarcoFalke)
-- #8056 `8844ef1` Remove hardcoded "4 nodes" from test_framework (MarcoFalke)
-- #8047 `37f9a1f` Test_framework: Set wait-timeout for bitcoind procs (MarcoFalke)
-- #8095 `6700cc9` Test framework: only cleanup on successful test runs (sdaftuar)
-- #8098 `06bd4f6` Test_framework: Append portseed to tmpdir (MarcoFalke)
-- #8104 `6ff2c8d` Add timeout to sync_blocks() and sync_mempools() (sdaftuar)
-- #8111 `61b8684` Benchmark SipHash (sipa)
-- #8107 `52b803e` Bench: Added base58 encoding/decoding benchmarks (yurizhykin)
-- #8115 `0026e0e` Avoid integer division in the benchmark inner-most loop (gmaxwell)
-- #8090 `a2df115` Adding P2SH(p2pkh) script test case (Christewart)
-- #7992 `ec45cc5` Extend #7956 with one more test (TheBlueMatt)
-- #8139 `ae5575b` Fix interrupted HTTP RPC connection workaround for Python 3.5+ (sipa)
-- #8164 `0f24eaf` [Bitcoin-Tx] fix missing test fixtures, fix 32bit atoi issue (jonasschnelli)
-- #8166 `0b5279f` Src/test: Do not shadow local variables (paveljanik)
-- #8141 `44c1b1c` Continuing port of java comparison tool (mrbandrews)
-- #8201 `36b7400` fundrawtransaction: Fix race, assert amounts (MarcoFalke)
-- #8214 `ed2cd59` Mininode: fail on send_message instead of silent return (MarcoFalke)
-- #8215 `a072d1a` Don't use floating point in wallet tests (MarcoFalke)
-- #8066 `65c2058` Test_framework: Use different rpc_auth_pair for each node (MarcoFalke)
-- #8216 `0d41d70` Assert 'changePosition out of bounds'  (MarcoFalke)
-- #8222 `961893f` Enable mempool consistency checks in unit tests (sipa)
-- #7751 `84370d5` test_framework: python3.4 authproxy compat (laanwj)
-- #7744 `d8e862a` test_framework: detect failure of bitcoind startup (laanwj)
-- #8280 `115735d` Increase sync_blocks() timeouts in pruning.py (MarcoFalke)
-- #8340 `af9b7a9` Solve trivial merge conflict in p2p-segwit.py (MarcoFalke)
-- #8067 `3e4cf8f` Travis: use slim generic image, and some fixups (theuni)
-- #7951 `5c7df70` Test_framework: Properly print exception (MarcoFalke)
-- #8070 `7771aa5` Remove non-determinism which is breaking net_tests #8069 (EthanHeilman)
-- #8309 `bb2646a` Add wallet-hd test (MarcoFalke)
-- #8444 `cd0910b` Fix p2p-feefilter.py for changed tx relay behavior (sdaftuar)
-
-### Mining
-
-- #7507 `11c7699` Remove internal miner (Leviathn)
-- #7663 `c87f51e` Make the generate RPC call function for non-regtest (sipa)
-- #7671 `e2ebd25` Add generatetoaddress RPC to mine to an address (achow101)
-- #7935 `66ed450` Versionbits: GBT support (luke-jr)
-- #7600 `66db2d6` Select transactions using feerate-with-ancestors (sdaftuar)
-- #8295 `f5660d3` Mining-related fixups for 0.13.0 (sdaftuar)
-- #7796 `536b75e` Add support for negative fee rates, fixes `prioritizetransaction` (MarcoFalke)
-- #8362 `86edc20` Scale legacy sigop count in CreateNewBlock (sdaftuar)
-- #8489 `8b0eee6` Bugfix: Use pre-BIP141 sigops until segwit activates (GBT) (luke-jr)
-
-### Documentation and miscellaneous
-
-- #7423 `69e2a40` Add example for building with constrained resources (jarret)
-- #8254 `c2c69ed` Add OSX ZMQ requirement to QA readme (fanquake)
-- #8203 `377d131` Clarify documentation for running a tor node (nathaniel-mahieu)
-- #7428 `4b12266` Add example for listing ./configure flags (nathaniel-mahieu)
-- #7847 `3eae681` Add arch linux build example (mruddy)
-- #7968 `ff69aaf` Fedora build requirements (wtogami)
-- #8013 `fbedc09` Fedora build requirements, add gcc-c++ and fix typo (wtogami)
-- #8009 `fbd8478` Fixed invalid example paths in gitian-building.md (JeremyRand)
-- #8240 `63fbdbc` Mention Windows XP end of support in release notes (laanwj)
-- #8303 `5077d2c` Update bips.md for CSV softfork (fanquake)
-- #7789 `e0b3e19` Add note about using the Qt official binary installer (paveljanik)
-- #7791 `e30a5b0` Change Precise to Trusty in gitian-building.md (JeremyRand)
-- #7838 `8bb5d3d` Update gitian build guide to debian 8.4.0 (fanquake)
-- #7855 `b778e59` Replace precise with trusty (MarcoFalke)
-- #7975 `fc23fee` Update bitcoin-core GitHub links (MarcoFalke)
-- #8034 `e3a8207` Add basic git squash workflow (fanquake)
-- #7813 `214ec0b` Update port in tor.md (MarcoFalke)
-- #8193 `37c9830` Use Debian 8.5 in the gitian-build guide (fanquake)
-- #8261 `3685e0c` Clarify help for `getblockchaininfo` (paveljanik)
-- #7185 `ea0f5a2` Note that reviewers should mention the id of the commits they reviewed (pstratem)
-- #7290 `c851d8d` [init] Add missing help for args (MarcoFalke)
-- #7281 `f9fd4c2` Improve CheckInputs() comment about sig verification (petertodd)
-- #7417 `1e06bab` Minor improvements to the release process (PRabahy)
-- #7444 `4cdbd42` Improve block validity/ConnectBlock() comments (petertodd)
-- #7527 `db2e1c0` Fix and cleanup listreceivedbyX documentation (instagibbs)
-- #7541 `b6e00af` Clarify description of blockindex (pinheadmz)
-- #7590 `f06af57` Improving wording related to Boost library requirements [updated] (jonathancross)
-- #7635 `0fa88ef` Add dependency info to test docs (elliotolds)
-- #7609 `3ba07bd` RPM spec file project (AliceWonderMiscreations)
-- #7850 `229a17c` Removed call to `TryCreateDirectory` from `GetDefaultDataDir` in `src/util.cpp` (alexreg)
-- #7888 `ec870e1` Prevector: fix 2 bugs in currently unreached code paths (kazcw)
-- #7922 `90653bc` CBase58Data::SetString: cleanse the full vector (kazcw)
-- #7881 `c4e8390` Update release process (laanwj)
-- #7952 `a9c8b74` Log invalid block hash to make debugging easier (paveljanik)
-- #7974 `8206835` More comments on the design of AttemptToEvictConnection (gmaxwell)
-- #7795 `47a7cfb` UpdateTip: log only one line at most per block (laanwj)
-- #8110 `e7e25ea` Add benchmarking notes (fanquake)
-- #8121 `58f0c92` Update implemented BIPs list (fanquake)
-- #8029 `58725ba` Simplify OS X build notes (fanquake)
-- #8143 `d46b8b5` comment nit: miners don't vote (instagibbs)
-- #8136 `22e0b35` Log/report in 10% steps during VerifyDB (jonasschnelli)
-- #8168 `d366185` util: Add ParseUInt32 and ParseUInt64 (laanwj)
-- #8178 `f7b1bfc` Add git and github tips and tricks to developer notes (sipa)
-- #8177 `67db011` developer notes: updates for C++11 (kazcw)
-- #8229 `8ccdac1` [Doc] Update OS X build notes for 10.11 SDK (fanquake)
-- #8233 `9f1807a` Mention Linux ARM executables in release process and notes (laanwj)
-- #7540 `ff46dd4` Rename OP_NOP3 to OP_CHECKSEQUENCEVERIFY (btcdrak)
-- #8289 `26316ff` bash-completion: Adapt for 0.12 and 0.13 (roques)
-- #7453 `3dc3149` Missing patches from 0.12 (MarcoFalke)
-- #7113 `54a550b` Switch to a more efficient rolling Bloom filter (sipa)
-- #7257 `de9e5ea` Combine common error strings for different options so translations can be shared and reused (luke-jr)
-- #7304 `b8f485c` [contrib] Add clang-format-diff.py (MarcoFalke)
-- #7378 `e6f97ef` devtools: replace github-merge with python version (laanwj)
-- #7395 `0893705` devtools: show pull and commit information in github-merge (laanwj)
-- #7402 `6a5932b` devtools: github-merge get toplevel dir without extra whitespace (achow101)
-- #7425 `20a408c` devtools: Fix utf-8 support in messages for github-merge (laanwj)
-- #7632 `409f843` Delete outdated test-patches reference (Lewuathe)
-- #7662 `386f438` remove unused NOBLKS_VERSION_{START,END} constants (rat4)
-- #7737 `aa0d2b2` devtools: make github-merge.py use py3 (laanwj)
-- #7781 `55db5f0` devtools: Auto-set branch to merge to in github-merge (laanwj)
-- #7934 `f17032f` Improve rolling bloom filter performance and benchmark (sipa)
-- #8004 `2efe38b` signal handling: fReopenDebugLog and fRequestShutdown should be type sig_atomic_t (catilac)
-- #7713 `f6598df` Fixes for verify-commits script (petertodd)
-- #8412 `8360d5b` libconsensus: Expose a flag for BIP112 (jtimon)
-
-Credits
-=======
-
-Thanks to everyone who directly contributed to this release:
-
-- 21E14
-- accraze
-- Adam Brown
-- Alexander Regueiro
-- Alex Morcos
-- Alfie John
-- Alice Wonder
-- AlSzacrel
-- Andrew Chow
-- Andrés G. Aragoneses
-- Bob McElrath
-- BtcDrak
-- calebogden
-- Cédric Félizard
-- Chirag Davé
-- Chris Moore
-- Chris Stewart
-- Christian von Roques
-- Chris Wheeler
-- Cory Fields
-- crowning-
-- Daniel Cousens
-- Daniel Kraft
-- Denis Lukianov
-- Elias Rohrer
-- Elliot Olds
-- Eric Shaw
-- error10
-- Ethan Heilman
-- face
-- fanquake
-- Francesco 'makevoid' Canessa
-- fsb4000
-- Gavin Andresen
-- gladoscc
-- Gregory Maxwell
-- Gregory Sanders
-- instagibbs
-- James O'Beirne
-- Jannes Faber
-- Jarret Dyrbye
-- Jeremy Rand
-- jloughry
-- jmacwhyte
-- Joao Fonseca
-- Johnson Lau
-- Jonas Nick
-- Jonas Schnelli
-- Jonathan Cross
-- João Barbosa
-- Jorge Timón
-- Kaz Wesley
-- Kefkius
-- kirkalx
-- Krzysztof Jurewicz
-- Leviathn
-- lewuathe
-- Luke Dashjr
-- Luv Khemani
-- Marcel Krüger
-- Marco Falke
-- Mark Friedenbach
-- Matt
-- Matt Bogosian
-- Matt Corallo
-- Matthew English
-- Matthew Zipkin
-- mb300sd
-- Mitchell Cash
-- mrbandrews
-- mruddy
-- Murch
-- Mustafa
-- Nathaniel Mahieu
-- Nicolas Dorier
-- Patrick Strateman
-- Paul Rabahy
-- paveljanik
-- Pavel Janík
-- Pavel Vasin
-- Pedro Branco
-- Peter Todd
-- Philip Kaufmann
-- Pieter Wuille
-- Prayag Verma
-- ptschip
-- Puru
-- randy-waterhouse
-- R E Broadley
-- Rusty Russell
-- Suhas Daftuar
-- Suriyaa Kudo
-- TheLazieR Yip
-- Thomas Kerin
-- Tom Harding
-- Tyler Hardin
-- UdjinM6
-- Warren Togami
-- Will Binns
-- Wladimir J. van der Laan
-- Yuri Zhykin
-
-As well as everyone that helped translating on [Transifex](https://www.transifex.com/projects/p/bitcoin/).
