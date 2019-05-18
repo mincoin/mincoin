@@ -1,7 +1,7 @@
 Mincoin Core integration/staging tree
 =====================================
 
-https://mincoin.us
+https://www.mincoin.us
 
 What is Mincoin?
 ----------------
@@ -18,7 +18,7 @@ software which enables the use of this currency.
  - SplashGuard retargets difficulty after every block
 
 For more information, as well as an immediately useable, binary version of
-the Mincoin Core software, see https://mincoin.us.
+the Mincoin Core software, see https://www.mincoin.us.
 
 License
 -------
