@@ -256,7 +256,7 @@ class FullBlockTest(ComparisonTestFramework):
         #                                                    \-> b9 (4)
         #                      \-> b3 (1) -> b4 (2)
         tip(6)
-        block(9, spend=out[4], additional_coinbase_value=1)
+        block(9, spend=out[4], additional_coinbase_value=45000000001)
         yield rejected(RejectResult(16, b'bad-cb-amount'))
 
         # Create a fork that ends in a block with too much fee (the one that causes the reorg)
@@ -267,7 +267,7 @@ class FullBlockTest(ComparisonTestFramework):
         block(10, spend=out[3])
         yield rejected()
 
-        block(11, spend=out[4], additional_coinbase_value=1)
+        block(11, spend=out[4], additional_coinbase_value=45000000001)
         yield rejected(RejectResult(16, b'bad-cb-amount'))
 
 
@@ -287,7 +287,7 @@ class FullBlockTest(ComparisonTestFramework):
         save_spendable_output()
         # b14 is invalid, but the node won't know that until it tries to connect
         # Tip still can't advance because b12 is missing
-        block(14, spend=out[5], additional_coinbase_value=1)
+        block(14, spend=out[5], additional_coinbase_value=45000000001)
         yield rejected()
 
         yield TestInstance([[b12, True, b13.sha256]]) # New tip should be b13.
@@ -662,7 +662,7 @@ class FullBlockTest(ComparisonTestFramework):
         tip(44)
         b47 = block(47, solve=False)
         target = uint256_from_compact(b47.nBits)
-        while b47.sha256 < target: #changed > to <
+        while b47.scrypt256 < target: #changed > to <
             b47.nNonce += 1
             b47.rehash()
         yield rejected(RejectResult(16, b'high-hash'))
@@ -972,7 +972,7 @@ class FullBlockTest(ComparisonTestFramework):
         #       this succeeds
         #
         tip(65)
-        b68 = block(68, additional_coinbase_value=10)
+        b68 = block(68, additional_coinbase_value=45000000010)
         tx = create_and_sign_tx(out[20].tx, out[20].n, out[20].tx.vout[0].nValue-9)
         update_block(68, [tx])
         yield rejected(RejectResult(16, b'bad-cb-amount'))
