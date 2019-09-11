@@ -1,43 +1,79 @@
-Bitcoin Core integration/staging tree
+Mincoin Core integration/staging tree
 =====================================
 
-[![Build Status](https://travis-ci.org/bitcoin/bitcoin.svg?branch=master)](https://travis-ci.org/bitcoin/bitcoin)
+[![Build Status](https://travis-ci.org/mincoin/mincoin.svg?branch=0.14)](https://travis-ci.org/mincoin/mincoin)
 
-https://bitcoincore.org
+https://www.mincoin.us
 
-What is Bitcoin?
+What is Mincoin?
 ----------------
 
-Bitcoin is an experimental digital currency that enables instant payments to
-anyone, anywhere in the world. Bitcoin uses peer-to-peer technology to operate
+Mincoin is an experimental digital currency that enables instant payments to
+anyone, anywhere in the world. Mincoin uses peer-to-peer technology to operate
 with no central authority: managing transactions and issuing money are carried
-out collectively by the network. Bitcoin Core is the name of open source
-software which enables the use of this currency.
+out collectively by the network. Mincoin Core is the name of open source
+software which enables the use of this currency. Mincoin is bronze to Bitcoin
+gold.
+
+ - Only 10 million total coins will be generated
+ - 1 minute block target for ultra fast transactions
+ - 2 coins per block
+ - SplashGuard retargets difficulty after every block
+
+Block Explorers
+---------------
+
+- [Mincoin Explorer (primary)](https://www.mincoinexplorer.com/)
+- [Crypto Explore](http://cryptoexplore.com/)
+- [Explore the Mincoin](https://explore-the-minco.in/)
+
+Pools
+-----
+
+- [MincoinPool (p2pool)](https://github.com/mincoin/mincoinpool)
+- [Mining-Dutch](https://www.mining-dutch.nl/)
+- [CoinMinerz](http://coinminerz.com/)
+- [Hash-to-Coins](https://hash-to-coins.com/)
+- [Fairpool](https://fairpool.pro/)
+- [Block Masters](http://blockmasters.co/)
+- [NLPool](https://nlpool.nl/)
+- [CoinStop](https://coinstop.me/)
+- [Zergpool](https://zergpool.com/)
+- [REaL Pool](http://mine.realpool.eu/)
+- [A Hash Pool](https://www.ahashpool.com/)
+- [AikaPool](https://aikapool.com/)
+- [CryptoPool](https://cryptopool.cash/)
+- [Austpool](http://austpool.com/)
+
+Pool Explorers
+--------------
+
+- [Mining Pool Stats](https://miningpoolstats.stream/mincoin)
+- [Pool Explorer](https://poolexplorer.com/coin/3819)
 
 For more information, as well as an immediately useable, binary version of
-the Bitcoin Core software, see https://bitcoin.org/en/download, or read the
-[original whitepaper](https://bitcoincore.org/bitcoin.pdf).
+the Mincoin Core software, see https://www.mincoin.us.
 
 License
 -------
 
-Bitcoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+Mincoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see https://opensource.org/licenses/MIT.
 
 Development Process
 -------------------
 
 The `master` branch is regularly built and tested, but is not guaranteed to be
-completely stable. [Tags](https://github.com/bitcoin/bitcoin/tags) are created
-regularly to indicate new official, stable release versions of Bitcoin Core.
+completely stable. [Tags](https://github.com/mincoin/mincoin/tags) are created
+regularly to indicate new official, stable release versions of Mincoin Core.
 
 The contribution workflow is described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
-The developer [mailing list](https://lists.linuxfoundation.org/mailman/listinfo/bitcoin-dev)
+The developer [mailing list](https://groups.google.com/d/forum/mincoin-dev)
 should be used to discuss complicated or controversial changes before working
 on a patch set.
 
-Developer IRC can be found on Freenode at #bitcoin-core-dev.
+Developer IRC can be found on Freenode at #mincoin-dev.
 
 Testing
 -------
@@ -70,13 +106,5 @@ not straightforward.
 Translations
 ------------
 
-Changes to translations as well as new translations can be submitted to
-[Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
-
-Translations are periodically pulled from Transifex and merged into the git repository. See the
-[translation process](doc/translation_process.md) for details on how this works.
-
-**Important**: We do not accept translation changes as GitHub pull requests because the next
-pull from Transifex would automatically overwrite them again.
-
-Translators should also subscribe to the [mailing list](https://groups.google.com/forum/#!forum/bitcoin-translators).
+We only accept translation fixes that are submitted through [Bitcoin Core's Transifex page](https://www.transifex.com/projects/p/bitcoin/).
+Translations are converted to Mincoin periodically.
