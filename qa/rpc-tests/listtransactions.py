@@ -5,7 +5,7 @@
 
 # Exercise the listtransactions API
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 from test_framework.mininode import CTransaction, COIN
 from io import BytesIO
@@ -16,7 +16,7 @@ def txFromHex(hexstring):
     tx.deserialize(f)
     return tx
 
-class ListTransactionsTest(BitcoinTestFramework):
+class ListTransactionsTest(MincoinTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 4

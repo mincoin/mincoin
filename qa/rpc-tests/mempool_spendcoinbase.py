@@ -13,11 +13,11 @@
 # but less mature coinbase spends are NOT.
 #
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 
 # Create one-input, one-output, no-fee transaction:
-class MempoolSpendCoinbaseTest(BitcoinTestFramework):
+class MempoolSpendCoinbaseTest(MincoinTestFramework):
 
     def __init__(self):
         super().__init__()

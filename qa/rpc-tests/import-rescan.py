@@ -18,7 +18,7 @@ happened previously.
 """
 
 from test_framework.authproxy import JSONRPCException
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import (start_nodes, connect_nodes, sync_blocks, assert_equal, set_node_times)
 from decimal import Decimal
 
@@ -109,7 +109,7 @@ IMPORT_NODES = [ImportNode(*fields) for fields in itertools.product((False, True
 RESCAN_WINDOW = 2 * 60 * 60
 
 
-class ImportRescanTest(BitcoinTestFramework):
+class ImportRescanTest(MincoinTestFramework):
     def __init__(self):
         super().__init__()
         self.num_nodes = 2 + len(IMPORT_NODES)

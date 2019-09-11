@@ -7,10 +7,10 @@
 # Test InvalidateBlock code
 #
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 
-class InvalidateTest(BitcoinTestFramework):
+class InvalidateTest(MincoinTestFramework):
     
         
     def __init__(self):

@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 from test_framework.mininode import *
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 import re
 import time
@@ -63,7 +63,7 @@ class TestNode(NodeConnCB):
         return received_pong
 
 
-class VersionBitsWarningTest(BitcoinTestFramework):
+class VersionBitsWarningTest(MincoinTestFramework):
     def __init__(self):
         super().__init__()
         self.setup_clean_chain = True

@@ -7,10 +7,10 @@
 # Test proper accounting with an equivalent malleability clone
 #
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 
-class TxnMallTest(BitcoinTestFramework):
+class TxnMallTest(MincoinTestFramework):
 
     def __init__(self):
         super().__init__()

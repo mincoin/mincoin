@@ -12,11 +12,11 @@
 #    - getrawtransaction
 """
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 
 # Create one-input, one-output, no-fee transaction:
-class RawTransactionsTest(BitcoinTestFramework):
+class RawTransactionsTest(MincoinTestFramework):
 
     def __init__(self):
         super().__init__()
@@ -27,7 +27,7 @@ class RawTransactionsTest(BitcoinTestFramework):
         self.nodes = start_nodes(self.num_nodes, self.options.tmpdir)
 
         #connect to a local machine for debugging
-        #url = "http://bitcoinrpc:DP6DvqZtqXarpeNWyN3LZTFchCCyCUuHwNF7E8pX99x1@%s:%d" % ('127.0.0.1', 18332)
+        #url = "http://mincoinrpc:DP6DvqZtqXarpeNWyN3LZTFchCCyCUuHwNF7E8pX99x1@%s:%d" % ('127.0.0.1', 18332)
         #proxy = AuthServiceProxy(url)
         #proxy.url = url # store URL on proxy for info
         #self.nodes.append(proxy)

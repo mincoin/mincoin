@@ -82,7 +82,7 @@ def mpi2bn(s):
         return -v
     return v
 
-# bitcoin-specific little endian format, with implicit size
+# mincoin-specific little endian format, with implicit size
 def mpi2vch(s):
     r = s[4:]           # strip size
     r = r[::-1]         # reverse string, converting BE->LE

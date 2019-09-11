@@ -4,7 +4,7 @@
 # file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 from test_framework.mininode import *
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 import time
 
@@ -79,7 +79,7 @@ class TestNode(NodeConnCB):
         self.ping_counter += 1
         return success
 
-class MaxUploadTest(BitcoinTestFramework):
+class MaxUploadTest(MincoinTestFramework):
  
     def __init__(self):
         super().__init__()

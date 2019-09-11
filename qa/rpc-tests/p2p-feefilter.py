@@ -5,7 +5,7 @@
 #
 
 from test_framework.mininode import *
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import *
 import time
 
@@ -45,7 +45,7 @@ class TestNode(SingleNodeConnCB):
         self.send_message(msg_feefilter(feerate))
         self.sync_with_ping()
 
-class FeeFilterTest(BitcoinTestFramework):
+class FeeFilterTest(MincoinTestFramework):
 
     def __init__(self):
         super().__init__()

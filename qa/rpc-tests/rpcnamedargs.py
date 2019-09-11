@@ -5,7 +5,7 @@
 
 from decimal import Decimal
 
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.authproxy import JSONRPCException
 from test_framework.util import (
     assert_equal,
@@ -17,7 +17,7 @@ from test_framework.util import (
 )
 
 
-class NamedArgumentTest(BitcoinTestFramework):
+class NamedArgumentTest(MincoinTestFramework):
     """
     Test named arguments on RPC calls.
     """

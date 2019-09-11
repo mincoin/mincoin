@@ -6,7 +6,7 @@
 #
 # Test -reindex and -reindex-chainstate with CheckBlockIndex
 #
-from test_framework.test_framework import BitcoinTestFramework
+from test_framework.test_framework import MincoinTestFramework
 from test_framework.util import (
     start_nodes,
     stop_nodes,
@@ -14,7 +14,7 @@ from test_framework.util import (
 )
 import time
 
-class ReindexTest(BitcoinTestFramework):
+class ReindexTest(MincoinTestFramework):
 
     def __init__(self):
         super().__init__()
