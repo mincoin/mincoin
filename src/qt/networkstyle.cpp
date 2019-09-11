@@ -16,8 +16,8 @@ static const struct {
     const char *titleAddText;
 } network_styles[] = {
     {"main", QAPP_APP_NAME_DEFAULT, 0, 0, ""},
-    {"test", QAPP_APP_NAME_TESTNET, 70, 30, QT_TRANSLATE_NOOP("SplashScreen", "[testnet]")},
-    {"regtest", QAPP_APP_NAME_TESTNET, 160, 30, "[regtest]"}
+    {"test", QAPP_APP_NAME_TESTNET, 0, 0, QT_TRANSLATE_NOOP("SplashScreen", "[testnet]")},
+    {"regtest", QAPP_APP_NAME_TESTNET, 0, 0, "[regtest]"}
 };
 static const unsigned network_styles_count = sizeof(network_styles)/sizeof(*network_styles);
 
@@ -28,11 +28,13 @@ NetworkStyle::NetworkStyle(const QString &_appName, const int iconColorHueShift,
 {
     // load pixmap
     QPixmap pixmap(":/icons/mincoin");
+    QPixmap splashpixmap(":/images/splash");
 
     if(iconColorHueShift != 0 && iconColorSaturationReduction != 0)
     {
         // generate QImage from QPixmap
         QImage img = pixmap.toImage();
+        QImage splashimg = splashpixmap.toImage();
 
         int h,s,l,a;
 
@@ -67,15 +69,51 @@ NetworkStyle::NetworkStyle(const QString &_appName, const int iconColorHueShift,
             }
         }
 
+        int hsplash,ssplash,lsplash,asplash;
+
+        // traverse though lines
+        for(int y=0;y<splashimg.height();y++)
+        {
+            QRgb *scL = reinterpret_cast< QRgb *>( splashimg.scanLine( y ) );
+
+            // loop through pixels
+            for(int x=0;x<splashimg.width();x++)
+            {
+                // preserve alpha because QColor::getHsl doesen't return the alpha value
+                asplash = qAlpha(scL[x]);
+                QColor col(scL[x]);
+
+                // get hue value
+                col.getHsl(&hsplash,&ssplash,&lsplash);
+
+                // rotate color on RGB color circle
+                // 70° should end up with the typical "testnet" green
+                hsplash+=iconColorHueShift;
+
+                // change saturation value
+                if(ssplash>iconColorSaturationReduction)
+                {
+                    ssplash -= iconColorSaturationReduction;
+                }
+                col.setHsl(hsplash,ssplash,lsplash,asplash);
+
+                // set the pixel
+                scL[x] = col.rgba();
+            }
+        }
+
         //convert back to QPixmap
 #if QT_VERSION >= 0x040700
         pixmap.convertFromImage(img);
+        splashpixmap.convertFromImage(splashimg);
 #else
         pixmap = QPixmap::fromImage(img);
+        splashpixmap = QPixmap::fromImage(splashimg);
 #endif
     }
 
     appIcon             = QIcon(pixmap);
+    appImage            = QIcon(splashpixmap);
     trayAndWindowIcon   = QIcon(pixmap.scaled(QSize(256,256)));
 }
 
