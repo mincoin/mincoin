@@ -1,11 +1,11 @@
-BIPs that are implemented by Bitcoin Core (up-to-date up to **v0.13.0**):
+BIPs that are implemented by Mincoin Core (up-to-date up to **v0.13.0**):
 
 * [`BIP 9`](https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki): The changes allowing multiple soft-forks to be deployed in parallel have been implemented since **v0.12.1**  ([PR #7575](https://github.com/bitcoin/bitcoin/pull/7575))
 * [`BIP 11`](https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki): Multisig outputs are standard since **v0.6.0** ([PR #669](https://github.com/bitcoin/bitcoin/pull/669)).
 * [`BIP 13`](https://github.com/bitcoin/bips/blob/master/bip-0013.mediawiki): The address format for P2SH addresses has been implemented since **v0.6.0** ([PR #669](https://github.com/bitcoin/bitcoin/pull/669)).
 * [`BIP 14`](https://github.com/bitcoin/bips/blob/master/bip-0014.mediawiki): The subversion string is being used as User Agent since **v0.6.0** ([PR #669](https://github.com/bitcoin/bitcoin/pull/669)).
 * [`BIP 16`](https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki): The pay-to-script-hash evaluation rules have been implemented since **v0.6.0**, and took effect on *April 1st 2012* ([PR #748](https://github.com/bitcoin/bitcoin/pull/748)).
-* [`BIP 21`](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki): The URI format for Bitcoin payments has been implemented since **v0.6.0** ([PR #176](https://github.com/bitcoin/bitcoin/pull/176)).
+* [`BIP 21`](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki): The URI format for Mincoin payments has been implemented since **v0.6.0** ([PR #176](https://github.com/bitcoin/bitcoin/pull/176)).
 * [`BIP 22`](https://github.com/bitcoin/bips/blob/master/bip-0022.mediawiki): The 'getblocktemplate' (GBT) RPC protocol for mining has been implemented since **v0.7.0** ([PR #936](https://github.com/bitcoin/bitcoin/pull/936)).
 * [`BIP 23`](https://github.com/bitcoin/bips/blob/master/bip-0023.mediawiki): Some extensions to GBT have been implemented since **v0.10.0rc1**, including longpolling and block proposals ([PR #1816](https://github.com/bitcoin/bitcoin/pull/1816)).
 * [`BIP 30`](https://github.com/bitcoin/bips/blob/master/bip-0030.mediawiki): The evaluation rules to forbid creating new transactions with the same txid as previous not-fully-spent transactions were implemented since **v0.6.0**, and the rule took effect on *March 15th 2012* ([PR #915](https://github.com/bitcoin/bitcoin/pull/915)).

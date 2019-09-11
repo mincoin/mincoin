@@ -1,0 +1,92 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/mincoin/.mincoin" ]; then
+	MINCOIND_DEFAULT_DATADIR="/var/lib/mincoin/.mincoin"
+else
+	MINCOIND_DEFAULT_DATADIR="/var/lib/mincoind"
+fi
+
+MINCOIND_CONFIGFILE=${MINCOIND_CONFIGFILE:-/etc/mincoin/mincoin.conf}
+MINCOIND_PIDDIR=${MINCOIND_PIDDIR:-/var/run/mincoind}
+MINCOIND_PIDFILE=${MINCOIND_PIDFILE:-${MINCOIND_PIDDIR}/mincoind.pid}
+MINCOIND_DATADIR=${MINCOIND_DATADIR:-${MINCOIND_DEFAULT_DATADIR}}
+MINCOIND_USER=${MINCOIND_USER:-${MINCOIN_USER:-mincoin}}
+MINCOIND_GROUP=${MINCOIND_GROUP:-mincoin}
+MINCOIND_BIN=${MINCOIND_BIN:-/usr/bin/mincoind}
+MINCOIND_NICE=${MINCOIND_NICE:-${NICELEVEL:-0}}
+MINCOIND_OPTS="${MINCOIND_OPTS:-${MINCOIN_OPTS}}"
+
+name="Mincoin Core Daemon"
+description="Mincoin cryptocurrency P2P network daemon"
+
+command="/usr/bin/mincoind"
+command_args="-pid=\"${MINCOIND_PIDFILE}\" \
+		-conf=\"${MINCOIND_CONFIGFILE}\" \
+		-datadir=\"${MINCOIND_DATADIR}\" \
+		-daemon \
+		${MINCOIND_OPTS}"
+
+required_files="${MINCOIND_CONFIGFILE}"
+start_stop_daemon_args="-u ${MINCOIND_USER} \
+			-N ${MINCOIND_NICE} -w 2000"
+pidfile="${MINCOIND_PIDFILE}"
+
+# The retry schedule to use when stopping the daemon. Could be either
+# a timeout in seconds or multiple signal/timeout pairs (like
+# "SIGKILL/180 SIGTERM/300")
+retry="${MINCOIND_SIGTERM_TIMEOUT}"
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${MINCOIND_USER}:${MINCOIND_GROUP}" \
+	"${MINCOIND_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${MINCOIND_USER}:${MINCOIND_GROUP}" \
+	"${MINCOIND_PIDDIR}"
+
+	checkpath -f \
+	-o ${MINCOIND_USER}:${MINCOIND_GROUP} \
+	-m 0660 \
+	${MINCOIND_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${MINCOIND_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run mincoind."
+		eerror "The setting must appear in ${MINCOIND_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"Mincoin Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

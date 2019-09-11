@@ -3,7 +3,7 @@ Unauthenticated REST Interface
 
 The REST API can be enabled with the `-rest` option.
 
-The interface runs on the same port as the JSON-RPC interface, by default port 8332 for mainnet and port 18332 for testnet.
+The interface runs on the same port as the JSON-RPC interface, by default port 9335 for mainnet and port 19335 for testnet.
 
 Supported API
 -------------
@@ -55,26 +55,26 @@ https://github.com/bitcoin/bips/blob/master/bip-0064.mediawiki
 
 Example:
 ```
-$ curl localhost:18332/rest/getutxos/checkmempool/b2cdfd7b89def827ff8af7cd9bff7627ff72e5e8b0f71210f92ea7a4000c5d75-0.json 2>/dev/null | json_pp
+$ curl localhost:19335/rest/getutxos/checkmempool/1e2a14c8d8449f8631561be8e3aa8852679bb66bf5b2e7c0104187bb1e18a9d8-0.json 2>/dev/null | json_pp
 {
-   "chaintipHash" : "00000000fb01a7f3745a717f8caebee056c484e6e0bfe4a9591c235bb70506fb",
-   "chainHeight" : 325347,
    "utxos" : [
       {
-         "scriptPubKey" : {
-            "addresses" : [
-               "mi7as51dvLJsizWnTMurtRmrP8hG2m1XvD"
-            ],
-            "type" : "pubkeyhash",
-            "hex" : "76a9141c7cebb529b86a04c683dfa87be49de35bcf589e88ac",
-            "reqSigs" : 1,
-            "asm" : "OP_DUP OP_HASH160 1c7cebb529b86a04c683dfa87be49de35bcf589e OP_EQUALVERIFY OP_CHECKSIG"
-         },
-         "value" : 8.8687,
          "height" : 2147483647,
-         "txvers" : 1
+         "value" : 0.0009252,
+         "txvers" : 2,
+         "scriptPubKey" : {
+            "reqSigs" : 1,
+            "type" : "pubkeyhash",
+            "hex" : "76a914662210d81335de4a0a626bfb1e5c8203c2e28e8d88ac",
+            "addresses" : [
+               "mppz2Z5ECsQFVw4Lo3vagYmRTB27cxWFcF"
+            ],
+            "asm" : "OP_DUP OP_HASH160 662210d81335de4a0a626bfb1e5c8203c2e28e8d OP_EQUALVERIFY OP_CHECKSIG"
+         }
       }
    ],
+   "chaintipHash" : "f0cb897dd28373d30c90167b6b77efd6f98c54072aeabdcbe38bc1b489660a80",
+   "chainHeight" : 125003,
    "bitmap" : "1"
 }
 ```
@@ -95,4 +95,4 @@ Only supports JSON as output format.
 
 Risks
 -------------
-Running a web browser on the same node with a REST enabled bitcoind can be a risk. Accessing prepared XSS websites could read out tx/block data of your node by placing links like `<script src="http://127.0.0.1:8332/rest/tx/1234567890.json">` which might break the nodes privacy.
+Running a web browser on the same node with a REST enabled mincoind can be a risk. Accessing prepared XSS websites could read out tx/block data of your node by placing links like `<script src="http://127.0.0.1:9335/rest/tx/1234567890.json">` which might break the nodes privacy.
