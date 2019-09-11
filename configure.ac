@@ -105,9 +105,9 @@ AC_ARG_WITH([miniupnpc],
 
 AC_ARG_ENABLE([upnp-default],
   [AS_HELP_STRING([--enable-upnp-default],
-  [if UPNP is enabled, turn it on at startup (default is no)])],
+  [if UPNP is enabled, turn it on at startup (default is yes)])],
   [use_upnp_default=$enableval],
-  [use_upnp_default=no])
+  [use_upnp_default=yes])
 
 AC_ARG_ENABLE(tests,
     AS_HELP_STRING([--disable-tests],[do not compile tests (default is to compile)]),
