@@ -357,7 +357,7 @@ mincoind_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 mincoind_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-mincoind_SOURCES += bitcoind-res.rc
+mincoind_SOURCES += mincoind-res.rc
 endif
 
 mincoind_LDADD = \
@@ -382,7 +382,7 @@ mincoin_cli_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 mincoin_cli_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-mincoin_cli_SOURCES += bitcoin-cli-res.rc
+mincoin_cli_SOURCES += mincoin-cli-res.rc
 endif
 
 mincoin_cli_LDADD = \
@@ -401,7 +401,7 @@ mincoin_tx_CXXFLAGS = $(AM_CXXFLAGS) $(PIE_FLAGS)
 mincoin_tx_LDFLAGS = $(RELDFLAGS) $(AM_LDFLAGS) $(LIBTOOL_APP_LDFLAGS)
 
 if TARGET_WINDOWS
-mincoin_tx_SOURCES += bitcoin-tx-res.rc
+mincoin_tx_SOURCES += mincoin-tx-res.rc
 endif
 
 mincoin_tx_LDADD = \
