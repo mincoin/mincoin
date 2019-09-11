@@ -3967,7 +3967,11 @@ int CMerkleTx::GetBlocksToMaturity() const
 {
     if (!IsCoinBase())
         return 0;
-    return max(0, (COINBASE_MATURITY+1) - GetDepthInMainChain());
+    if (Params().NetworkIDString() == CBaseChainParams::REGTEST) {
+        return max(0, (REGTEST_COINBASE_MATURITY+1) - GetDepthInMainChain());
+    } else {
+        return max(0, (COINBASE_MATURITY+1) - GetDepthInMainChain());
+    }
 }
 
 

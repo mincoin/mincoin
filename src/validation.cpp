@@ -1370,7 +1370,7 @@ int GetSpendHeight(const CCoinsViewCache& inputs)
 }
 
 namespace Consensus {
-bool CheckTxInputs(const CTransaction& tx, CValidationState& state, const CCoinsViewCache& inputs, int nSpendHeight)
+bool CheckTxInputs(const CChainParams& chainparams, const CTransaction& tx, CValidationState& state, const CCoinsViewCache& inputs, int nSpendHeight)
 {
         // This doesn't trigger the DoS code on purpose; if it did, it would make it easier
         // for an attacker to attempt to split the network.
@@ -1387,10 +1387,34 @@ bool CheckTxInputs(const CTransaction& tx, CValidationState& state, const CCoins
 
             // If prev is coinbase, check that it's matured
             if (coins->IsCoinBase()) {
-                if (nSpendHeight - coins->nHeight < COINBASE_MATURITY)
-                    return state.Invalid(false,
-                        REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",
-                        strprintf("tried to spend coinbase at depth %d", nSpendHeight - coins->nHeight));
+                if (!chainparams.GetConsensus().fPowAllowMinDifficultyBlocks) {
+                    // Main Network
+                    if (nSpendHeight >= 1452840) {
+                        if (nSpendHeight - coins->nHeight < COINBASE_MATURITY)
+                            return state.Invalid(false,
+                                REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",
+                                strprintf("tried to spend coinbase at depth %d", nSpendHeight - coins->nHeight));
+                    } else {
+                        if (nSpendHeight - coins->nHeight < CLASSIC_COINBASE_MATURITY)
+                            return state.Invalid(false,
+                                REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",
+                                strprintf("tried to spend coinbase at depth %d", nSpendHeight - coins->nHeight));
+                    }
+                } else {
+                    if (!chainparams.GetConsensus().fPowNoRetargeting) {
+                        // Test Network
+                        if (nSpendHeight - coins->nHeight < COINBASE_MATURITY)
+                            return state.Invalid(false,
+                                REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",
+                                strprintf("tried to spend coinbase at depth %d", nSpendHeight - coins->nHeight));
+                    } else {
+                        // RegTest Network
+                        if (nSpendHeight - coins->nHeight < REGTEST_COINBASE_MATURITY)
+                            return state.Invalid(false,
+                                REJECT_INVALID, "bad-txns-premature-spend-of-coinbase",
+                                strprintf("tried to spend coinbase at depth %d", nSpendHeight - coins->nHeight));
+                    }
+                }
             }
 
             // Check for negative or overflow input values
@@ -1419,7 +1443,7 @@ bool CheckInputs(const CTransaction& tx, CValidationState &state, const CCoinsVi
 {
     if (!tx.IsCoinBase())
     {
-        if (!Consensus::CheckTxInputs(tx, state, inputs, GetSpendHeight(inputs)))
+        if (!Consensus::CheckTxInputs(Params(), tx, state, inputs, GetSpendHeight(inputs)))
             return false;
 
         if (pvChecks)

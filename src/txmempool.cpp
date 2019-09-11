@@ -5,6 +5,7 @@
 
 #include "txmempool.h"
 
+#include "chainparams.h"
 #include "clientversion.h"
 #include "consensus/consensus.h"
 #include "consensus/validation.h"
@@ -556,9 +557,16 @@ void CTxMemPool::removeForReorg(const CCoinsViewCache *pcoins, unsigned int nMem
                     continue;
                 const CCoins *coins = pcoins->AccessCoins(txin.prevout.hash);
                 if (nCheckFrequency != 0) assert(coins);
-                if (!coins || (coins->IsCoinBase() && ((signed long)nMemPoolHeight) - coins->nHeight < COINBASE_MATURITY)) {
-                    txToRemove.insert(it);
-                    break;
+                if (Params().NetworkIDString() == CBaseChainParams::REGTEST) {
+                    if (!coins || (coins->IsCoinBase() && ((signed long)nMemPoolHeight) - coins->nHeight < REGTEST_COINBASE_MATURITY)) {
+                        txToRemove.insert(it);
+                        break;
+                    }
+                } else {
+                    if (!coins || (coins->IsCoinBase() && ((signed long)nMemPoolHeight) - coins->nHeight < COINBASE_MATURITY)) {
+                        txToRemove.insert(it);
+                        break;
+                    }
                 }
             }
         }
@@ -656,6 +664,7 @@ void CTxMemPool::check(const CCoinsViewCache *pcoins) const
 
     CCoinsViewCache mempoolDuplicate(const_cast<CCoinsViewCache*>(pcoins));
     const int64_t nSpendHeight = GetSpendHeight(mempoolDuplicate);
+    const CChainParams& chainparams = Params();
 
     LOCK(cs);
     std::list<const CTxMemPoolEntry*> waitingOnDependants;
@@ -737,7 +746,7 @@ void CTxMemPool::check(const CCoinsViewCache *pcoins) const
         else {
             CValidationState state;
             bool fCheckResult = tx.IsCoinBase() ||
-                Consensus::CheckTxInputs(tx, state, mempoolDuplicate, nSpendHeight);
+                Consensus::CheckTxInputs(chainparams, tx, state, mempoolDuplicate, nSpendHeight);
             assert(fCheckResult);
             UpdateCoins(tx, mempoolDuplicate, 1000000);
         }
@@ -753,7 +762,7 @@ void CTxMemPool::check(const CCoinsViewCache *pcoins) const
             assert(stepsSinceLastRemove < waitingOnDependants.size());
         } else {
             bool fCheckResult = entry->GetTx().IsCoinBase() ||
-                Consensus::CheckTxInputs(entry->GetTx(), state, mempoolDuplicate, nSpendHeight);
+                Consensus::CheckTxInputs(chainparams, entry->GetTx(), state, mempoolDuplicate, nSpendHeight);
             assert(fCheckResult);
             UpdateCoins(entry->GetTx(), mempoolDuplicate, 1000000);
             stepsSinceLastRemove = 0;
