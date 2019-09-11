@@ -70,8 +70,8 @@
         <translation>Құпия сөзді өзгерту</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>Биткоин</translation>
+        <source>Mincoin</source>
+        <translation>Минкоин</translation>
     </message>
     <message>
         <source>Wallet</source>

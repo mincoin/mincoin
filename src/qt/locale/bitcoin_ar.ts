@@ -62,12 +62,12 @@
         <translation>استقبال العناوين</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>هذه هي عناوين Bitcion التابعة لك من أجل إرسال الدفعات. تحقق دائما من المبلغ و عنوان المرسل المستقبل قبل إرسال العملات</translation>
+        <source>These are your Mincoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>هذه هي عناوين Mincoin التابعة لك من أجل إرسال الدفعات. تحقق دائما من المبلغ و عنوان المرسل المستقبل قبل إرسال العملات</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>هذه هي عناوين Bitcion التابعة لك من أجل إستقبال الدفعات. ينصح استخدام عنوان جديد من أجل كل صفقة</translation>
+        <source>These are your Mincoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>هذه هي عناوين Mincoin التابعة لك من أجل إستقبال الدفعات. ينصح استخدام عنوان جديد من أجل كل صفقة</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -168,8 +168,8 @@
         <translation>تأكيد تشفير المحفظة</translation>
     </message>
     <message>
-        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR BITCOINS&lt;/b&gt;!</source>
-        <translation>تحذير: إذا قمت بتشفير محفظتك وفقدت كلمة المرور الخاص بك, ستفقد كل عملات BITCOINS الخاصة بك.</translation>
+        <source>Warning: If you encrypt your wallet and lose your passphrase, you will &lt;b&gt;LOSE ALL OF YOUR MINCOINS&lt;/b&gt;!</source>
+        <translation>تحذير: إذا قمت بتشفير محفظتك وفقدت كلمة المرور الخاص بك, ستفقد كل عملات MINCOINS الخاصة بك.</translation>
     </message>
     <message>
         <source>Are you sure you wish to encrypt your wallet?</source>
@@ -318,7 +318,7 @@
         <translation>إعادة الفهرسة الكتل على القرص ...</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
+        <source>Send coins to a Mincoin address</source>
         <translation>ارسل عملات الى عنوان بيتكوين</translation>
     </message>
     <message>
@@ -342,8 +342,8 @@
         <translation>&amp;التحقق من الرسالة...</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>بت كوين</translation>
+        <source>Mincoin</source>
+        <translation>Mincoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -370,12 +370,12 @@
         <translation>تشفير المفتاح الخاص بمحفظتك</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>وقَع الرسائل بواسطة ال: Bitcoin الخاص بك لإثبات امتلاكك لهم</translation>
+        <source>Sign messages with your Mincoin addresses to prove you own them</source>
+        <translation>وقَع الرسائل بواسطة ال: Mincoin الخاص بك لإثبات امتلاكك لهم</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>تحقق من الرسائل للتأكد من أنَها وُقعت برسائل Bitcoin محدَدة</translation>
+        <source>Verify messages to ensure they were signed with specified Mincoin addresses</source>
+        <translation>تحقق من الرسائل للتأكد من أنَها وُقعت برسائل Mincoin محدَدة</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -394,8 +394,8 @@
         <translation>شريط أدوات علامات التبويب</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>أطلب دفعات (يولد كودات الرمز المربع وبيت كوين: العناوين المعطاة)</translation>
+        <source>Request payments (generates QR codes and mincoin: URIs)</source>
+        <translation>أطلب دفعات (يولد كودات الرمز المربع وMincoin: العناوين المعطاة)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -406,8 +406,8 @@
         <translation>عرض قائمة عناوين الإستقبال المستخدمة والملصقات</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>فتح URI : Bitcoin أو طلب دفع</translation>
+        <source>Open a mincoin: URI or payment request</source>
+        <translation>فتح URI : Mincoin أو طلب دفع</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -450,8 +450,8 @@
         <translation>محدث</translation>
     </message>
     <message>
-        <source>Show the %1 help message to get a list with possible Bitcoin command-line options</source>
-        <translation>بين اشارة المساعدة %1 للحصول على قائمة من خيارات اوامر البت كوين المحتملة </translation>
+        <source>Show the %1 help message to get a list with possible Mincoin command-line options</source>
+        <translation>بين اشارة المساعدة %1 للحصول على قائمة من خيارات اوامر الMincoin المحتملة </translation>
     </message>
     <message>
         <source>%1 client</source>
@@ -668,8 +668,8 @@
         <translation>تعديل عنوان الارسال</translation>
     </message>
     <message>
-        <source>The entered address "%1" is not a valid Bitcoin address.</source>
-        <translation>العنوان المدخل "%1" ليس عنوان بيت كوين صحيح.</translation>
+        <source>The entered address "%1" is not a valid Mincoin address.</source>
+        <translation>العنوان المدخل "%1" ليس عنوان Mincoin صحيح.</translation>
     </message>
     <message>
         <source>The entered address "%1" is already in the address book.</source>
@@ -1418,8 +1418,8 @@
         <translation>هذا دفع اعتيادي</translation>
     </message>
     <message>
-        <source>The Bitcoin address to send the payment to</source>
-        <translation>عنوان البت كوين المرسل اليه الدفع</translation>
+        <source>The Mincoin address to send the payment to</source>
+        <translation>عنوان الMincoin المرسل اليه الدفع</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1495,8 +1495,8 @@
         <translation>التوقيع</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>وقع الرسالة لتثبت انك تمتلك عنوان البت كوين هذا</translation>
+        <source>Sign the message to prove you own this Mincoin address</source>
+        <translation>وقع الرسالة لتثبت انك تمتلك عنوان الMincoin هذا</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1932,8 +1932,8 @@
         <translation>حدد مجلد المعلومات</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>جوهر البيت كوين</translation>
+        <source>Mincoin Core</source>
+        <translation>جوهر الMincoin</translation>
     </message>
     <message>
         <source>The %s developers</source>

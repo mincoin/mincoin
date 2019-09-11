@@ -62,12 +62,12 @@
         <translation>מקבל כתובות</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation>אלה הם כתובות הביטקוין שלך לשליחת תשלומים. חשוב לבדוק את הכמות של הכתובות המקבלות לפני שליחת מטבעות</translation>
+        <source>These are your Mincoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>אלה הם כתובות הMincoin שלך לשליחת תשלומים. חשוב לבדוק את הכמות של הכתובות המקבלות לפני שליחת מטבעות</translation>
     </message>
     <message>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation>אלה הן כתובות הביטקוין שלך לקבלת תשלומים. מומלץ להשתמש בכתובת חדשה לכל העברה.</translation>
+        <source>These are your Mincoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>אלה הן כתובות הMincoin שלך לקבלת תשלומים. מומלץ להשתמש בכתובת חדשה לכל העברה.</translation>
     </message>
     <message>
         <source>&amp;Copy Address</source>
@@ -218,8 +218,8 @@
         <translation>המקטעים נוספים למפתח בכונן…</translation>
     </message>
     <message>
-        <source>Send coins to a Bitcoin address</source>
-        <translation>שליחת מטבעות לכתובת ביטקוין</translation>
+        <source>Send coins to a Mincoin address</source>
+        <translation>שליחת מטבעות לכתובת Mincoin</translation>
     </message>
     <message>
         <source>Backup wallet to another location</source>
@@ -242,8 +242,8 @@
         <translation>&amp;אימות הודעה…</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>ביטקוין</translation>
+        <source>Mincoin</source>
+        <translation>Mincoin</translation>
     </message>
     <message>
         <source>Wallet</source>
@@ -270,12 +270,12 @@
         <translation>הצפנת המפתחות הפרטיים ששייכים לארנק שלך</translation>
     </message>
     <message>
-        <source>Sign messages with your Bitcoin addresses to prove you own them</source>
-        <translation>חתום על הודעות עם כתובות הביטקוין שלך כדי להוכיח שהן בבעלותך</translation>
+        <source>Sign messages with your Mincoin addresses to prove you own them</source>
+        <translation>חתום על הודעות עם כתובות הMincoin שלך כדי להוכיח שהן בבעלותך</translation>
     </message>
     <message>
-        <source>Verify messages to ensure they were signed with specified Bitcoin addresses</source>
-        <translation>אמת הודעות כדי להבטיח שהן נחתמו עם כתובת ביטקוין מסוימות</translation>
+        <source>Verify messages to ensure they were signed with specified Mincoin addresses</source>
+        <translation>אמת הודעות כדי להבטיח שהן נחתמו עם כתובת Mincoin מסוימות</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -294,8 +294,8 @@
         <translation>סרגל כלים לשוניות</translation>
     </message>
     <message>
-        <source>Request payments (generates QR codes and bitcoin: URIs)</source>
-        <translation>בקשת תשלומים (יצירה של קודים מסוג QR וסכימות כתובות משאב של :bitcoin)</translation>
+        <source>Request payments (generates QR codes and mincoin: URIs)</source>
+        <translation>בקשת תשלומים (יצירה של קודים מסוג QR וסכימות כתובות משאב של :mincoin)</translation>
     </message>
     <message>
         <source>Show the list of used sending addresses and labels</source>
@@ -306,8 +306,8 @@
         <translation>הצגת רשימת הכתובות והתוויות הנמצאות בשימוש</translation>
     </message>
     <message>
-        <source>Open a bitcoin: URI or payment request</source>
-        <translation>פתיחת ביטקוין: כתובת משאב או בקשת תשלום</translation>
+        <source>Open a mincoin: URI or payment request</source>
+        <translation>פתיחת Mincoin: כתובת משאב או בקשת תשלום</translation>
     </message>
     <message>
         <source>&amp;Command-line options</source>
@@ -670,8 +670,8 @@
         <translation>עודף &amp;בלתי מאושר מההשקעה</translation>
     </message>
     <message>
-        <source>Automatically open the Bitcoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
-        <translation>פתיחת הפתחה של ביטקוין בנתב באופן אוטומטי. עובד רק אם UPnP מופעל ונתמך בנתב.</translation>
+        <source>Automatically open the Mincoin client port on the router. This only works when your router supports UPnP and it is enabled.</source>
+        <translation>פתיחת הפתחה של Mincoin בנתב באופן אוטומטי. עובד רק אם UPnP מופעל ונתמך בנתב.</translation>
     </message>
     <message>
         <source>Map port using &amp;UPnP</source>
@@ -777,8 +777,8 @@
         <translation>טופס</translation>
     </message>
     <message>
-        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Bitcoin network after a connection is established, but this process has not completed yet.</source>
-        <translation>המידע המוצג עשוי להיות מיושן. הארנק שלך מסתנכרן באופן אוטומטי עם רשת הביטקוין לאחר יצירת החיבור, אך התהליך טרם הסתיים.</translation>
+        <source>The displayed information may be out of date. Your wallet automatically synchronizes with the Mincoin network after a connection is established, but this process has not completed yet.</source>
+        <translation>המידע המוצג עשוי להיות מיושן. הארנק שלך מסתנכרן באופן אוטומטי עם רשת הMincoin לאחר יצירת החיבור, אך התהליך טרם הסתיים.</translation>
     </message>
     <message>
         <source>Watch-only:</source>
@@ -862,8 +862,8 @@
         <translation>כמות</translation>
     </message>
     <message>
-        <source>Enter a Bitcoin address (e.g. %1)</source>
-        <translation>נא להזין כתובת ביטקוין (למשל: %1)</translation>
+        <source>Enter a Mincoin address (e.g. %1)</source>
+        <translation>נא להזין כתובת Mincoin (למשל: %1)</translation>
     </message>
     <message>
         <source>%1 d</source>
@@ -1182,8 +1182,8 @@
         <translation>ש&amp;ימוש &amp;חוזר בכתובת קבלה קיימת (לא מומלץ)</translation>
     </message>
     <message>
-        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Bitcoin network.</source>
-        <translation>הודעת רשות לצירוף לבקשת התשלום שתוצג בעת פתיחת הבקשה. לתשומת לבך: ההודעה לא תישלח עם התשלום ברשת ביטקוין.</translation>
+        <source>An optional message to attach to the payment request, which will be displayed when the request is opened. Note: The message will not be sent with the payment over the Mincoin network.</source>
+        <translation>הודעת רשות לצירוף לבקשת התשלום שתוצג בעת פתיחת הבקשה. לתשומת לבך: ההודעה לא תישלח עם התשלום ברשת Mincoin.</translation>
     </message>
     <message>
         <source>An optional label to associate with the new receiving address.</source>
@@ -1418,8 +1418,8 @@
         <translation>זהו תשלום רגיל.</translation>
     </message>
     <message>
-        <source>The Bitcoin address to send the payment to</source>
-        <translation>כתובת הביטקוין של המוטב</translation>
+        <source>The Mincoin address to send the payment to</source>
+        <translation>כתובת הMincoin של המוטב</translation>
     </message>
     <message>
         <source>Alt+A</source>
@@ -1450,8 +1450,8 @@
         <translation>יש להזין תווית עבור כתובת זו כדי להוסיף אותה לרשימת הכתובות בשימוש</translation>
     </message>
     <message>
-        <source>A message that was attached to the bitcoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Bitcoin network.</source>
-        <translation>הודעה שצורפה לביטקוין: כתובת שתאוחסן בהעברה לצורך מעקב מצדך. לתשומת לבך: הודעה זו לא תישלח ברשת הביטקוין.</translation>
+        <source>A message that was attached to the mincoin: URI which will be stored with the transaction for your reference. Note: This message will not be sent over the Mincoin network.</source>
+        <translation>הודעה שצורפה לMincoin: כתובת שתאוחסן בהעברה לצורך מעקב מצדך. לתשומת לבך: הודעה זו לא תישלח ברשת הMincoin.</translation>
     </message>
     <message>
         <source>Pay To:</source>
@@ -1483,8 +1483,8 @@
         <translation>חתימה על הו&amp;דעה</translation>
     </message>
     <message>
-        <source>The Bitcoin address to sign the message with</source>
-        <translation>כתובת הביטקוין אתה לחתום אתה את ההודעה</translation>
+        <source>The Mincoin address to sign the message with</source>
+        <translation>כתובת הMincoin אתה לחתום אתה את ההודעה</translation>
     </message>
     <message>
         <source>Choose previously used address</source>
@@ -1515,8 +1515,8 @@
         <translation>העתקת החתימה הנוכחית ללוח הגזירים</translation>
     </message>
     <message>
-        <source>Sign the message to prove you own this Bitcoin address</source>
-        <translation>ניתן לחתום על ההודעה כדי להוכיח שכתובת הביטקוין הזו בבעלותך.</translation>
+        <source>Sign the message to prove you own this Mincoin address</source>
+        <translation>ניתן לחתום על ההודעה כדי להוכיח שכתובת הMincoin הזו בבעלותך.</translation>
     </message>
     <message>
         <source>Sign &amp;Message</source>
@@ -1535,12 +1535,12 @@
         <translation>&amp;אימות הודעה</translation>
     </message>
     <message>
-        <source>The Bitcoin address the message was signed with</source>
-        <translation>כתובת הביטקוין שאתה נחתמה ההודעה</translation>
+        <source>The Mincoin address the message was signed with</source>
+        <translation>כתובת הMincoin שאתה נחתמה ההודעה</translation>
     </message>
     <message>
-        <source>Verify the message to ensure it was signed with the specified Bitcoin address</source>
-        <translation>ניתן לאמת את ההודעה כדי להבטיח שהיא נחתמה עם כתובת הביטקוין הנתונה</translation>
+        <source>Verify the message to ensure it was signed with the specified Mincoin address</source>
+        <translation>ניתן לאמת את ההודעה כדי להבטיח שהיא נחתמה עם כתובת הMincoin הנתונה</translation>
     </message>
     <message>
         <source>Verify &amp;Message</source>
@@ -1648,8 +1648,8 @@
         <translation>ריצה כסוכן ברקע וקבלת פקודות</translation>
     </message>
     <message>
-        <source>Bitcoin Core</source>
-        <translation>ליבת ביטקוין</translation>
+        <source>Mincoin Core</source>
+        <translation>ליבת Mincoin</translation>
     </message>
     <message>
         <source>The %s developers</source>

@@ -79,8 +79,8 @@
         <translation>पहचान शब्द/अक्षर जो वॉलेट एनक्रिपशन के लिए इस्तेमाल किया है उसे बदलिए!</translation>
     </message>
     <message>
-        <source>Bitcoin</source>
-        <translation>बीटकोइन</translation>
+        <source>Mincoin</source>
+        <translation>Mincoin</translation>
     </message>
     <message>
         <source>Wallet</source>
