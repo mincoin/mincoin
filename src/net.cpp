@@ -1468,7 +1468,7 @@ void ThreadMapPort()
             }
         }
 
-        std::string strDesc = "Bitcoin " + FormatFullVersion();
+        std::string strDesc = "Mincoin " + FormatFullVersion();
 
         try {
             while (true) {
