@@ -254,7 +254,8 @@ public:
         consensus.BIP65Height = 1351; // BIP65 activated on regtest (Used in rpc activation tests)
         consensus.BIP66Height = 1251; // BIP66 activated on regtest (Used in rpc activation tests)
         consensus.powLimit = uint256S("7fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-        consensus.nPowTargetTimespan = 12 * 60 * 60; // twelve hours
+        consensus.nPowTargetTimespan = 60 * 60; // sixty minutes
+        consensus.nClassicPowTargetTimespan = 12 * 60 * 60; // twelve hours
         consensus.nPowTargetSpacing = 60;
         consensus.fPowAllowMinDifficultyBlocks = true;
         consensus.fPowNoRetargeting = true;
@@ -298,7 +299,7 @@ public:
 
         checkpointData = (CCheckpointData){
             boost::assign::map_list_of
-            ( 0, uint256S("0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"))
+            ( 0, uint256S("b36dc7d31a3c0cda11b1ddbbb50263e2eca2a52c319b9e02c9a34452194289b3"))
         };
 
         chainTxData = ChainTxData{
